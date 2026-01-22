@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/attendance_screen_controller.dart';
 import '../widgets/donut_chart_widget.dart';
+import '../../../routes/app_pages.dart';
 
 class AttendanceScreenView extends GetView<AttendanceScreenController> {
   const AttendanceScreenView({super.key});
@@ -99,6 +100,11 @@ class AttendanceScreenView extends GetView<AttendanceScreenController> {
                 ),
               ],
             ),
+          ),
+          const Spacer(),
+          IconButton(
+            icon: const Icon(Icons.add_circle_outline, color: Colors.blue),
+            onPressed: () => Get.toNamed(Routes.APPLY_LEAVE_SCREEN),
           ),
         ],
       ),

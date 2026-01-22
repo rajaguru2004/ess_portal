@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/apply_leave_screen/bindings/apply_leave_screen_binding.dart';
+import '../modules/apply_leave_screen/views/apply_leave_screen_view.dart';
 import '../modules/attendance_screen/bindings/attendance_screen_binding.dart';
 import '../modules/attendance_screen/views/attendance_screen_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -29,6 +31,11 @@ class AppPages {
       name: _Paths.ATTENDANCE_SCREEN,
       page: () => const AttendanceScreenView(),
       binding: AttendanceScreenBinding(),
+    ),
+    GetPage(
+      name: _Paths.APPLY_LEAVE_SCREEN,
+      page: () => const ApplyLeaveScreenView(),
+      binding: ApplyLeaveScreenBinding(),
     ),
   ];
 }
