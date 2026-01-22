@@ -1,0 +1,17 @@
+{
+  "status": "success",
+  "message": "Login successful",
+  "user": {
+    "employeeId": "EMP12345",
+    "name": "Ashwin Pawar",
+    "role": "Employee"
+  },
+  "credentials": {
+    "username": "guru",
+    "password": "guru123"
+  },
+  "errors": {
+    "invalid": "Invalid username or password",
+    "empty": "Username and password are required"
+  }
+}
