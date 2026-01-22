@@ -435,7 +435,12 @@ class HomeView extends GetView<HomeController> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildNavItem(context, Icons.calendar_today, false),
+          _buildNavItem(
+            context,
+            Icons.calendar_today,
+            false,
+            onTap: () => Get.toNamed('/attendance-screen'),
+          ),
           _buildNavItem(context, Icons.umbrella, false),
           _buildNavItem(context, Icons.home, true),
           _buildNavItem(context, Icons.lock_clock, false),
@@ -445,13 +450,24 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget _buildNavItem(BuildContext context, IconData icon, bool isActive) {
-    return Icon(
+  Widget _buildNavItem(
+    BuildContext context,
+    IconData icon,
+    bool isActive, {
+    VoidCallback? onTap,
+  }) {
+    final iconWidget = Icon(
       icon,
       color: isActive
           ? Theme.of(context).colorScheme.primary
           : Theme.of(context).iconTheme.color?.withOpacity(0.5),
       size: 24,
     );
+
+    if (onTap != null) {
+      return InkWell(onTap: onTap, child: iconWidget);
+    }
+
+    return iconWidget;
   }
 }

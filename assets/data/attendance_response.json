@@ -1,0 +1,49 @@
+{
+    "status": "success",
+    "message": "Attendance data fetched successfully",
+    "data": {
+        "user": {
+            "name": "Ashwin Pawar",
+            "employeeId": "123456"
+        },
+        "selectedDate": "16 January 2024",
+        "currentShift": "Morning Shift",
+        "attendanceStats": {
+            "total": 30,
+            "present": {
+                "count": 20,
+                "percentage": 66.67
+            },
+            "late": {
+                "count": 2,
+                "percentage": 6.67
+            },
+            "absent": {
+                "count": 3,
+                "percentage": 10.0
+            },
+            "leave": {
+                "count": 5,
+                "percentage": 16.67
+            }
+        },
+        "employeeDetails": [
+            {
+                "id": "1",
+                "name": "Akshay S. K.",
+                "initial": "A",
+                "status": "Early",
+                "time": "6:30PM",
+                "statusColor": "green"
+            },
+            {
+                "id": "2",
+                "name": "Surya S. Kashal",
+                "initial": "S",
+                "status": "Early",
+                "time": "5:45PM",
+                "statusColor": "green"
+            }
+        ]
+    }
+}
