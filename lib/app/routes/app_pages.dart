@@ -16,6 +16,11 @@ import '../modules/attendance_regularization/views/new_regularization_request_vi
 import '../modules/main_layout/bindings/main_layout_binding.dart';
 import '../modules/main_layout/views/main_layout_view.dart';
 
+import '../modules/manager_requests/bindings/manager_requests_binding.dart';
+import '../modules/manager_requests/views/manager_requests_view.dart';
+import '../modules/attendance_detail/bindings/attendance_detail_binding.dart';
+import '../modules/attendance_detail/views/attendance_detail_view.dart';
+
 part 'app_routes.dart';
 
 class AppPages {
@@ -63,6 +68,16 @@ class AppPages {
       name: _Paths.NEW_REGULARIZATION_REQUEST,
       page: () => const NewRegularizationRequestView(),
       binding: AttendanceRegularizationBinding(),
+    ),
+    GetPage(
+      name: _Paths.MANAGER_REQUESTS,
+      page: () => const ManagerRequestsView(),
+      binding: ManagerRequestsBinding(),
+    ),
+    GetPage(
+      name: _Paths.ATTENDANCE_DETAIL,
+      page: () => const AttendanceDetailView(),
+      binding: AttendanceDetailBinding(),
     ),
   ];
 }

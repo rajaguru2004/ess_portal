@@ -1,0 +1,85 @@
+{
+    "status": "success",
+    "message": "Attendance detail fetched successfully",
+    "data": {
+        "employee": {
+            "name": "Akshay S.K.",
+            "employeeId": "123456"
+        },
+        "date": "2024-05-20",
+        "status": "full_day",
+        "punchEntries": [
+            {
+                "id": "P1",
+                "type": "in",
+                "time": "10:00 AM",
+                "timestamp": "2024-05-20T10:00:00"
+            },
+            {
+                "id": "P2",
+                "type": "out",
+                "time": "02:30 PM",
+                "timestamp": "2024-05-20T14:30:00"
+            },
+            {
+                "id": "P3",
+                "type": "in",
+                "time": "03:00 PM",
+                "timestamp": "2024-05-20T15:00:00"
+            },
+            {
+                "id": "P4",
+                "type": "out",
+                "time": "03:30 PM",
+                "timestamp": "2024-05-20T15:30:00"
+            },
+            {
+                "id": "P5",
+                "type": "in",
+                "time": "03:52 PM",
+                "timestamp": "2024-05-20T15:52:00"
+            },
+            {
+                "id": "P6",
+                "type": "out",
+                "time": "07:30 PM",
+                "timestamp": "2024-05-20T19:30:00"
+            }
+        ],
+        "breaks": [
+            {
+                "duration": "30 Min",
+                "startTime": "02:30 PM",
+                "endTime": "03:00 PM"
+            },
+            {
+                "duration": "21 Min",
+                "startTime": "03:30 PM",
+                "endTime": "03:52 PM"
+            }
+        ],
+        "summary": {
+            "totalWorkingTime": "5h 30m",
+            "totalBreakTime": "50m",
+            "totalHours": "9h 30m"
+        },
+        "statusOptions": [
+            {
+                "value": "full_day",
+                "label": "Full Day"
+            },
+            {
+                "value": "half_day",
+                "label": "Half Day"
+            },
+            {
+                "value": "absent",
+                "label": "Absent"
+            },
+            {
+                "value": "more",
+                "label": "More"
+            }
+        ]
+    }
+}

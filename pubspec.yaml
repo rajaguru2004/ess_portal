@@ -75,6 +75,8 @@ flutter:
     - assets/data/attendance_response.json
     - assets/data/face_attendance_response.json
     - assets/data/attendance_regularization_response.json
+    - assets/data/manager_requests_response.json
+    - assets/data/attendance_detail_response.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

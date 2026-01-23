@@ -45,6 +45,55 @@ class HomeView extends GetView<HomeController> {
                       child: _buildActivitySection(context),
                     ),
 
+                    const SizedBox(height: 24),
+
+                    // Manager Access Section (Temporary for testing)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Manager Access',
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                  onPressed: () =>
+                                      Get.toNamed('/manager-requests'),
+                                  icon: const Icon(Icons.manage_accounts),
+                                  label: const Text('Requests'),
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 12,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                  onPressed: () =>
+                                      Get.toNamed('/attendance-detail'),
+                                  icon: const Icon(Icons.edit_calendar),
+                                  label: const Text('Edit Att.'),
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 12,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+
                     const SizedBox(height: 24), // Space for swipe button
                   ],
                 ),
