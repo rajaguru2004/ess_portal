@@ -7,6 +7,9 @@ abstract class Routes {
   static const LOGIN_SCREEN = _Paths.LOGIN_SCREEN;
   static const ATTENDANCE_SCREEN = _Paths.ATTENDANCE_SCREEN;
   static const APPLY_LEAVE_SCREEN = _Paths.APPLY_LEAVE_SCREEN;
+  static const FACE_ATTENDANCE = _Paths.FACE_ATTENDANCE;
+  static const ATTENDANCE_REGULARIZATION = _Paths.ATTENDANCE_REGULARIZATION;
+  static const NEW_REGULARIZATION_REQUEST = _Paths.NEW_REGULARIZATION_REQUEST;
 }
 
 abstract class _Paths {
@@ -15,4 +18,7 @@ abstract class _Paths {
   static const LOGIN_SCREEN = '/login-screen';
   static const ATTENDANCE_SCREEN = '/attendance-screen';
   static const APPLY_LEAVE_SCREEN = '/apply-leave-screen';
+  static const FACE_ATTENDANCE = '/face-attendance';
+  static const ATTENDANCE_REGULARIZATION = '/attendance-regularization';
+  static const NEW_REGULARIZATION_REQUEST = '/attendance-regularization/new';
 }

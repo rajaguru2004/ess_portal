@@ -386,9 +386,16 @@ class HomeView extends GetView<HomeController> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: GestureDetector(
+        // Handle tap
+        onTap: () {
+          Get.toNamed('/face-attendance');
+        },
+        // Handle swipe
         onHorizontalDragEnd: (details) {
-          if (details.primaryVelocity! > 0 || details.primaryVelocity! < 0) {
-            controller.handleSwipeToPunch();
+          // Check if swipe velocity exceeds threshold
+          if (details.primaryVelocity != null &&
+              details.primaryVelocity!.abs() > 100) {
+            Get.toNamed('/face-attendance');
           }
         },
         child: Container(
