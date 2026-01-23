@@ -9,22 +9,18 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text(
-          'Apply Leave',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        title: Text('Apply Leave', style: theme.textTheme.titleLarge),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: theme.iconTheme.color),
           onPressed: () => Get.back(),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: theme.appBarTheme.backgroundColor,
         elevation: 0,
         centerTitle: false,
       ),
@@ -33,7 +29,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildLabel("Leave Type*"),
+            _buildLabel("Leave Type*", context),
             const SizedBox(height: 8),
             _buildLeaveTypeDropdown(context),
             const SizedBox(height: 24),
@@ -43,7 +39,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildLabel("Start Date*"),
+                      _buildLabel("Start Date*", context),
                       const SizedBox(height: 8),
                       _buildDateField(context, true),
                     ],
@@ -54,7 +50,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildLabel("End Date*"),
+                      _buildLabel("End Date*", context),
                       const SizedBox(height: 8),
                       _buildDateField(context, false),
                     ],
@@ -70,15 +66,16 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                   Get.snackbar("Success", "Leave request submitted");
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0088CC), // Blue color
+                  backgroundColor: colorScheme.primary,
+                  foregroundColor: colorScheme.onPrimary,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
                 child: const Text(
                   "Apply Leave",
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
               ),
             ),
@@ -88,17 +85,21 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
     );
   }
 
-  Widget _buildLabel(String text) {
+  Widget _buildLabel(String text, BuildContext context) {
+    final theme = Theme.of(context);
     // Check if it has asterisk
     if (text.endsWith('*')) {
       return RichText(
         text: TextSpan(
           text: text.substring(0, text.length - 1),
-          style: const TextStyle(color: Colors.black54, fontSize: 14),
-          children: const [
+          style: TextStyle(
+            color: theme.colorScheme.onSurface.withOpacity(0.6),
+            fontSize: 14,
+          ),
+          children: [
             TextSpan(
               text: '*',
-              style: TextStyle(color: Colors.red, fontSize: 14),
+              style: TextStyle(color: theme.colorScheme.error, fontSize: 14),
             ),
           ],
         ),
@@ -106,24 +107,34 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
     }
     return Text(
       text,
-      style: const TextStyle(color: Colors.black54, fontSize: 14),
+      style: TextStyle(
+        color: theme.colorScheme.onSurface.withOpacity(0.6),
+        fontSize: 14,
+      ),
     );
   }
 
   Widget _buildLeaveTypeDropdown(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Obx(
       () => Container(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
-          color: Colors.grey[100],
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.grey[300]!),
+          color: colorScheme.surface,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: theme.dividerTheme.color ?? colorScheme.outline,
+          ),
         ),
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
             value: controller.leaveType.value,
             isExpanded: true,
-            icon: const Icon(Icons.keyboard_arrow_down),
+            icon: Icon(Icons.keyboard_arrow_down, color: theme.iconTheme.color),
+            dropdownColor: colorScheme.surface,
+            style: theme.textTheme.bodyLarge,
             items: controller.leaveTypes.map((String value) {
               return DropdownMenuItem<String>(value: value, child: Text(value));
             }).toList(),
@@ -135,14 +146,19 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
   }
 
   Widget _buildDateField(BuildContext context, bool isStart) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return GestureDetector(
       onTap: () => _showDateSelectionModal(context),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
         decoration: BoxDecoration(
-          color: Colors.grey[100],
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.grey[300]!),
+          color: colorScheme.surface,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: theme.dividerTheme.color ?? colorScheme.outline,
+          ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -152,7 +168,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                 isStart
                     ? controller.formattedStartDate
                     : controller.formattedEndDate,
-                style: const TextStyle(fontSize: 16),
+                style: theme.textTheme.bodyLarge,
               ),
             ),
           ],
@@ -162,15 +178,18 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
   }
 
   void _showDateSelectionModal(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => Container(
+      builder: (modalContext) => Container(
         height: MediaQuery.of(context).size.height * 0.85,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        decoration: BoxDecoration(
+          color: colorScheme.surface,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
         ),
         child: Column(
           children: [
@@ -180,18 +199,15 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    "Select Date",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
+                  Text("Select Date", style: theme.textTheme.titleLarge),
                   IconButton(
-                    icon: const Icon(Icons.close),
+                    icon: Icon(Icons.close, color: theme.iconTheme.color),
                     onPressed: () => Get.back(),
                   ),
                 ],
               ),
             ),
-            const Divider(height: 1),
+            Divider(height: 1, color: theme.dividerTheme.color),
             // Date Displays
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -201,8 +217,11 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                     child: Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey[300]!),
-                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color:
+                              theme.dividerTheme.color ?? colorScheme.outline,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       child: Obx(
                         () => Row(
@@ -211,16 +230,15 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                               DateFormat('EEE, dd MMM').format(
                                 controller.rangeStart.value ?? DateTime.now(),
                               ),
-                              style: const TextStyle(
-                                fontSize: 16,
+                              style: theme.textTheme.bodyLarge?.copyWith(
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
                             const Spacer(),
-                            const Icon(
+                            Icon(
                               Icons.cancel_outlined,
                               size: 20,
-                              color: Colors.grey,
+                              color: theme.iconTheme.color?.withOpacity(0.5),
                             ),
                           ],
                         ),
@@ -232,8 +250,11 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                     child: Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey[300]!),
-                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color:
+                              theme.dividerTheme.color ?? colorScheme.outline,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       child: Obx(
                         () => Row(
@@ -244,16 +265,15 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                                     (controller.rangeStart.value ??
                                         DateTime.now()),
                               ),
-                              style: const TextStyle(
-                                fontSize: 16,
+                              style: theme.textTheme.bodyLarge?.copyWith(
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
                             const Spacer(),
-                            const Icon(
+                            Icon(
                               Icons.cancel_outlined,
                               size: 20,
-                              color: Colors.grey,
+                              color: theme.iconTheme.color?.withOpacity(0.5),
                             ),
                           ],
                         ),
@@ -281,40 +301,39 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                   onPageChanged: (focusedDay) {
                     controller.focusedDay.value = focusedDay;
                   },
-                  headerStyle: const HeaderStyle(
+                  headerStyle: HeaderStyle(
                     formatButtonVisible: false,
                     titleCentered: true,
-                    titleTextStyle: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    titleTextStyle:
+                        theme.textTheme.titleLarge ??
+                        const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
-                  calendarStyle: const CalendarStyle(
+                  calendarStyle: CalendarStyle(
+                    defaultTextStyle: TextStyle(color: colorScheme.onSurface),
+                    weekendTextStyle: TextStyle(color: colorScheme.onSurface),
+                    outsideTextStyle: TextStyle(
+                      color: colorScheme.onSurface.withOpacity(0.3),
+                    ),
                     todayDecoration: BoxDecoration(
-                      color: Color(0xFF0088CC),
+                      color: colorScheme.primary,
                       shape: BoxShape.circle,
                     ),
                     selectedDecoration: BoxDecoration(
-                      color: Color(0xFF0088CC),
+                      color: colorScheme.primary,
                       shape: BoxShape.circle,
                     ),
                     rangeStartDecoration: BoxDecoration(
-                      color: Color(0xFF0088CC),
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(50),
-                        bottomLeft: Radius.circular(50),
-                      ),
+                      color: colorScheme.primary,
+                      shape: BoxShape.circle,
                     ),
                     rangeEndDecoration: BoxDecoration(
-                      color: Color(0xFF0088CC),
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(50),
-                        bottomRight: Radius.circular(50),
-                      ),
+                      color: colorScheme.primary,
+                      shape: BoxShape.circle,
                     ),
-                    rangeHighlightColor: Color(0x330088CC),
+                    rangeHighlightColor: colorScheme.primary.withOpacity(0.2),
                   ),
                 ),
               ),
@@ -323,19 +342,19 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
             // Footer info
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              color: Colors.grey[50],
+              color: colorScheme.surface,
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.calendar_today,
                     size: 16,
-                    color: Colors.grey,
+                    color: theme.iconTheme.color?.withOpacity(0.7),
                   ),
                   const SizedBox(width: 8),
                   Obx(
                     () => Text(
                       controller.durationString,
-                      style: const TextStyle(color: Colors.black87),
+                      style: theme.textTheme.bodyMedium,
                     ),
                   ),
                 ],
@@ -352,14 +371,17 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                       onPressed: () => Get.back(),
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        side: const BorderSide(color: Color(0xFF0088CC)),
+                        side: BorderSide(color: colorScheme.primary),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child: const Text(
+                      child: Text(
                         "Cancel",
-                        style: TextStyle(color: Color(0xFF0088CC)),
+                        style: TextStyle(
+                          color: colorScheme.primary,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
@@ -368,13 +390,17 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                     child: ElevatedButton(
                       onPressed: controller.applyDateSelection,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF0088CC),
+                        backgroundColor: colorScheme.primary,
+                        foregroundColor: colorScheme.onPrimary,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child: const Text("Select"),
+                      child: const Text(
+                        "Select",
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
                     ),
                   ),
                 ],

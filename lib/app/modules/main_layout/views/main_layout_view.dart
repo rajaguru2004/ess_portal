@@ -26,8 +26,8 @@ class MainLayoutView extends GetView<MainLayoutController> {
       body: Obx(
         () => AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
-          switchInCurve: Curves.easeInOut,
-          switchOutCurve: Curves.easeInOut,
+          switchInCurve: Curves.easeInBack,
+          switchOutCurve: Curves.easeInBack,
           child: pages[controller.selectedIndex],
         ),
       ),
