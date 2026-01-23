@@ -94,8 +94,8 @@ class LoginScreenController extends GetxController {
         print('Name: ${loginResponse.user.name}');
         print('Role: ${loginResponse.user.role}');
 
-        // Navigate to home screen (replace all previous routes)
-        Get.offAllNamed('/home');
+        // Navigate to main layout (replace all previous routes)
+        Get.offAllNamed('/main');
       } else {
         // Show error message
         errorMessage.value = await loginLocalSource

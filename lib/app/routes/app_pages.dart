@@ -13,6 +13,8 @@ import '../modules/face_attendance/views/face_attendance_view.dart';
 import '../modules/attendance_regularization/bindings/attendance_regularization_binding.dart';
 import '../modules/attendance_regularization/views/attendance_regularization_view.dart';
 import '../modules/attendance_regularization/views/new_regularization_request_view.dart';
+import '../modules/main_layout/bindings/main_layout_binding.dart';
+import '../modules/main_layout/views/main_layout_view.dart';
 
 part 'app_routes.dart';
 
@@ -22,6 +24,11 @@ class AppPages {
   static const INITIAL = Routes.LOGIN_SCREEN;
 
   static final routes = [
+    GetPage(
+      name: _Paths.MAIN_LAYOUT,
+      page: () => const MainLayoutView(),
+      binding: MainLayoutBinding(),
+    ),
     GetPage(
       name: _Paths.HOME,
       page: () => const HomeView(),

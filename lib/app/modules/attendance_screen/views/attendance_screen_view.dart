@@ -59,14 +59,11 @@ class AttendanceScreenView extends GetView<AttendanceScreenController> {
                         child: _buildEmployeeDetailsSection(context),
                       ),
 
-                      const SizedBox(height: 100), // Space for bottom nav
+                      const SizedBox(height: 24), // Extra space at bottom
                     ],
                   ),
                 ),
               ),
-
-              // Bottom Navigation
-              _buildBottomNavigation(context),
             ],
           );
         }),
@@ -478,43 +475,6 @@ class AttendanceScreenView extends GetView<AttendanceScreenController> {
             Text(employee.time, style: Theme.of(context).textTheme.bodyMedium),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildBottomNavigation(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        border: Border(
-          top: BorderSide(
-            color: Theme.of(context).dividerColor.withOpacity(0.2),
-          ),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          InkWell(
-            onTap: () => Get.back(),
-            child: Icon(
-              Icons.home_outlined,
-              color: Theme.of(context).colorScheme.primary,
-              size: 28,
-            ),
-          ),
-          Icon(
-            Icons.description_outlined,
-            color: Theme.of(context).iconTheme.color?.withOpacity(0.5),
-            size: 24,
-          ),
-          Icon(
-            Icons.people_outline,
-            color: Theme.of(context).iconTheme.color?.withOpacity(0.5),
-            size: 24,
-          ),
-        ],
       ),
     );
   }

@@ -45,7 +45,7 @@ class HomeView extends GetView<HomeController> {
                       child: _buildActivitySection(context),
                     ),
 
-                    const SizedBox(height: 100), // Space for bottom elements
+                    const SizedBox(height: 24), // Space for swipe button
                   ],
                 ),
               ),
@@ -55,9 +55,6 @@ class HomeView extends GetView<HomeController> {
             _buildSwipeToPunchButton(context),
 
             const SizedBox(height: 16),
-
-            // Bottom Navigation
-            _buildBottomNavigation(context),
           ],
         ),
       ),
@@ -426,55 +423,5 @@ class HomeView extends GetView<HomeController> {
         ),
       ),
     );
-  }
-
-  Widget _buildBottomNavigation(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        border: Border(
-          top: BorderSide(
-            color: Theme.of(context).dividerColor.withOpacity(0.2),
-          ),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildNavItem(
-            context,
-            Icons.calendar_today,
-            false,
-            onTap: () => Get.toNamed('/attendance-screen'),
-          ),
-          _buildNavItem(context, Icons.umbrella, false),
-          _buildNavItem(context, Icons.home, true),
-          _buildNavItem(context, Icons.lock_clock, false),
-          _buildNavItem(context, Icons.notifications_outlined, false),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNavItem(
-    BuildContext context,
-    IconData icon,
-    bool isActive, {
-    VoidCallback? onTap,
-  }) {
-    final iconWidget = Icon(
-      icon,
-      color: isActive
-          ? Theme.of(context).colorScheme.primary
-          : Theme.of(context).iconTheme.color?.withOpacity(0.5),
-      size: 24,
-    );
-
-    if (onTap != null) {
-      return InkWell(onTap: onTap, child: iconWidget);
-    }
-
-    return iconWidget;
   }
 }

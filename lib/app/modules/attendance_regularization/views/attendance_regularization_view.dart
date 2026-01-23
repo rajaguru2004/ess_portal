@@ -52,8 +52,6 @@ class AttendanceRegularizationView
           ],
         ),
       ),
-      // Bottom Action Bar could go here if needed, but screenshot shows floating buttons inside card or bottom nav
-      bottomNavigationBar: _buildBottomNavigation(context),
     );
   }
 
@@ -581,43 +579,6 @@ class AttendanceRegularizationView
             ),
           ],
           const SizedBox(height: 8),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBottomNavigation(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        border: Border(
-          top: BorderSide(
-            color: Theme.of(context).dividerColor.withOpacity(0.2),
-          ),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Icon(
-            Icons.home_outlined,
-            color: Theme.of(context).iconTheme.color?.withOpacity(0.5),
-            size: 24,
-          ),
-          InkWell(
-            onTap: () {}, // Already here
-            child: Icon(
-              Icons.add,
-              color: Theme.of(context).colorScheme.onSurface, // Adaptive color
-              size: 28,
-            ),
-          ),
-          Icon(
-            Icons.menu,
-            color: Theme.of(context).iconTheme.color?.withOpacity(0.5),
-            size: 24,
-          ),
         ],
       ),
     );

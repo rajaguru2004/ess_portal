@@ -10,6 +10,7 @@ abstract class Routes {
   static const FACE_ATTENDANCE = _Paths.FACE_ATTENDANCE;
   static const ATTENDANCE_REGULARIZATION = _Paths.ATTENDANCE_REGULARIZATION;
   static const NEW_REGULARIZATION_REQUEST = _Paths.NEW_REGULARIZATION_REQUEST;
+  static const MAIN_LAYOUT = _Paths.MAIN_LAYOUT;
 }
 
 abstract class _Paths {
@@ -21,4 +22,5 @@ abstract class _Paths {
   static const FACE_ATTENDANCE = '/face-attendance';
   static const ATTENDANCE_REGULARIZATION = '/attendance-regularization';
   static const NEW_REGULARIZATION_REQUEST = '/attendance-regularization/new';
+  static const MAIN_LAYOUT = '/main';
 }
