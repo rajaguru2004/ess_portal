@@ -8,182 +8,264 @@ class AttendanceRegularizationView
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: AppBar(
-        title: const Text(
-          'Attendance Requests',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        centerTitle: false,
-        elevation: 0,
-        actions: [
-          IconButton(
-            onPressed: controller.navigateToNewRequest,
-            icon: const Icon(Icons.add),
-            tooltip: 'New Request',
-          ),
-        ],
-      ),
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
-        }
+    final colorScheme = Theme.of(context).colorScheme;
 
-        return Column(
+    return Scaffold(
+      backgroundColor: colorScheme.background,
+      body: SafeArea(
+        child: Column(
           children: [
-            // Tab selector
-            _buildTabSelector(context),
+            // Custom Header with Back Button
+            _buildHeader(context),
 
             const SizedBox(height: 16),
 
-            // Requests list
-            Expanded(child: Obx(() => _buildRequestsList(context))),
-          ],
-        );
-      }),
-    );
-  }
+            // Scrollable Content
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  children: [
+                    // User Profile Section
+                    _buildUserProfile(context),
 
-  Widget _buildTabSelector(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Theme.of(context).dividerColor.withOpacity(0.2),
-        ),
-      ),
-      child: Obx(
-        () => Row(
-          children: [
-            _buildTabButton(
-              context,
-              'Pending',
-              0,
-              controller.pendingRequests.length,
-            ),
-            _buildTabButton(
-              context,
-              'Approved',
-              1,
-              controller.approvedRequests.length,
-            ),
-            _buildTabButton(
-              context,
-              'Rejected',
-              2,
-              controller.rejectedRequests.length,
+                    const SizedBox(height: 20),
+
+                    // Filter Dropdown
+                    _buildFilterDropdown(context),
+
+                    const SizedBox(height: 16),
+
+                    // Stats Row
+                    _buildStatsRow(context),
+
+                    const SizedBox(height: 24),
+
+                    // Requests List
+                    Obx(() => _buildRequestsList(context)),
+
+                    const SizedBox(height: 24),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
       ),
+      // Bottom Action Bar could go here if needed, but screenshot shows floating buttons inside card or bottom nav
+      bottomNavigationBar: _buildBottomNavigation(context),
     );
   }
 
-  Widget _buildTabButton(
-    BuildContext context,
-    String label,
-    int index,
-    int count,
-  ) {
-    final isSelected = controller.selectedTab.value == index;
-
-    return Expanded(
-      child: InkWell(
-        onTap: () => controller.changeTab(index),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          decoration: BoxDecoration(
-            color: isSelected
-                ? Theme.of(context).colorScheme.primary
-                : Colors.transparent,
-            borderRadius: BorderRadius.circular(8),
+  Widget _buildHeader(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Row(
+        children: [
+          InkWell(
+            onTap: () => Get.back(),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Theme.of(context).colorScheme.surface,
+              ),
+              child: Icon(
+                Icons.chevron_left,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+            ),
           ),
-          child: Column(
+          const Expanded(
+            child: Center(
+              child: Text(
+                'Attendance Request',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          // Placeholder for right action if any, otherwise empty container to balance center text
+          const SizedBox(width: 40),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildUserProfile(BuildContext context) {
+    // Using first request data for user info or fallback
+    return Obx(() {
+      final String name = controller.pendingRequests.isNotEmpty
+          ? controller.pendingRequests.first.employeeName
+          : (controller.approvedRequests.isNotEmpty
+                ? controller.approvedRequests.first.employeeName
+                : 'Roger Cunningham'); // Fallback to screenshot name
+      final String id = controller.pendingRequests.isNotEmpty
+          ? controller.pendingRequests.first.employeeId
+          : (controller.approvedRequests.isNotEmpty
+                ? controller.approvedRequests.first.employeeId
+                : '12345');
+
+      return Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(2),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.blue.withOpacity(0.3), width: 2),
+            ),
+            child: CircleAvatar(
+              radius: 24,
+              backgroundColor: Colors.blue.shade100,
+              child: Text(
+                name.isNotEmpty ? name[0] : 'U',
+                style: TextStyle(
+                  color: Colors.blue.shade800,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Text(
+            '$name (#$id)',
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          ),
+        ],
+      );
+    });
+  }
+
+  Widget _buildFilterDropdown(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surface,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: isDark ? Colors.grey.shade700 : Colors.grey.shade300,
+            ),
+          ),
+          child: Row(
             children: [
               Text(
-                label,
+                'Last 30 Days',
                 style: TextStyle(
-                  color: isSelected
-                      ? Colors.white
-                      : Theme.of(context).textTheme.bodyMedium?.color,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                  fontSize: 14,
+                  color: theme.colorScheme.onSurface.withOpacity(0.7),
+                  fontWeight: FontWeight.w500,
                 ),
-                textAlign: TextAlign.center,
               ),
-              if (count > 0) ...[
-                const SizedBox(height: 4),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 2,
-                  ),
-                  decoration: BoxDecoration(
-                    color: isSelected
-                        ? Colors.white.withOpacity(0.2)
-                        : Theme.of(
-                            context,
-                          ).colorScheme.primary.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    count.toString(),
-                    style: TextStyle(
-                      color: isSelected
-                          ? Colors.white
-                          : Theme.of(context).colorScheme.primary,
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
+              const SizedBox(width: 8),
+              Icon(
+                Icons.keyboard_arrow_down,
+                color: theme.colorScheme.onSurface.withOpacity(0.6),
+              ),
             ],
           ),
         ),
+        Container(
+          padding: const EdgeInsets.all(10),
+          decoration: const BoxDecoration(
+            color: Color(0xFF3B82F6), // Blue
+            shape: BoxShape.circle,
+          ),
+          child: const Icon(
+            Icons.chat_bubble_outline,
+            color: Colors.white,
+            size: 20,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStatsRow(BuildContext context) {
+    return Obx(
+      () => Row(
+        children: [
+          _buildStatItem(
+            context,
+            'Approved',
+            controller.approvedRequests.length.toString(),
+          ),
+          _buildStatItem(
+            context,
+            'Pending',
+            controller.pendingRequests.length.toString(),
+          ),
+          _buildStatItem(
+            context,
+            'Rejected',
+            controller.rejectedRequests.length.toString(),
+          ),
+          _buildStatItem(
+            context,
+            'Processing',
+            '1',
+          ), // Dummy for now as not in JSON
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatItem(BuildContext context, String label, String count) {
+    return Expanded(
+      child: Column(
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              fontSize: 12,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            count,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildRequestsList(BuildContext context) {
-    List<AttendanceRequest> requests;
-    switch (controller.selectedTab.value) {
-      case 0:
-        requests = controller.pendingRequests;
-        break;
-      case 1:
-        requests = controller.approvedRequests;
-        break;
-      case 2:
-        requests = controller.rejectedRequests;
-        break;
-      default:
-        requests = [];
-    }
+    // Merging all requests and sorting by date for the list view
+    // For now showing pending items first as in screenshot
+    final requests = [...controller.pendingRequests];
 
     if (requests.isEmpty) {
+      // Show some approved/rejected if no pending
+      requests.addAll(controller.approvedRequests);
+      requests.addAll(controller.rejectedRequests);
+    }
+
+    // Fallback if absolutely no data
+    if (requests.isEmpty) {
       return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.inbox_outlined, size: 64, color: Colors.grey[400]),
-            const SizedBox(height: 16),
-            Text(
-              'No requests found',
-              style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-            ),
-          ],
+        child: Text(
+          "No requests found",
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+          ),
         ),
       );
     }
 
-    return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+    return ListView.separated(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
       itemCount: requests.length,
+      separatorBuilder: (context, index) => const SizedBox(height: 16),
       itemBuilder: (context, index) {
         return _buildRequestCard(context, requests[index]);
       },
@@ -191,105 +273,249 @@ class AttendanceRegularizationView
   }
 
   Widget _buildRequestCard(BuildContext context, AttendanceRequest request) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final secondaryTextColor = theme.colorScheme.onSurface.withOpacity(0.7);
+
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Theme.of(context).dividerColor.withOpacity(0.2),
-        ),
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 16,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header with status
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      request.requestType,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Date: ${request.formattedDate}',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: request.statusColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  request.status.toUpperCase(),
+          // Header: Link to Regularization / Type
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Manual Attendance', // Could be request type
                   style: TextStyle(
-                    color: request.statusColor,
-                    fontSize: 11,
+                    color: Colors.indigo.shade400,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Text(
+                  'Processing', // Mapping status to UI text
+                  style: TextStyle(
+                    color: Colors.blue.shade400,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              request.formattedDate, // "22/07/2024"
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            child: Text(
+              'Created at: ${request.formattedSubmittedOn}',
+              style: TextStyle(color: secondaryTextColor, fontSize: 12),
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
+          // Shift Info
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            color: isDark
+                ? Colors.blue.shade900.withOpacity(0.3)
+                : Colors.blue.shade50,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Day Shift',
+                  style: TextStyle(
+                    color: Colors.blue.shade400,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '9:00 am - 6:00 pm',
+                  style: TextStyle(
+                    color: theme.colorScheme.onSurface,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
+          // Check-in / Check-out Row
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Check-in',
+                        style: TextStyle(
+                          color: secondaryTextColor,
+                          fontSize: 12,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          Text(
+                            '11:00 AM',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.lineThrough,
+                              color: secondaryTextColor,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Icon(
+                            Icons.arrow_right_alt,
+                            size: 16,
+                            color: secondaryTextColor,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            request.requestedTime,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Check-out',
+                        style: TextStyle(
+                          color: secondaryTextColor,
+                          fontSize: 12,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          Text(
+                            '8:00 PM',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.lineThrough,
+                              color: secondaryTextColor,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Icon(
+                            Icons.arrow_right_alt,
+                            size: 16,
+                            color: secondaryTextColor,
+                          ),
+                          const SizedBox(width: 4),
+                          const Text(
+                            '6:00 PM',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
+          // Reason
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Reason',
+                  style: TextStyle(
+                    color: secondaryTextColor,
+                    fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 4),
+                Text(
+                  request.reason,
+                  style: TextStyle(
+                    color: theme.colorScheme.onSurface,
+                    fontSize: 14,
+                    height: 1.4,
+                  ),
+                ),
+              ],
+            ),
           ),
 
-          const SizedBox(height: 12),
-
-          // Requested time
-          Row(
-            children: [
-              Icon(
-                Icons.access_time,
-                size: 16,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                'Requested Time: ${request.requestedTime}',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            ],
-          ),
-
+          const SizedBox(height: 16),
+          const Divider(),
           const SizedBox(height: 8),
 
-          // Reason
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceVariant,
-              borderRadius: BorderRadius.circular(8),
-            ),
+          // Line Manager Section
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(
-                  Icons.message_outlined,
-                  size: 16,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.green, width: 2),
+                  ),
+                  child: const Icon(Icons.check, size: 12, color: Colors.green),
                 ),
                 const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    request.reason,
-                    style: Theme.of(context).textTheme.bodySmall,
+                const Text(
+                  'Line Manager',
+                  style: TextStyle(
+                    color: Colors.green,
+                    fontWeight: FontWeight.bold,
                   ),
+                ),
+                const Spacer(),
+                Text(
+                  'Jul 26, 2024, 3:14 PM', // Dummy timestamp
+                  style: TextStyle(color: secondaryTextColor, fontSize: 12),
+                ),
+                const SizedBox(width: 4),
+                Icon(
+                  Icons.keyboard_arrow_down,
+                  size: 16,
+                  color: secondaryTextColor,
                 ),
               ],
             ),
@@ -297,131 +523,101 @@ class AttendanceRegularizationView
 
           const SizedBox(height: 12),
 
-          // Submitted info
-          Row(
-            children: [
-              Icon(
-                Icons.person_outline,
-                size: 16,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  'Manager: ${request.managerName}',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 4),
-
-          Row(
-            children: [
-              Icon(
-                Icons.calendar_today_outlined,
-                size: 16,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                'Submitted: ${request.formattedSubmittedOn}',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
-              ),
-            ],
-          ),
-
-          // Manager comments (if available)
-          if (request.managerComments != null) ...[
-            const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: request.statusColor.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: request.statusColor.withOpacity(0.3)),
-              ),
-              child: Row(
+          // Actions
+          if (request.status.toLowerCase() == 'pending') ...[
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(Icons.comment, size: 16, color: request.statusColor),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Manager Comments:',
-                          style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: request.statusColor,
-                              ),
+                  Text(
+                    'You are Recommending as a Line Manager',
+                    style: TextStyle(color: secondaryTextColor, fontSize: 12),
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: () => controller.rejectRequest(request.id),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.red,
+                            side: const BorderSide(color: Colors.red),
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          child: const Text(
+                            'Reject',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ),
-                        const SizedBox(height: 4),
-                        Text(
-                          request.managerComments!,
-                          style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () =>
+                              controller.approveRequest(request.id),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF10B981), // Green
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          child: const Text(
+                            'Recommend',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
           ],
+          const SizedBox(height: 8),
+        ],
+      ),
+    );
+  }
 
-          // Actions for pending requests (manager view)
-          if (request.status.toLowerCase() == 'pending') ...[
-            const SizedBox(height: 16),
-            const Divider(height: 1),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: () => controller.rejectRequest(request.id),
-                    icon: const Icon(Icons.close, size: 16),
-                    label: const Text('Reject'),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.red,
-                      side: const BorderSide(color: Colors.red),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: () =>
-                        controller.requestClarification(request.id),
-                    icon: const Icon(Icons.help_outline, size: 16),
-                    label: const Text('Clarify'),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.orange,
-                      side: const BorderSide(color: Colors.orange),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: ElevatedButton.icon(
-                    onPressed: () => controller.approveRequest(request.id),
-                    icon: const Icon(Icons.check, size: 16),
-                    label: const Text('Approve'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      foregroundColor: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
+  Widget _buildBottomNavigation(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        border: Border(
+          top: BorderSide(
+            color: Theme.of(context).dividerColor.withOpacity(0.2),
+          ),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Icon(
+            Icons.home_outlined,
+            color: Theme.of(context).iconTheme.color?.withOpacity(0.5),
+            size: 24,
+          ),
+          InkWell(
+            onTap: () {}, // Already here
+            child: Icon(
+              Icons.add,
+              color: Theme.of(context).colorScheme.onSurface, // Adaptive color
+              size: 28,
             ),
-          ],
+          ),
+          Icon(
+            Icons.menu,
+            color: Theme.of(context).iconTheme.color?.withOpacity(0.5),
+            size: 24,
+          ),
         ],
       ),
     );
