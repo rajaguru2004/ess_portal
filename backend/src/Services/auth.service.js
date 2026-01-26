@@ -1,0 +1,97 @@
+const { prisma } = require('../Prisma/client');
+const { comparePassword } = require('../Utils/password');
+const { generateAccessToken } = require('../Utils/jwt');
+
+/**
+ * Login Service
+ * Handles user authentication logic
+ */
+const login = async (username, password, clientIp) => {
+    // 1. Fetch user by username
+    const user = await prisma.user.findUnique({
+        where: { username },
+        include: { Role: true }, // Include Role to check permissions if needed
+    });
+
+    // 2. User not found
+    if (!user) {
+        throw new Error('Invalid credentials'); // Generic message for security
+    }
+
+    // 3. Check if account is active
+    if (!user.isActive) {
+        throw new Error('Account disabled');
+    }
+
+    // 4. Check if account is locked
+    if (user.isLocked) {
+        throw new Error('Account locked');
+    }
+
+    // 5. Verify password
+    const isPasswordValid = await comparePassword(password, user.passwordHash);
+
+    if (!isPasswordValid) {
+        // Increment failed login attempts
+        const newFailedAttempts = user.failedLoginAttempts + 1;
+        let updateData = { failedLoginAttempts: newFailedAttempts };
+
+        // Lock account if attempts >= 5
+        if (newFailedAttempts >= 5) {
+            updateData.isLocked = true;
+        }
+
+        // Update user record
+        await prisma.user.update({
+            where: { id: user.id },
+            data: updateData,
+        });
+
+        if (updateData.isLocked) {
+            throw new Error('Account locked due to multiple failed attempts');
+        }
+
+        throw new Error('Invalid credentials');
+    }
+
+    // 6. Login Success
+
+    // Reset failed attempts and update login info
+    await prisma.user.update({
+        where: { id: user.id },
+        data: {
+            failedLoginAttempts: 0,
+            lastLoginAt: new Date(),
+            lastLoginIp: clientIp,
+        },
+    });
+
+    // Generate Token
+    const tokenPayload = {
+        userId: user.id,
+        roleId: user.roleId,
+        tenantId: user.tenantId,
+        employeeCode: user.employeeCode,
+        username: user.username,
+    };
+
+    const accessToken = generateAccessToken(tokenPayload);
+
+    // Return data (exclude sensitive info)
+    return {
+        accessToken,
+        user: {
+            id: user.id,
+            employeeCode: user.employeeCode,
+            username: user.username,
+            fullName: user.fullName,
+            roleId: user.roleId,
+            tenantId: user.tenantId,
+            firstLogin: user.firstLogin,
+        },
+    };
+};
+
+module.exports = {
+    login,
+};

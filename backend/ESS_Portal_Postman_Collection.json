@@ -1,0 +1,187 @@
+{
+    "info": {
+        "_postman_id": "ess-portal-backend-collection",
+        "name": "ESS Portal Backend APIs",
+        "description": "Postman collection for ESS Portal Authentication and User Management APIs (Node.js + Express + Prisma)",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Login",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 200) {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    if (jsonData.success && jsonData.data.accessToken) {",
+                                    "        pm.environment.set(\"accessToken\", jsonData.data.accessToken);",
+                                    "        console.log(\"Access Token set to environment variable\");",
+                                    "    }",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"username\": \"admin\",\n    \"password\": \"AdminPassword123!\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/auth/login",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "login"
+                            ]
+                        },
+                        "description": "Authenticate user and receive JWT access token. \n\n**Rules:**\n- Valid credential check\n- Account locking after 5 failed attempts\n- Returns RS256 signed JWT"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "User Management",
+            "item": [
+                {
+                    "name": "Create User",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"employeeCode\": \"EMP101\",\n  \"username\": \"emp101\",\n  \"password\": \"Temp@123\",\n  \"fullName\": \"Ravi Kumar\",\n  \"email\": \"ravi@company.com\",\n  \"mobile\": \"9876543210\",\n  \"tenantId\": \"TENANT_001\",\n  \"branchId\": \"BRANCH_001\",\n  \"departmentId\": \"DEPT_001\",\n  \"roleId\": \"YOUR_ROLE_UUID_HERE\",\n  \"managerId\": null\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/users",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "users"
+                            ]
+                        },
+                        "description": "Create a new user. \n\n**Requires:**\n- valid JWT token in Authorization header\n- Requester must have 'Admin' role\n\n**Validation:**\n- Unique username/employeeCode"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Role Management",
+            "item": [
+                {
+                    "name": "Get All Roles",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/roles",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "roles"
+                            ]
+                        },
+                        "description": "Fetch all roles in the system."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create Role",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Manager\",\n  \"code\": \"MANAGER\",\n  \"description\": \"Department Manager\",\n  \"isSystemRole\": false\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/roles",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "roles"
+                            ]
+                        },
+                        "description": "Create a new role. Requires Admin privileges."
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:3000",
+            "type": "string"
+        }
+    ]
+}

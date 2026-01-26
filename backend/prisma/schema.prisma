@@ -1,0 +1,202 @@
+// Prisma Schema for ESS Portal
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Example User model - modify according to your needs
+model User {
+  id           String  @id @default(uuid())
+  employeeCode String  @unique
+  username     String  @unique
+  email        String? @unique
+  mobile       String?
+
+  tenantId     String
+  branchId     String
+  departmentId String
+  roleId       String
+  managerId    String?
+
+  passwordHash        String
+  passwordChangedAt   DateTime?
+  firstLogin          Boolean   @default(true)
+  isActive            Boolean   @default(true)
+  isLocked            Boolean   @default(false)
+  failedLoginAttempts Int       @default(0)
+  lastLoginAt         DateTime?
+  lastLoginIp         String?
+
+  fullName        String
+  profileImageUrl String?
+  designation     String?
+  joiningDate     DateTime?
+
+  createdAt DateTime  @default(now())
+  createdBy String?
+  updatedAt DateTime  @updatedAt
+  updatedBy String?
+  deletedAt DateTime?
+
+  manager      User?  @relation("UserManager", fields: [managerId], references: [id])
+  subordinates User[] @relation("UserManager")
+  Role         Role   @relation(fields: [roleId], references: [id])
+
+  @@index([tenantId])
+  @@index([branchId])
+  @@index([departmentId])
+  @@index([roleId])
+}
+
+model Role {
+  id           String  @id @default(uuid())
+  name         String
+  code         String  @unique
+  description  String?
+  isSystemRole Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users User[]
+
+  @@index([code])
+  @@index([isSystemRole])
+}
+
+model Department {
+  id        String  @id @default(uuid())
+  tenantId  String
+  branchId  String
+  name      String
+  code      String
+  managerId String?
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([tenantId, code])
+  @@index([tenantId])
+  @@index([branchId])
+  @@index([managerId])
+  @@index([isActive])
+  @@index([tenantId, branchId])
+}
+
+model Shift {
+  id       String @id @default(uuid())
+  tenantId String
+  name     String
+  code     String
+
+  startTime    DateTime
+  endTime      DateTime
+  graceMinutes Int      @default(0)
+  breakMinutes Int      @default(0)
+
+  isRotational Boolean @default(false)
+  isActive     Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([tenantId, code])
+  @@index([tenantId])
+  @@index([isActive])
+  @@index([isRotational])
+}
+
+model LeaveType {
+  id       String @id @default(uuid())
+  tenantId String
+  name     String
+  code     String
+
+  defaultDays         Int
+  carryForwardAllowed Boolean @default(false)
+  maxCarryForward     Int?
+  encashmentAllowed   Boolean @default(false)
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([tenantId, code])
+  @@index([tenantId])
+  @@index([isActive])
+}
+
+enum AccrualType {
+  ANNUAL
+  MONTHLY
+  PRORATED
+}
+
+model RoleLeavePolicy {
+  id          String @id @default(uuid())
+  roleId      String
+  leaveTypeId String
+
+  annualQuota Int
+  accrualType AccrualType
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([roleId, leaveTypeId])
+  @@index([roleId])
+  @@index([leaveTypeId])
+  @@index([isActive])
+}
+
+enum HolidayType {
+  ORGANIZATION
+  LOCATION
+}
+
+model Holiday {
+  id       String  @id @default(uuid())
+  tenantId String
+  branchId String?
+
+  name String
+  date DateTime
+  type HolidayType
+
+  createdAt DateTime @default(now())
+
+  @@index([tenantId])
+  @@index([branchId])
+  @@index([date])
+  @@index([type])
+  @@index([tenantId, branchId, date])
+}
+
+model Designation {
+  id       String @id @default(uuid())
+  tenantId String
+  name     String
+  code     String
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([tenantId, code])
+  @@index([tenantId])
+  @@index([isActive])
+}
+
+// Add more models here as needed for your ESS Portal
+// Examples: Employee, Attendance, Leave, etc.
