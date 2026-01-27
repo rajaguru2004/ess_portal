@@ -13,6 +13,7 @@ const leaveTypeRoutes = require('./Routes/leaveType.routes');
 const roleLeavePolicyRoutes = require('./Routes/roleLeavePolicy.routes');
 const holidayRoutes = require('./Routes/holiday.routes');
 const designationRoutes = require('./Routes/designation.routes');
+const attendanceRoutes = require('./Routes/attendance.routes');
 const { errorHandler } = require('./Middlewares/error.middleware');
 const { errorResponse } = require('./Utils/response');
 
@@ -43,6 +44,7 @@ app.use('/api/v1/leave-types', leaveTypeRoutes);
 app.use('/api/v1/role-leave-policies', roleLeavePolicyRoutes);
 app.use('/api/v1/holidays', holidayRoutes);
 app.use('/api/v1/designations', designationRoutes);
+app.use('/api/v1/attendance', attendanceRoutes);
 
 // Health Check
 app.get('/health', (req, res) => {

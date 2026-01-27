@@ -198,5 +198,64 @@ model Designation {
   @@index([isActive])
 }
 
-// Add more models here as needed for your ESS Portal
-// Examples: Employee, Attendance, Leave, etc.
+// Attendance Models
+
+enum AttendanceStatus {
+  PENDING
+  CHECKED_IN
+  CHECKED_OUT
+}
+
+enum AttendanceLogType {
+  IN
+  OUT
+}
+
+model Attendance {
+  id       String @id @default(uuid())
+  userId   String
+  date     DateTime @db.Date
+  shiftId  String?
+
+  checkInAt  DateTime?
+  checkOutAt DateTime?
+  status     AttendanceStatus @default(PENDING)
+
+  isLate       Boolean @default(false)
+  workMinutes  Int     @default(0)
+  geoMismatch  Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  logs AttendanceLog[]
+
+  // ⚠️ TESTING MODE: Unique constraint disabled to allow multiple check-ins per day
+  // @@unique([userId, date])
+  
+  @@index([userId])
+  @@index([date])
+  @@index([status])
+  @@index([userId, date])
+}
+
+model AttendanceLog {
+  id           String            @id @default(uuid())
+  attendanceId String
+  type         AttendanceLogType
+
+  timestamp  DateTime
+  latitude   String?
+  longitude  String?
+  photoUrl   String?
+  deviceInfo String?
+  ipAddress  String?
+
+  createdAt DateTime @default(now())
+
+  attendance Attendance @relation(fields: [attendanceId], references: [id], onDelete: Cascade)
+
+  @@index([attendanceId])
+  @@index([type])
+  @@index([timestamp])
+}

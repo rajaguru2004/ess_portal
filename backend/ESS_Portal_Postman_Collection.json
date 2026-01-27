@@ -627,6 +627,175 @@
                     "response": []
                 }
             ]
+        },
+        {
+            "name": "Attendance Management",
+            "item": [
+                {
+                    "name": "Check-In (Punch In)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "photo",
+                                    "type": "file",
+                                    "src": [],
+                                    "description": "REQUIRED: Upload employee photo during check-in (image file, max 5MB)"
+                                },
+                                {
+                                    "key": "latitude",
+                                    "value": "12.9716",
+                                    "type": "text",
+                                    "description": "REQUIRED: GPS latitude (e.g., 12.9716 for Bangalore)"
+                                },
+                                {
+                                    "key": "longitude",
+                                    "value": "77.5946",
+                                    "type": "text",
+                                    "description": "REQUIRED: GPS longitude (e.g., 77.5946 for Bangalore)"
+                                },
+                                {
+                                    "key": "deviceInfo",
+                                    "value": "Android 12, Pixel 6",
+                                    "type": "text",
+                                    "description": "OPTIONAL: Device information"
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/attendance/check-in",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "attendance",
+                                "check-in"
+                            ]
+                        },
+                        "description": "**Punch In (Check-In)**\n\nRecord employee attendance check-in with photo and GPS location.\n\n**Requirements:**\n- Valid JWT Bearer token\n- Photo is MANDATORY (image file)\n- GPS coordinates (latitude, longitude)\n\n**Features:**\n- Photo upload to MinIO storage\n- Geo-fence validation (flags if outside range but doesn't block)\n- Late marking based on shift timing\n- One check-in per day enforcement\n\n**Success Response (200):**\n```json\n{\n  \"success\": true,\n  \"message\": \"Checked in successfully\",\n  \"data\": {\n    \"attendanceId\": \"uuid\",\n    \"status\": \"CHECKED_IN\",\n    \"checkInAt\": \"2026-01-27T13:30:00Z\",\n    \"isLate\": false,\n    \"geoMismatch\": false\n  }\n}\n```\n\n**Error Scenarios:**\n- 400: Photo is required\n- 409: Already checked in\n- 400: Invalid GPS coordinates"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Check-Out (Punch Out)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "latitude",
+                                    "value": "12.9716",
+                                    "type": "text",
+                                    "description": "REQUIRED: GPS latitude"
+                                },
+                                {
+                                    "key": "longitude",
+                                    "value": "77.5946",
+                                    "type": "text",
+                                    "description": "REQUIRED: GPS longitude"
+                                },
+                                {
+                                    "key": "photo",
+                                    "type": "file",
+                                    "src": [],
+                                    "description": "OPTIONAL: Upload photo during check-out (image file, max 5MB)",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "deviceInfo",
+                                    "value": "Android 12, Pixel 6",
+                                    "type": "text",
+                                    "description": "OPTIONAL: Device information"
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/attendance/check-out",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "attendance",
+                                "check-out"
+                            ]
+                        },
+                        "description": "**Punch Out (Check-Out)**\n\nRecord employee attendance check-out with optional photo and GPS location.\n\n**Requirements:**\n- Valid JWT Bearer token\n- Must have checked in earlier today\n- GPS coordinates (latitude, longitude)\n- Photo is OPTIONAL\n\n**Features:**\n- Calculates total work duration in minutes\n- Creates audit log entry\n- Prevents duplicate check-out\n\n**Success Response (200):**\n```json\n{\n  \"success\": true,\n  \"message\": \"Checked out successfully\",\n  \"data\": {\n    \"attendanceId\": \"uuid\",\n    \"status\": \"CHECKED_OUT\",\n    \"checkOutAt\": \"2026-01-27T18:05:00Z\",\n    \"workMinutes\": 275\n  }\n}\n```\n\n**Error Scenarios:**\n- 400: Punch-in required (no check-in exists)\n- 409: Already checked out\n- 400: Invalid GPS coordinates\n\n**Note:** Enable the 'photo' field if you want to upload a check-out photo (optional)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Attendance Logs (with Photos)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/attendance/logs?startDate=2026-01-20&endDate=2026-01-31",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "attendance",
+                                "logs"
+                            ],
+                            "query": [
+                                {
+                                    "key": "startDate",
+                                    "value": "2026-01-20",
+                                    "description": "Optional: Start date (YYYY-MM-DD format)"
+                                },
+                                {
+                                    "key": "endDate",
+                                    "value": "2026-01-31",
+                                    "description": "Optional: End date (YYYY-MM-DD format)"
+                                }
+                            ]
+                        },
+                        "description": "**Get Attendance Logs with Photo URLs**\n\nRetrieve attendance history for the authenticated user with all photo URLs from MinIO.\n\n**Requirements:**\n- Valid JWT Bearer token\n\n**Query Parameters:**\n- `startDate` (optional): Filter from this date (YYYY-MM-DD)\n- `endDate` (optional): Filter until this date (YYYY-MM-DD)\n- If no dates provided, returns all records\n\n**Response includes:**\n- Attendance summary (date, check-in/out times, status, work minutes)\n- All logs with photo URLs from MinIO\n- GPS coordinates for each punch event\n- Device info and timestamps\n\n**Success Response (200):**\n```json\n{\n  \"success\": true,\n  \"message\": \"Attendance logs fetched successfully\",\n  \"data\": [\n    {\n      \"id\": \"uuid\",\n      \"userId\": \"user-uuid\",\n      \"date\": \"2026-01-27\",\n      \"checkInAt\": \"2026-01-27T09:15:00Z\",\n      \"checkOutAt\": \"2026-01-27T18:05:00Z\",\n      \"status\": \"CHECKED_OUT\",\n      \"workMinutes\": 530,\n      \"isLate\": false,\n      \"geoMismatch\": false,\n      \"logs\": [\n        {\n          \"id\": \"log-uuid\",\n          \"type\": \"IN\",\n          \"timestamp\": \"2026-01-27T09:15:00Z\",\n          \"photoUrl\": \"http://localhost:9000/attendance-photos/attendance/user-id/2026-01-27/checkin-123456.jpg\",\n          \"latitude\": \"12.9716\",\n          \"longitude\": \"77.5946\",\n          \"deviceInfo\": \"Android 12\",\n          \"ipAddress\": \"::1\"\n        },\n        {\n          \"id\": \"log-uuid-2\",\n          \"type\": \"OUT\",\n          \"timestamp\": \"2026-01-27T18:05:00Z\",\n          \"photoUrl\": null,\n          \"latitude\": \"12.9716\",\n          \"longitude\": \"77.5946\"\n        }\n      ]\n    }\n  ]\n}\n```\n\n**Photo Access:**\nThe `photoUrl` field contains the direct MinIO URL. You can:\n1. Open the URL in browser to view the image\n2. Use it in `<img>` tags in your frontend\n3. Access MinIO console at http://localhost:9001 to browse all photos"
+                    },
+                    "response": []
+                }
+            ]
         }
     ],
     "variable": [
