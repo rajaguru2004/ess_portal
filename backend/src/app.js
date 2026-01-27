@@ -7,6 +7,12 @@ require('dotenv').config();
 const authRoutes = require('./Routes/auth.routes');
 const userRoutes = require('./Routes/user.routes');
 const roleRoutes = require('./Routes/role.routes');
+const departmentRoutes = require('./Routes/department.routes');
+const shiftRoutes = require('./Routes/shift.routes');
+const leaveTypeRoutes = require('./Routes/leaveType.routes');
+const roleLeavePolicyRoutes = require('./Routes/roleLeavePolicy.routes');
+const holidayRoutes = require('./Routes/holiday.routes');
+const designationRoutes = require('./Routes/designation.routes');
 const { errorHandler } = require('./Middlewares/error.middleware');
 const { errorResponse } = require('./Utils/response');
 
@@ -31,6 +37,12 @@ if (process.env.NODE_ENV !== 'production') {
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/roles', roleRoutes);
+app.use('/api/v1/departments', departmentRoutes);
+app.use('/api/v1/shifts', shiftRoutes);
+app.use('/api/v1/leave-types', leaveTypeRoutes);
+app.use('/api/v1/role-leave-policies', roleLeavePolicyRoutes);
+app.use('/api/v1/holidays', holidayRoutes);
+app.use('/api/v1/designations', designationRoutes);
 
 // Health Check
 app.get('/health', (req, res) => {

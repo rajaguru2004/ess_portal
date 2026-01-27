@@ -22,6 +22,14 @@
                                     "        pm.environment.set(\"accessToken\", jsonData.data.accessToken);",
                                     "        console.log(\"Access Token set to environment variable\");",
                                     "    }",
+                                    "    if (jsonData.success && jsonData.data.user && jsonData.data.user.tenantId) {",
+                                    "        pm.environment.set(\"tenantId\", jsonData.data.user.tenantId);",
+                                    "        console.log(\"Tenant ID set to environment variable: \" + jsonData.data.user.tenantId);",
+                                    "    } else {",
+                                    "        console.warn(\"Tenant ID not found in login response\");",
+                                    "        // Fallback for testing if no tenantId on user",
+                                    "        pm.environment.set(\"tenantId\", \"TENANT_001\");",
+                                    "    }",
                                     "}"
                                 ],
                                 "type": "text/javascript"
@@ -78,7 +86,7 @@
                         "header": [],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"employeeCode\": \"EMP101\",\n  \"username\": \"emp101\",\n  \"password\": \"Temp@123\",\n  \"fullName\": \"Ravi Kumar\",\n  \"email\": \"ravi@company.com\",\n  \"mobile\": \"9876543210\",\n  \"tenantId\": \"TENANT_001\",\n  \"branchId\": \"BRANCH_001\",\n  \"departmentId\": \"DEPT_001\",\n  \"roleId\": \"YOUR_ROLE_UUID_HERE\",\n  \"managerId\": null\n}",
+                            "raw": "{\n  \"employeeCode\": \"EMP101\",\n  \"username\": \"emp101\",\n  \"password\": \"Temp@123\",\n  \"fullName\": \"Ravi Kumar\",\n  \"email\": \"ravi@company.com\",\n  \"mobile\": \"9876543210\",\n  \"tenantId\": \"{{tenantId}}\",\n  \"branchId\": \"BRANCH_001\",\n  \"departmentId\": \"DEPT_001\",\n  \"roleId\": \"YOUR_ROLE_UUID_HERE\",\n  \"managerId\": null\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -171,6 +179,450 @@
                             ]
                         },
                         "description": "Create a new role. Requires Admin privileges."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Department Management",
+            "item": [
+                {
+                    "name": "Create Department",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"branchId\": \"BRANCH_001\",\n  \"name\": \"Human Resources\",\n  \"code\": \"HR_001\",\n  \"managerId\": null\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/departments",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "departments"
+                            ]
+                        },
+                        "description": "Create a new department."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get All Departments",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/departments",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "departments"
+                            ]
+                        },
+                        "description": "Fetch all departments."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Shift Management",
+            "item": [
+                {
+                    "name": "Create Shift",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"name\": \"General Shift\",\n  \"code\": \"GEN_SHIFT\",\n  \"startTime\": \"2023-10-27T09:00:00.000Z\",\n  \"endTime\": \"2023-10-27T18:00:00.000Z\",\n  \"graceMinutes\": 15,\n  \"breakMinutes\": 60,\n  \"isRotational\": false\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/shifts",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "shifts"
+                            ]
+                        },
+                        "description": "Create a new shift."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get All Shifts",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/shifts",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "shifts"
+                            ]
+                        },
+                        "description": "Fetch all shifts."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Leave Type Management",
+            "item": [
+                {
+                    "name": "Create Leave Type",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"name\": \"Casual Leave\",\n  \"code\": \"CL\",\n  \"defaultDays\": 12,\n  \"carryForwardAllowed\": false,\n  \"maxCarryForward\": 0,\n  \"encashmentAllowed\": false\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/leave-types",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "leave-types"
+                            ]
+                        },
+                        "description": "Create a new leave type."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get All Leave Types",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/leave-types",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "leave-types"
+                            ]
+                        },
+                        "description": "Fetch all leave types."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Role Leave Policy Management",
+            "item": [
+                {
+                    "name": "Create Policy",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"roleId\": \"ROLE_UUID_HERE\",\n  \"leaveTypeId\": \"LEAVE_TYPE_UUID_HERE\",\n  \"annualQuota\": 12,\n  \"accrualType\": \"MONTHLY\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/role-leave-policies",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "role-leave-policies"
+                            ]
+                        },
+                        "description": "Create a mapping between role and leave type."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get All Policies",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/role-leave-policies",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "role-leave-policies"
+                            ]
+                        },
+                        "description": "Fetch all role leave policies."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Holiday Management",
+            "item": [
+                {
+                    "name": "Create Holiday",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"branchId\": null,\n  \"name\": \"New Year\",\n  \"date\": \"2024-01-01T00:00:00.000Z\",\n  \"type\": \"ORGANIZATION\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/holidays",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "holidays"
+                            ]
+                        },
+                        "description": "Create a new holiday."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get All Holidays",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/holidays",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "holidays"
+                            ]
+                        },
+                        "description": "Fetch all holidays."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Designation Management",
+            "item": [
+                {
+                    "name": "Create Designation",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"tenantId\": \"{{tenantId}}\",\n  \"name\": \"Software Engineer\",\n  \"code\": \"SE_001\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/designations",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "designations"
+                            ]
+                        },
+                        "description": "Create a new designation."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get All Designations",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/designations",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "designations"
+                            ]
+                        },
+                        "description": "Fetch all designations."
                     },
                     "response": []
                 }

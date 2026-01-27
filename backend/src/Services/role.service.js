@@ -36,7 +36,25 @@ const getAllRoles = async () => {
     });
 };
 
+const getRoleById = async (id) => {
+    return await prisma.role.findUnique({ where: { id } });
+};
+
+const updateRole = async (id, data) => {
+    return await prisma.role.update({
+        where: { id },
+        data
+    });
+};
+
+const deleteRole = async (id) => {
+    return await prisma.role.delete({ where: { id } });
+};
+
 module.exports = {
     createRole,
-    getAllRoles
+    getAllRoles,
+    getRoleById,
+    updateRole,
+    deleteRole
 };

@@ -32,11 +32,7 @@ const generateAccessToken = (payload) => {
     try {
         const token = jwt.sign(
             {
-                userId: payload.userId,
-                roleId: payload.roleId,
-                tenantId: payload.tenantId,
-                employeeCode: payload.employeeCode,
-                username: payload.username,
+                ...payload
             },
             privateKey,
             {

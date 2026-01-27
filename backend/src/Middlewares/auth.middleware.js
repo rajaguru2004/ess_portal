@@ -17,6 +17,7 @@ const authenticate = (req, res, next) => {
 
         try {
             const decoded = verifyToken(token);
+            console.log('Auth Middleware - Decoded User:', decoded);
             req.user = decoded; // Attach user payload to request
             next();
         } catch (error) {

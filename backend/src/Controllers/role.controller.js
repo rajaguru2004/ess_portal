@@ -37,7 +37,40 @@ const getAllRoles = async (req, res, next) => {
     }
 };
 
+const getRoleById = async (req, res, next) => {
+    try {
+        const role = await roleService.getRoleById(req.params.id);
+        if (!role) {
+            return errorResponse(res, 'Role not found', 'NOT_FOUND', 404);
+        }
+        return successResponse(res, role, 'Role fetched successfully');
+    } catch (error) {
+        next(error);
+    }
+};
+
+const updateRole = async (req, res, next) => {
+    try {
+        const role = await roleService.updateRole(req.params.id, req.body);
+        return successResponse(res, role, 'Role updated successfully');
+    } catch (error) {
+        next(error);
+    }
+};
+
+const deleteRole = async (req, res, next) => {
+    try {
+        await roleService.deleteRole(req.params.id);
+        return successResponse(res, null, 'Role deleted successfully');
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
     createRole,
-    getAllRoles
+    getAllRoles,
+    getRoleById,
+    updateRole,
+    deleteRole
 };

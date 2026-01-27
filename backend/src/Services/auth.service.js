@@ -66,14 +66,19 @@ const login = async (username, password, clientIp) => {
         },
     });
 
+    console.log('Login Service - Fetched User Role:', user.Role);
+
     // Generate Token
     const tokenPayload = {
         userId: user.id,
         roleId: user.roleId,
+        roleCode: user.Role ? user.Role.code : (user.role ? user.role.code : 'UNKNOWN'), // Attempt both casings
         tenantId: user.tenantId,
         employeeCode: user.employeeCode,
         username: user.username,
     };
+
+    console.log('Login Service - Token Payload:', tokenPayload);
 
     const accessToken = generateAccessToken(tokenPayload);
 
