@@ -472,7 +472,33 @@ class AttendanceScreenView extends GetView<AttendanceScreenController> {
             const SizedBox(width: 12),
 
             // Time
-            Text(employee.time, style: Theme.of(context).textTheme.bodyMedium),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  if (employee.checkInTime != null)
+                    Text(
+                      'In: ${employee.checkInTime}',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: Colors.green),
+                    ),
+                  if (employee.checkOutTime != null)
+                    Text(
+                      'Out: ${employee.checkOutTime}',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: Colors.red),
+                    ),
+                  if (employee.checkInTime == null &&
+                      employee.checkOutTime == null)
+                    Text(
+                      employee.time,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

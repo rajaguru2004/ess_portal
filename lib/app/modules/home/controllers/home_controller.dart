@@ -109,6 +109,13 @@ class HomeController extends GetxController {
         // Determine logical state
         if (todayLog.status == 'CHECKED_IN') {
           isCheckedIn.value = true;
+          // Calculate elapsed time from checkInAt
+          if (todayLog.checkInAt != null) {
+            final duration = DateTime.now().difference(todayLog.checkInAt!);
+            workingHours.value = duration.inHours;
+            workingMinutes.value = duration.inMinutes % 60;
+            workingSeconds.value = duration.inSeconds % 60;
+          }
         } else {
           isCheckedIn.value = false;
         }
@@ -136,12 +143,30 @@ class HomeController extends GetxController {
         }
       } else {
         isCheckedIn.value = false;
+        // Reset timer if no log found (or just not checked in)
+        workingHours.value = 0;
+        workingMinutes.value = 0;
+        workingSeconds.value = 0;
       }
 
       // Keep local source for fallback or other UI elements
-      workingHours.value = data.attendance.workingHours.hours;
-      workingMinutes.value = data.attendance.workingHours.minutes;
-      workingSeconds.value = data.attendance.workingHours.seconds;
+      // Update working hours
+      // If we have real attendance data, we set it above.
+      // Only fallback to dummy if we are NOT using real attendance.
+      if (!isCheckedIn.value &&
+          (attendanceResponse.data == null ||
+              attendanceResponse.data!.isEmpty)) {
+        workingHours.value = data.attendance.workingHours.hours;
+        workingMinutes.value = data.attendance.workingHours.minutes;
+        workingSeconds.value = data.attendance.workingHours.seconds;
+      }
+      // If we are checked out (and have data), the timer should be stopped/reset or show last session?
+      // User said "on checkout it will reset", so 0.
+      if (!isCheckedIn.value) {
+        workingHours.value = 0;
+        workingMinutes.value = 0;
+        workingSeconds.value = 0;
+      }
 
       totalBreakHours.value = data.attendance.totalBreakTime.hours;
       totalBreakMinutes.value = data.attendance.totalBreakTime.minutes;

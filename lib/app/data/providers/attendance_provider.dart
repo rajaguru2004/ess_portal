@@ -133,6 +133,8 @@ class AttendanceProvider {
     );
 
     if (response.statusCode == 200) {
+      print('🟣 [AttendanceProvider] getLogs: Response Received');
+      print('   Body: ${response.body}');
       return AttendanceLogsResponse.fromJson(jsonDecode(response.body));
     } else {
       try {

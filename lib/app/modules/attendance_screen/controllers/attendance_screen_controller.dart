@@ -43,42 +43,63 @@ class AttendanceScreenController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _initializeData();
+    refreshData();
   }
 
-  Future<void> _initializeData() async {
+  Future<void> refreshData() async {
     isLoading.value = true;
 
     try {
-      // Fetch attendance data from provider
-      // For now, fetching all logs without date filter or implementing pagination later
-      // The API takes startDate and endDate, let's try to fetch for the current month or similar if needed.
-      // But the UI seems to show daily data.
-      // Let's assume we want to show stats for the current period.
-      // The current UI logic seems to expect a single object with stats + details.
-      // My new API returns a list of daily summaries.
+      // Fetch attendance data for the current month
+      final now = DateTime.now();
+      final startDate = DateTime(now.year, now.month, 1);
+      final endDate = DateTime(
+        now.year,
+        now.month + 1,
+        0,
+      ); // Last day of current month
 
-      // We need to adapt the logic. The existing UI expects `AttendanceResponseModel`.
-      // I have `AttendanceLogsResponse`.
+      final startStr =
+          '${startDate.year}-${startDate.month.toString().padLeft(2, '0')}-${startDate.day.toString().padLeft(2, '0')}';
+      final endStr =
+          '${endDate.year}-${endDate.month.toString().padLeft(2, '0')}-${endDate.day.toString().padLeft(2, '0')}';
 
-      // Ideally I should refactor the UI to work with the new model, OR map the new model to the old structure if I want to minimize UI changes.
-      // Given the instruction "connect with the backend", and the UI is "already done", I should probably try to keep the View as is if possible.
+      print(
+        '🔵 [AttendanceScreenController] Fetching logs from $startStr to $endStr',
+      );
 
-      // However, the `AttendanceResponseModel` and `AttendanceLogsResponse` are likely different.
-      // Let's fetch the logs first.
-      final response = await _attendanceProvider.getLogs();
+      final response = await _attendanceProvider.getLogs(
+        startDate: startStr,
+        endDate: endStr,
+      );
+
+      print(
+        '🟢 [AttendanceScreenController] Response success: ${response.success}',
+      );
 
       if (response.success && response.data != null) {
         final logs = response.data!;
 
         // Calculate stats
-        int total = logs.length;
+        int total = logs.length; // Total days with records
         int present = logs
             .where((l) => l.status == 'CHECKED_IN' || l.status == 'CHECKED_OUT')
             .length;
         int late = logs.where((l) => l.isLate).length;
-        int absent = total - present; // Simplified logic
-        int leave = 0; // Logic for leave not present in logs yet
+        // Absent logic: This usually requires knowing total working days in month vs present.
+        // For now, let's assume specific "ABSENT" status logs exist OR we calculate based on past days without logs?
+        // Simple logic given the API: Absent count from logs with status 'ABSENT' if any, or 0.
+        // User JSON doesn't show ABSENT logs, only existing ones.
+        // We'll trust the stats calculation relative to retrieved logs.
+        int absent = logs.where((l) => l.status == 'ABSENT').length;
+
+        // If "total" means working days passed, we can't know that from just logs.
+        // But for the donut chart, "Total" usually splits into Present/Absent/Leave.
+        // If we only have logs for days present, Absent will be 0.
+        // Let's stick to counting explicit statuses if available.
+        // If only Present logs exist, Absent=0 is technically correct for "Logs Retrieved".
+
+        int leave = logs.where((l) => l.status == 'LEAVE').length;
 
         totalDays.value = total;
         presentCount.value = present;
@@ -96,10 +117,15 @@ class AttendanceScreenController extends GetxController {
         // Map logs to EmployeeDetail for UI
         employeeDetails.value = logs.map((log) {
           String timeStr = '-- : --';
+          String? checkInStr;
+          String? checkOutStr;
+
           if (log.checkInAt != null) {
-            timeStr = DateFormat('hh:mm a').format(log.checkInAt!);
+            checkInStr = DateFormat('hh:mm a').format(log.checkInAt!);
+            timeStr = checkInStr;
             if (log.checkOutAt != null) {
-              timeStr += ' - ${DateFormat('hh:mm a').format(log.checkOutAt!)}';
+              checkOutStr = DateFormat('hh:mm a').format(log.checkOutAt!);
+              timeStr += ' - $checkOutStr';
             }
           }
 
@@ -111,9 +137,15 @@ class AttendanceScreenController extends GetxController {
             initial: DateFormat('d').format(log.date), // Day number as initial
             status: log.status.replaceAll('_', ' '),
             time: timeStr,
+            checkInTime: checkInStr,
+            checkOutTime: checkOutStr,
             statusColor: _getStatusColor(log.status),
           );
         }).toList();
+
+        print(
+          '✅ [AttendanceScreenController] Processed ${employeeDetails.length} log entries',
+        );
 
         // Attempt to get user info from storage or use "User"
         // userName.value = ...

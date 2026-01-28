@@ -148,6 +148,8 @@ class EmployeeDetail {
   final String initial;
   final String status;
   final String time;
+  final String? checkInTime;
+  final String? checkOutTime;
   final String statusColor;
 
   EmployeeDetail({
@@ -156,6 +158,8 @@ class EmployeeDetail {
     required this.initial,
     required this.status,
     required this.time,
+    this.checkInTime,
+    this.checkOutTime,
     required this.statusColor,
   });
 
@@ -166,6 +170,8 @@ class EmployeeDetail {
       initial: json['initial'] ?? '',
       status: json['status'] ?? '',
       time: json['time'] ?? '',
+      checkInTime: json['checkInTime'],
+      checkOutTime: json['checkOutTime'],
       statusColor: json['statusColor'] ?? 'green',
     );
   }
@@ -177,6 +183,8 @@ class EmployeeDetail {
       'initial': initial,
       'status': status,
       'time': time,
+      'checkInTime': checkInTime,
+      'checkOutTime': checkOutTime,
       'statusColor': statusColor,
     };
   }

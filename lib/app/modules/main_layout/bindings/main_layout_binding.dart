@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 
 import '../controllers/main_layout_controller.dart';
-import '../../home/bindings/home_binding.dart';
-import '../../attendance_screen/bindings/attendance_screen_binding.dart';
-import '../../apply_leave_screen/bindings/apply_leave_screen_binding.dart';
-import '../../attendance_regularization/bindings/attendance_regularization_binding.dart';
+import '../../home/controllers/home_controller.dart';
+import '../../attendance_screen/controllers/attendance_screen_controller.dart';
+import '../../apply_leave_screen/controllers/apply_leave_screen_controller.dart';
+import '../../attendance_regularization/controllers/attendance_regularization_controller.dart';
 
 class MainLayoutBinding extends Bindings {
   @override
@@ -12,9 +12,12 @@ class MainLayoutBinding extends Bindings {
     Get.lazyPut<MainLayoutController>(() => MainLayoutController());
 
     // Initialize all child module controllers
-    HomeBinding().dependencies();
-    AttendanceScreenBinding().dependencies();
-    ApplyLeaveScreenBinding().dependencies();
-    AttendanceRegularizationBinding().dependencies();
+    // Initialize all child module controllers
+    Get.lazyPut<HomeController>(() => HomeController());
+    Get.lazyPut<AttendanceScreenController>(() => AttendanceScreenController());
+    Get.lazyPut<ApplyLeaveScreenController>(() => ApplyLeaveScreenController());
+    Get.lazyPut<AttendanceRegularizationController>(
+      () => AttendanceRegularizationController(),
+    );
   }
 }

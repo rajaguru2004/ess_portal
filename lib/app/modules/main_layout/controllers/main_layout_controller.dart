@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import '../../attendance_screen/controllers/attendance_screen_controller.dart';
 
 class MainLayoutController extends GetxController {
   // Observable for current selected tab index
@@ -8,6 +9,9 @@ class MainLayoutController extends GetxController {
   // Update selected tab index
   void changeTabIndex(int index) {
     _selectedIndex.value = index;
+    if (index == 1) {
+      Get.find<AttendanceScreenController>().refreshData();
+    }
   }
 
   @override
