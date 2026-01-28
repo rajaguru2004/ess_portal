@@ -434,42 +434,50 @@ class HomeView extends GetView<HomeController> {
       child: GestureDetector(
         // Handle tap
         onTap: () {
-          Get.toNamed('/face-attendance');
+          controller.handleSwipeToPunch();
         },
         // Handle swipe
         onHorizontalDragEnd: (details) {
           // Check if swipe velocity exceeds threshold
           if (details.primaryVelocity != null &&
               details.primaryVelocity!.abs() > 100) {
-            Get.toNamed('/face-attendance');
+            controller.handleSwipeToPunch();
           }
         },
-        child: Container(
-          height: 56,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Theme.of(context).colorScheme.primary,
-                Theme.of(context).colorScheme.primary.withOpacity(0.8),
+        child: Obx(() {
+          final isCheckedIn = controller.isCheckedIn.value;
+          return Container(
+            height: 56,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: isCheckedIn
+                    ? [Colors.red, Colors.red.withOpacity(0.8)]
+                    : [
+                        Theme.of(context).colorScheme.primary,
+                        Theme.of(context).colorScheme.primary.withOpacity(0.8),
+                      ],
+              ),
+              borderRadius: BorderRadius.circular(28),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  isCheckedIn ? Icons.logout : Icons.login,
+                  color: Colors.white,
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  isCheckedIn ? 'Swipe To Punch Out' : 'Swipe To Punch In',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ],
             ),
-            borderRadius: BorderRadius.circular(28),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.double_arrow, color: Colors.white),
-              const SizedBox(width: 12),
-              Text(
-                'Swipe To Punch',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
+          );
+        }),
       ),
     );
   }

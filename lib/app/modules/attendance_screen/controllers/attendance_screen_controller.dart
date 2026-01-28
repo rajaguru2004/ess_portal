@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import '../../../data/sources/attendance_local_source.dart';
+import '../../../data/providers/attendance_provider.dart';
 import '../../../data/models/attendance_response_model.dart';
 
 class AttendanceScreenController extends GetxController {
   // Data source
-  final attendanceLocalSource = AttendanceLocalSource();
+  final _attendanceProvider = AttendanceProvider();
 
   // Observable state variables
   final isLoading = true.obs;
@@ -50,41 +50,86 @@ class AttendanceScreenController extends GetxController {
     isLoading.value = true;
 
     try {
-      // Fetch attendance data from local source
-      final attendanceResponse = await attendanceLocalSource
-          .getAttendanceData();
-      final data = attendanceResponse.data;
+      // Fetch attendance data from provider
+      // For now, fetching all logs without date filter or implementing pagination later
+      // The API takes startDate and endDate, let's try to fetch for the current month or similar if needed.
+      // But the UI seems to show daily data.
+      // Let's assume we want to show stats for the current period.
+      // The current UI logic seems to expect a single object with stats + details.
+      // My new API returns a list of daily summaries.
 
-      // Update user info
-      userName.value = data.user.name;
-      employeeId.value = data.user.employeeId;
+      // We need to adapt the logic. The existing UI expects `AttendanceResponseModel`.
+      // I have `AttendanceLogsResponse`.
 
-      // Update selected date
-      selectedDateString.value = data.selectedDate;
+      // Ideally I should refactor the UI to work with the new model, OR map the new model to the old structure if I want to minimize UI changes.
+      // Given the instruction "connect with the backend", and the UI is "already done", I should probably try to keep the View as is if possible.
 
-      // Update shift
-      currentShift.value = data.currentShift;
+      // However, the `AttendanceResponseModel` and `AttendanceLogsResponse` are likely different.
+      // Let's fetch the logs first.
+      final response = await _attendanceProvider.getLogs();
 
-      // Update attendance stats
-      final stats = data.attendanceStats;
-      totalDays.value = stats.total;
-      presentCount.value = stats.present.count;
-      presentPercentage.value = stats.present.percentage;
-      lateCount.value = stats.late.count;
-      latePercentage.value = stats.late.percentage;
-      absentCount.value = stats.absent.count;
-      absentPercentage.value = stats.absent.percentage;
-      leaveCount.value = stats.leave.count;
-      leavePercentage.value = stats.leave.percentage;
+      if (response.success && response.data != null) {
+        final logs = response.data!;
 
-      // Update employee details
-      employeeDetails.value = data.employeeDetails;
+        // Calculate stats
+        int total = logs.length;
+        int present = logs
+            .where((l) => l.status == 'CHECKED_IN' || l.status == 'CHECKED_OUT')
+            .length;
+        int late = logs.where((l) => l.isLate).length;
+        int absent = total - present; // Simplified logic
+        int leave = 0; // Logic for leave not present in logs yet
+
+        totalDays.value = total;
+        presentCount.value = present;
+        lateCount.value = late;
+        absentCount.value = absent;
+        leaveCount.value = leave;
+
+        // Update percentages (basic calculation)
+        if (total > 0) {
+          presentPercentage.value = (present / total) * 100;
+          latePercentage.value = (late / total) * 100;
+          absentPercentage.value = (absent / total) * 100;
+        }
+
+        // Map logs to EmployeeDetail for UI
+        employeeDetails.value = logs.map((log) {
+          String timeStr = '-- : --';
+          if (log.checkInAt != null) {
+            timeStr = DateFormat('hh:mm a').format(log.checkInAt!);
+            if (log.checkOutAt != null) {
+              timeStr += ' - ${DateFormat('hh:mm a').format(log.checkOutAt!)}';
+            }
+          }
+
+          return EmployeeDetail(
+            id: log.id,
+            name: DateFormat(
+              'EEE, dd MMM',
+            ).format(log.date), // Using date as name/title
+            initial: DateFormat('d').format(log.date), // Day number as initial
+            status: log.status.replaceAll('_', ' '),
+            time: timeStr,
+            statusColor: _getStatusColor(log.status),
+          );
+        }).toList();
+
+        // Attempt to get user info from storage or use "User"
+        // userName.value = ...
+      }
     } catch (e) {
       print('Error loading attendance data: $e');
       Get.snackbar('Error', 'Failed to load attendance data');
     } finally {
       isLoading.value = false;
     }
+  }
+
+  String _getStatusColor(String status) {
+    if (status == 'CHECKED_IN') return 'blue';
+    if (status == 'CHECKED_OUT') return 'green';
+    return 'red';
   }
 
   // Navigate to previous day

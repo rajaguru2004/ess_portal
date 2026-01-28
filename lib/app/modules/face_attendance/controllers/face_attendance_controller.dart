@@ -5,8 +5,7 @@ import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import '../../../data/providers/attendance_provider.dart';
 
 class FaceAttendanceController extends GetxController {
   // Observable variables
@@ -24,6 +23,8 @@ class FaceAttendanceController extends GetxController {
   String? deviceId;
   Position? currentPosition;
   String? capturedImagePath;
+  // Provider
+  final AttendanceProvider _attendanceProvider = AttendanceProvider();
 
   @override
   void onInit() {
@@ -39,11 +40,14 @@ class FaceAttendanceController extends GetxController {
   }
 
   Future<void> initializeCamera() async {
+    print('📷 [FaceAttendanceController] Initializing Camera...');
     try {
       isLoading.value = true;
 
       // Request permissions
+      print('   Requesting permissions...');
       final cameraStatus = await Permission.camera.request();
+
       final locationStatus = await Permission.location.request();
 
       if (cameraStatus.isDenied || locationStatus.isDenied) {
@@ -122,7 +126,9 @@ class FaceAttendanceController extends GetxController {
   }
 
   Future<void> capturePhoto() async {
+    print('📸 [FaceAttendanceController] Capturing Photo...');
     if (cameraController == null || !cameraController!.value.isInitialized) {
+      print('❌ [FaceAttendanceController] Camera not initialized');
       return;
     }
 
@@ -132,62 +138,56 @@ class FaceAttendanceController extends GetxController {
       // Capture image
       final image = await cameraController!.takePicture();
       capturedImagePath = image.path;
+      print('   Photo captured at: $capturedImagePath');
 
       // Refresh location before submission
+      print('📍 [FaceAttendanceController] Refreshing Location...');
       await getCurrentLocation();
+      print(
+        '   Location: ${currentPosition?.latitude}, ${currentPosition?.longitude}',
+      );
 
       // Call API
       await uploadFaceAttendance();
     } catch (e) {
+      print('❌ [FaceAttendanceController] Capture Error: $e');
       Get.snackbar('Error', 'Failed to capture photo: $e');
       isProcessing.value = false;
     }
   }
 
   Future<void> uploadFaceAttendance() async {
+    print(
+      '🚀 [FaceAttendanceController] uploadFaceAttendance: Starting upload process...',
+    );
     try {
-      // Prepare metadata
-      final metadata = {
-        'employeeId': employeeId,
-        'timestamp': DateTime.now().toIso8601String(),
-        'latitude': currentPosition?.latitude ?? 0.0,
-        'longitude': currentPosition?.longitude ?? 0.0,
-        'deviceId': deviceId ?? 'unknown',
-        'clockType': 'clock_in',
-      };
-
-      // TODO: Replace with actual API endpoint
-      // For now, using dummy API call
-      final dummyApiUrl = 'https://jsonplaceholder.typicode.com/posts';
-
-      debugPrint('Uploading face attendance with metadata: $metadata');
-      debugPrint('Image path: $capturedImagePath');
-
-      // Simulate API call
-      final response = await http.post(
-        Uri.parse(dummyApiUrl),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(metadata),
+      // Call API
+      final response = await _attendanceProvider.checkIn(
+        photo: File(capturedImagePath!),
+        latitude: currentPosition?.latitude.toString() ?? '0.0',
+        longitude: currentPosition?.longitude.toString() ?? '0.0',
+        deviceInfo: deviceId,
       );
 
-      debugPrint('API Response Status: ${response.statusCode}');
-      debugPrint('API Response Body: ${response.body}');
+      print(
+        '✅ [FaceAttendanceController] Upload Result: Success=${response.success}',
+      );
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
+      if (response.success) {
         // Success
         showSuccess.value = true;
         Get.snackbar(
           'Success',
-          'Face attendance uploaded successfully',
+          'Checked in successfully',
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.green,
           colorText: Colors.white,
         );
       } else {
-        // Error
+        // Error handling based on response message
         Get.snackbar(
           'Error',
-          'Failed to upload attendance. Please try again.',
+          response.message,
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.red,
           colorText: Colors.white,
