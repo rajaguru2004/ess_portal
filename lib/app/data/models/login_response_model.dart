@@ -1,49 +1,54 @@
 import 'user_model.dart';
-import 'credentials_model.dart';
-import 'errors_model.dart';
 
 /// Login response model aggregating all authentication data
 class LoginResponse {
-  final String status;
+  final bool success;
   final String message;
-  final User user;
-  final Credentials credentials;
-  final Errors errors;
+  final LoginData? data;
 
-  LoginResponse({
-    required this.status,
-    required this.message,
-    required this.user,
-    required this.credentials,
-    required this.errors,
-  });
+  LoginResponse({required this.success, required this.message, this.data});
 
   /// Create LoginResponse from JSON
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
     return LoginResponse(
-      status: json['status'] as String,
-      message: json['message'] as String,
-      user: User.fromJson(json['user'] as Map<String, dynamic>),
-      credentials: Credentials.fromJson(
-        json['credentials'] as Map<String, dynamic>,
-      ),
-      errors: Errors.fromJson(json['errors'] as Map<String, dynamic>),
+      success: json['success'] as bool? ?? false,
+      message: json['message'] as String? ?? '',
+      data: json['data'] != null
+          ? LoginData.fromJson(json['data'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   /// Convert LoginResponse to JSON
   Map<String, dynamic> toJson() {
-    return {
-      'status': status,
-      'message': message,
-      'user': user.toJson(),
-      'credentials': credentials.toJson(),
-      'errors': errors.toJson(),
-    };
+    return {'success': success, 'message': message, 'data': data?.toJson()};
   }
 
   @override
   String toString() {
-    return 'LoginResponse(status: $status, message: $message, user: $user)';
+    return 'LoginResponse(success: $success, message: $message, data: $data)';
+  }
+}
+
+class LoginData {
+  final String accessToken;
+  final User user;
+
+  LoginData({required this.accessToken, required this.user});
+
+  factory LoginData.fromJson(Map<String, dynamic> json) {
+    return LoginData(
+      accessToken: json['accessToken'] as String? ?? '',
+      user: User.fromJson(json['user'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'accessToken': accessToken, 'user': user.toJson()};
+  }
+
+  @override
+  String toString() {
+    return 'LoginData(accessToken: $accessToken, user: $user)';
   }
 }

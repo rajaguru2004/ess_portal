@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../data/sources/login_local_source.dart';
+import '../../../data/services/auth_service.dart';
+import '../../../data/services/storage_service.dart';
 
 class LoginScreenController extends GetxController {
   // Text editing controllers
@@ -11,8 +12,9 @@ class LoginScreenController extends GetxController {
   final username = ''.obs;
   final password = ''.obs;
 
-  // Local data source
-  final loginLocalSource = LoginLocalSource();
+  // Services
+  final _authService = AuthService();
+  final _storageService = StorageService();
 
   // Observable state variables
   final isLoading = false.obs;
@@ -53,7 +55,6 @@ class LoginScreenController extends GetxController {
   }
 
   /// Check if login button should be enabled
-  /// Check if login button should be enabled
   bool get isLoginButtonEnabled {
     return username.value.trim().isNotEmpty &&
         password.value.trim().isNotEmpty &&
@@ -67,7 +68,7 @@ class LoginScreenController extends GetxController {
 
     // Validate empty fields
     if (username.isEmpty || password.isEmpty) {
-      errorMessage.value = await loginLocalSource.getEmptyCredentialsError();
+      errorMessage.value = 'Please enter both username and password';
       return;
     }
 
@@ -75,31 +76,25 @@ class LoginScreenController extends GetxController {
       isLoading.value = true;
       errorMessage.value = '';
 
-      // Validate credentials
-      final isValid = await loginLocalSource.validateCredentials(
-        username,
-        password,
-      );
+      // Call API
+      final response = await _authService.login(username, password);
 
-      if (isValid) {
-        // Get user data
-        final loginResponse = await loginLocalSource.getUserData();
+      if (response.success && response.data != null) {
+        // Save data to secure storage
+        await _storageService.saveAuthData(response.data!);
 
-        // Print success message
+        // Print success message for debugging
         print('✅ Login Success!');
-        print('Status: ${loginResponse.status}');
-        print('Message: ${loginResponse.message}');
-        print('User: ${loginResponse.user}');
-        print('Employee ID: ${loginResponse.user.employeeId}');
-        print('Name: ${loginResponse.user.name}');
-        print('Role: ${loginResponse.user.role}');
+        print('Message: ${response.message}');
+        print('User: ${response.data!.user}');
 
         // Navigate to main layout (replace all previous routes)
         Get.offAllNamed('/main');
       } else {
         // Show error message
-        errorMessage.value = await loginLocalSource
-            .getInvalidCredentialsError();
+        errorMessage.value = response.message.isNotEmpty
+            ? response.message
+            : 'Login failed';
       }
     } catch (e) {
       errorMessage.value = 'An error occurred. Please try again.';
