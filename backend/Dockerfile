@@ -1,46 +1,56 @@
 # Base image
 FROM node:18-alpine AS base
-
-# Set working directory
 WORKDIR /app
+# Install libc6-compat for Prisma on Alpine
+RUN apk add --no-cache libc6-compat openssl
 
-# Copy package files
+# Dependencies stage - Install ALL dependencies (for building/generating)
+FROM base AS deps
 COPY package*.json ./
 COPY prisma ./prisma/
+RUN npm ci
+
+# Builder stage - Generate Prisma client
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY prisma ./prisma/
+RUN npx prisma generate
 
 # Development stage
 FROM base AS development
-
-# Install all dependencies
+WORKDIR /app
+COPY package*.json ./
+COPY prisma ./prisma/
 RUN npm install
-
-# Copy application code
 COPY . .
-
-# Generate Prisma Client
 RUN npx prisma generate
-
-# Expose port
 EXPOSE 3000
-
-# Start development server
 CMD ["npm", "run", "dev"]
 
 # Production stage
 FROM base AS production
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV PORT=3000
+
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs && \
+  adduser -S nodejs -u 1001
+
+# Copy package files
+COPY package*.json ./
 
 # Install production dependencies only
 RUN npm ci --only=production
 
+# Copy generated Prisma Client from builder stage
+# This avoids needing the 'prisma' CLI (devDependency) in the production image
+COPY --from=builder /app/node_modules/@prisma/client ./node_modules/@prisma/client
+
 # Copy application code
 COPY . .
-
-# Generate Prisma Client
-RUN npx prisma generate
-
-# Create non-root user
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nodejs -u 1001
 
 # Change ownership
 RUN chown -R nodejs:nodejs /app
