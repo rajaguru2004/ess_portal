@@ -33,12 +33,17 @@ router.get('/', (req, res) => {
  * API v1 routes
  * Add your route modules here
  */
+const userRoutes = require('../Routes/user.routes');
+
 router.use('/api/v1', (req, res, next) => {
     // Placeholder for v1 API routes
     // Example: router.use('/api/v1/auth', authRoutes);
     // Example: router.use('/api/v1/users', userRoutes);
     next();
 });
+
+// Mount User Routes
+router.use('/api/v1/users', userRoutes);
 
 // Example placeholder endpoint for API v1
 router.get('/api/v1', (req, res) => {

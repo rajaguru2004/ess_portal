@@ -88,6 +88,41 @@ const createUser = async (userData, createdBy) => {
     };
 };
 
+/**
+ * Get All Users Service
+ * Retrieves a list of all users
+ */
+const getAllUsers = async () => {
+    const users = await prisma.user.findMany({
+        select: {
+            id: true,
+            employeeCode: true,
+            username: true,
+            fullName: true,
+            email: true,
+            mobile: true,
+            tenantId: true,
+            branchId: true,
+            departmentId: true,
+            roleId: true,
+            managerId: true,
+            isActive: true,
+            createdAt: true,
+            Role: {
+                select: {
+                    name: true
+                }
+            }
+        },
+        orderBy: {
+            createdAt: 'desc',
+        },
+    });
+
+    return users;
+};
+
 module.exports = {
     createUser,
+    getAllUsers,
 };

@@ -8,4 +8,8 @@ const { authenticate } = require('../Middlewares/auth.middleware');
 // Protected (auth required) + Admin check (handled in controller) + Validation
 router.post('/', authenticate, validateCreateUser, userController.createUser);
 
+// GET /api/v1/users
+// Protected
+router.get('/', authenticate, userController.getAllUsers);
+
 module.exports = router;

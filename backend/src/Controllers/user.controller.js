@@ -41,6 +41,19 @@ const createUser = async (req, res, next) => {
     }
 };
 
+/**
+ * Get All Users Controller
+ */
+const getAllUsers = async (req, res, next) => {
+    try {
+        const users = await userService.getAllUsers();
+        return successResponse(res, users, 'Users retrieved successfully');
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
     createUser,
+    getAllUsers,
 };
