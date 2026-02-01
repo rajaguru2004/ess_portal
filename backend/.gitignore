@@ -4,15 +4,14 @@ package-lock.json
 yarn.lock
 
 # Environment variables
-/data/
+/data/*
 .env.local
 .env.*.local
-backend/data/*
+
 .env
 
 # Logs
-/home/suryaguru/StudioProjects/flutter_v_338/ess_portal/backend/data/*
-backend/data/
+
 logs/
 *.log
 npm-debug.log*
