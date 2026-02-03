@@ -41,7 +41,7 @@ export default function DepartmentsPage() {
                         <Building2 className="w-8 h-8 text-blue-600" />
                         Departments
                     </h1>
-                    <p className="text-slate-600 dark:text-slate-400 mt-1">
+                    <p className="text-slate-600 mt-1">
                         Manage organizational departments
                     </p>
                 </div>
@@ -82,18 +82,18 @@ export default function DepartmentsPage() {
                                     <TableRow key={dept.id}>
                                         <TableCell className="font-medium">{dept.name}</TableCell>
                                         <TableCell>
-                                            <code className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-xs">
+                                            <code className="px-2 py-1 bg-slate-100 rounded text-xs">
                                                 {dept.code}
                                             </code>
                                         </TableCell>
                                         <TableCell className="text-slate-600">{dept.branchId}</TableCell>
                                         <TableCell className="text-center">
                                             {dept.isActive ? (
-                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">
+                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                                     Active
                                                 </span>
                                             ) : (
-                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300">
+                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
                                                     Inactive
                                                 </span>
                                             )}

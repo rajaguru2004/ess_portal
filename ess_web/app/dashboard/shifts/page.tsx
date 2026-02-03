@@ -41,7 +41,7 @@ export default function ShiftsPage() {
                         <Clock className="w-8 h-8 text-green-600" />
                         Shifts
                     </h1>
-                    <p className="text-slate-600 dark:text-slate-400 mt-1">
+                    <p className="text-slate-600 mt-1">
                         Manage work shifts and schedules
                     </p>
                 </div>
@@ -84,7 +84,7 @@ export default function ShiftsPage() {
                                     <TableRow key={shift.id}>
                                         <TableCell className="font-medium">{shift.name}</TableCell>
                                         <TableCell>
-                                            <code className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-xs">
+                                            <code className="px-2 py-1 bg-slate-100 rounded text-xs">
                                                 {shift.code}
                                             </code>
                                         </TableCell>
@@ -94,11 +94,11 @@ export default function ShiftsPage() {
                                         <TableCell className="text-sm">{shift.breakMinutes} min</TableCell>
                                         <TableCell className="text-center">
                                             {shift.isRotational ? (
-                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300">
+                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                                                     Yes
                                                 </span>
                                             ) : (
-                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-300">
+                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-800">
                                                     No
                                                 </span>
                                             )}

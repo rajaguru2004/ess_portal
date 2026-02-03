@@ -42,7 +42,7 @@ export default function AttendancePage() {
                         <Clock className="w-8 h-8 text-green-600" />
                         Attendance Reports
                     </h1>
-                    <p className="text-slate-600 dark:text-slate-400 mt-1">
+                    <p className="text-slate-600 mt-1">
                         View employee attendance logs and check-in/check-out history
                     </p>
                 </div>
@@ -103,7 +103,7 @@ export default function AttendancePage() {
                 ) : (
                     attendanceLogs.map((attendance) => (
                         <Card key={attendance.id} className="overflow-hidden">
-                            <CardHeader className="bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900">
+                            <CardHeader className="bg-gradient-to-r from-slate-50 to-slate-100">
                                 <div className="flex justify-between items-start">
                                     <div>
                                         <CardTitle className="text-lg">{formatDate(attendance.date)}</CardTitle>
@@ -114,8 +114,8 @@ export default function AttendancePage() {
                                     <div className="text-right">
                                         <span
                                             className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${attendance.status === 'CHECKED_OUT'
-                                                    ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300'
-                                                    : 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300'
+                                                ? 'bg-green-100 text-green-800'
+                                                : 'bg-blue-100 text-blue-800'
                                                 }`}
                                         >
                                             {attendance.status.replace('_', ' ')}
@@ -129,7 +129,7 @@ export default function AttendancePage() {
                                         <p className="text-sm text-slate-500">Check In</p>
                                         <p className="font-medium">{formatTime(attendance.checkInAt)}</p>
                                         {attendance.isLate && (
-                                            <span className="text-xs text-red-600 dark:text-red-400">Late</span>
+                                            <span className="text-xs text-red-600">Late</span>
                                         )}
                                     </div>
                                     <div className="space-y-1">
@@ -147,12 +147,12 @@ export default function AttendancePage() {
                                 {/* Attendance Logs */}
                                 {attendance.logs && attendance.logs.length > 0 && (
                                     <div className="space-y-3">
-                                        <h4 className="font-semibold text-sm text-slate-700 dark:text-slate-300">Activity Log</h4>
+                                        <h4 className="font-semibold text-sm text-slate-700">Activity Log</h4>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             {attendance.logs.map((log) => (
                                                 <div
                                                     key={log.id}
-                                                    className="border border-slate-200 dark:border-slate-700 rounded-lg p-4 space-y-3"
+                                                    className="border border-slate-200 rounded-lg p-4 space-y-3"
                                                 >
                                                     <div className="flex justify-between items-start">
                                                         <div>
@@ -163,8 +163,8 @@ export default function AttendancePage() {
                                                         </div>
                                                         <span
                                                             className={`px-2 py-1 rounded text-xs font-medium ${log.type === 'IN'
-                                                                    ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300'
-                                                                    : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300'
+                                                                ? 'bg-green-100 text-green-800'
+                                                                : 'bg-red-100 text-red-800'
                                                                 }`}
                                                         >
                                                             {log.type}

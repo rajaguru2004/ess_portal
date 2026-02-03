@@ -78,51 +78,51 @@ export default function DashboardLayout({
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
+        <div className="min-h-screen bg-slate-50">
             {/* Sidebar */}
             <aside
                 className={cn(
-                    "fixed left-0 top-0 z-40 h-screen transition-all duration-300 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 shadow-xl",
+                    "fixed left-0 top-0 z-40 h-screen transition-all duration-300 bg-sidebar border-r border-sidebar-border shadow-xl",
                     sidebarOpen ? "w-64" : "w-20"
                 )}
             >
                 {/* Logo */}
-                <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-700">
+                <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
                     <div className={cn("flex items-center space-x-3", !sidebarOpen && "justify-center w-full")}>
-                        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                        <div className="w-10 h-10 rounded-lg bg-sidebar-primary flex items-center justify-center text-sidebar-primary-foreground font-bold text-lg shadow-lg">
                             E
                         </div>
                         {sidebarOpen && (
                             <div>
-                                <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                                <h1 className="text-xl font-bold text-sidebar-primary">
                                     ESS Portal
                                 </h1>
-                                <p className="text-xs text-slate-500">Admin Panel</p>
+                                <p className="text-xs text-sidebar-foreground/70">Admin Panel</p>
                             </div>
                         )}
                     </div>
                     {sidebarOpen && (
                         <button
                             onClick={() => setSidebarOpen(false)}
-                            className="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800"
+                            className="p-1 rounded hover:bg-sidebar-accent text-sidebar-foreground hover:text-sidebar-accent-foreground"
                         >
-                            <Menu className="w-5 h-5 text-slate-600" />
+                            <Menu className="w-5 h-5" />
                         </button>
                     )}
                 </div>
 
                 {/* User Info */}
                 {sidebarOpen && (
-                    <div className="p-4 border-b border-slate-200 dark:border-slate-700">
+                    <div className="p-4 border-b border-sidebar-border">
                         <div className="flex items-center space-x-3">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-semibold">
+                            <div className="w-10 h-10 rounded-full bg-sidebar-accent flex items-center justify-center text-sidebar-accent-foreground font-semibold">
                                 {user.fullName?.charAt(0) || 'A'}
                             </div>
                             <div className="flex-1 min-w-0">
-                                <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">
+                                <p className="text-sm font-semibold text-sidebar-foreground truncate">
                                     {user.fullName}
                                 </p>
-                                <p className="text-xs text-slate-500 truncate">{user.username}</p>
+                                <p className="text-xs text-sidebar-foreground/70 truncate">{user.username}</p>
                             </div>
                         </div>
                     </div>
@@ -140,7 +140,7 @@ export default function DashboardLayout({
                                         className={cn(
                                             "w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-lg transition-colors",
                                             sidebarOpen ? "justify-between" : "justify-center",
-                                            "text-slate-700 dark:text-slate-300 hover:bg-purple-50 dark:hover:bg-purple-900/20 hover:text-purple-600"
+                                            "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                                         )}
                                     >
                                         <div className="flex items-center space-x-3">
@@ -165,8 +165,8 @@ export default function DashboardLayout({
                                                     className={cn(
                                                         "flex items-center space-x-3 px-3 py-2 text-sm rounded-lg transition-colors",
                                                         pathname === child.href
-                                                            ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-md"
-                                                            : "text-slate-600 dark:text-slate-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 hover:text-purple-600"
+                                                            ? "bg-sidebar-accent text-sidebar-accent-foreground shadow-md"
+                                                            : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                                                     )}
                                                 >
                                                     <child.icon className="w-4 h-4" />
@@ -187,8 +187,8 @@ export default function DashboardLayout({
                                     "flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors",
                                     sidebarOpen ? "space-x-3" : "justify-center",
                                     pathname === item.href
-                                        ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-md"
-                                        : "text-slate-700 dark:text-slate-300 hover:bg-purple-50 dark:hover:bg-purple-900/20 hover:text-purple-600"
+                                        ? "bg-sidebar-accent text-sidebar-accent-foreground shadow-md"
+                                        : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                                 )}
                             >
                                 <item.icon className="w-5 h-5" />
@@ -199,13 +199,13 @@ export default function DashboardLayout({
                 </nav>
 
                 {/* Logout */}
-                <div className="p-4 border-t border-slate-200 dark:border-slate-700">
+                <div className="p-4 border-t border-sidebar-border">
                     <button
                         onClick={handleLogout}
                         className={cn(
                             "w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors",
                             sidebarOpen ? "space-x-3" : "justify-center",
-                            "text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+                            "text-destructive hover:bg-destructive/10"
                         )}
                     >
                         <LogOut className="w-5 h-5" />
@@ -218,7 +218,7 @@ export default function DashboardLayout({
                     <div className="absolute bottom-20 left-1/2 -translate-x-1/2">
                         <button
                             onClick={() => setSidebarOpen(true)}
-                            className="p-2 rounded-full bg-purple-600 text-white shadow-lg hover:bg-purple-700"
+                            className="p-2 rounded-full bg-sidebar-primary text-sidebar-primary-foreground shadow-lg hover:bg-sidebar-primary/90"
                         >
                             <ChevronRight className="w-4 h-4" />
                         </button>

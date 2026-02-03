@@ -44,3 +44,4 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 backend/data/.minio.sys/buckets/.bloomcycle.bin/xl.meta
+hrms-shift-scheduling/

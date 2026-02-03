@@ -47,7 +47,7 @@ export default function RolesPage() {
                         <Shield className="w-8 h-8 text-purple-600" />
                         Roles
                     </h1>
-                    <p className="text-slate-600 dark:text-slate-400 mt-1">
+                    <p className="text-slate-600 mt-1">
                         Manage user roles and permissions
                     </p>
                 </div>
@@ -91,20 +91,20 @@ export default function RolesPage() {
                                     <TableRow key={role.id}>
                                         <TableCell className="font-medium">{role.name}</TableCell>
                                         <TableCell>
-                                            <code className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-xs">
+                                            <code className="px-2 py-1 bg-slate-100 rounded text-xs">
                                                 {role.code}
                                             </code>
                                         </TableCell>
-                                        <TableCell className="text-slate-600 dark:text-slate-400">
+                                        <TableCell className="text-slate-600">
                                             {role.description}
                                         </TableCell>
                                         <TableCell className="text-center">
                                             {role.isSystemRole ? (
-                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300">
+                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                                                     System
                                                 </span>
                                             ) : (
-                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-300">
+                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-800">
                                                     Custom
                                                 </span>
                                             )}

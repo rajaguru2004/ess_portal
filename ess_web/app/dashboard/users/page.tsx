@@ -65,7 +65,7 @@ export default function UsersPage() {
                         <Users className="w-8 h-8 text-blue-600" />
                         User Management
                     </h1>
-                    <p className="text-slate-600 dark:text-slate-400 mt-1">
+                    <p className="text-slate-600 mt-1">
                         Manage system users and employees
                     </p>
                 </div>
@@ -108,7 +108,7 @@ export default function UsersPage() {
                                 {users.map((user) => (
                                     <TableRow key={user.id}>
                                         <TableCell className="font-medium">
-                                            <span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-xs font-mono">
+                                            <span className="px-2 py-1 bg-slate-100 rounded text-xs font-mono">
                                                 {user.employeeCode || '-'}
                                             </span>
                                         </TableCell>
@@ -116,18 +116,18 @@ export default function UsersPage() {
                                         <TableCell className="text-slate-500">{user.username}</TableCell>
                                         <TableCell>{user.email}</TableCell>
                                         <TableCell>
-                                            <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300">
+                                            <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-indigo-50 text-indigo-700">
                                                 {user.Role?.name || getRoleName(user.roleId)}
                                             </span>
                                         </TableCell>
                                         <TableCell>{getDeptName(user.departmentId)}</TableCell>
                                         <TableCell className="text-center">
                                             {user.isActive ? (
-                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">
+                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                                     Active
                                                 </span>
                                             ) : (
-                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300">
+                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
                                                     Inactive
                                                 </span>
                                             )}

@@ -1,6 +1,6 @@
 class ApiConsts {
   // Use 10.0.2.2 for Android emulator to access localhost
-  static const String baseUrl = 'http://192.168.0.109:3000';
+  static const String baseUrl = 'http://192.168.0.170:3000';
 }
 
 class ApiEndpoints {

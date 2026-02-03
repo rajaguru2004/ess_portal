@@ -9,16 +9,16 @@ const theme = JSON.parse(fs.readFileSync(themePath, 'utf8'));
 
 // Helper to generate CSS variables
 function generateVariables(colors) {
-    return Object.entries(colors)
-        .map(([key, value]) => `  --${key}: ${value};`)
-        .join('\n');
+  return Object.entries(colors)
+    .map(([key, value]) => `  --${key}: ${value};`)
+    .join('\n');
 }
 
 // Helper to generate @theme block
 function generateThemeBlock(colors) {
-    return Object.keys(colors)
-        .map(key => `  --color-${key}: hsl(var(--${key}));`)
-        .join('\n');
+  return Object.keys(colors)
+    .map(key => `  --color-${key}: var(--${key});`)
+    .join('\n');
 }
 
 const cssContent = `@import "tailwindcss";
@@ -32,19 +32,14 @@ ${generateVariables(theme.light)}
 ${generateThemeBlock(theme.light)}
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-${generateVariables(theme.dark)}
-  }
-}
 
 * {
-  border-color: hsl(var(--border));
+  border-color: var(--border);
 }
 
 body {
-  background: hsl(var(--background));
-  color: hsl(var(--foreground));
+  background: var(--background);
+  color: var(--foreground);
 }
 `;
 

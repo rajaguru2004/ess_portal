@@ -41,7 +41,7 @@ export default function HolidaysPage() {
                         <Calendar className="w-8 h-8 text-purple-600" />
                         Holidays
                     </h1>
-                    <p className="text-slate-600 dark:text-slate-400 mt-1">
+                    <p className="text-slate-600 mt-1">
                         Manage organization and branch holidays
                     </p>
                 </div>
@@ -83,7 +83,7 @@ export default function HolidaysPage() {
                                         <TableCell className="font-medium">{holiday.name}</TableCell>
                                         <TableCell className="text-sm">{formatDate(holiday.date)}</TableCell>
                                         <TableCell>
-                                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300">
+                                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                                                 {holiday.type}
                                             </span>
                                         </TableCell>

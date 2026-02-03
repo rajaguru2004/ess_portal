@@ -52,7 +52,7 @@ export default function LeavePoliciesPage() {
                         <ShieldCheck className="w-8 h-8 text-indigo-600" />
                         Role Leave Policies
                     </h1>
-                    <p className="text-slate-600 dark:text-slate-400 mt-1">
+                    <p className="text-slate-600 mt-1">
                         Configure leave quotas for each role
                     </p>
                 </div>
@@ -96,25 +96,25 @@ export default function LeavePoliciesPage() {
                                             {getRoleName(policy.roleId)}
                                         </TableCell>
                                         <TableCell>
-                                            <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-orange-50 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300">
+                                            <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-orange-50 text-orange-700">
                                                 {getLeaveTypeName(policy.leaveTypeId)}
                                             </span>
                                         </TableCell>
-                                        <TableCell className="text-right font-bold text-slate-700 dark:text-slate-300">
+                                        <TableCell className="text-right font-bold text-slate-700">
                                             {policy.annualQuota} Days
                                         </TableCell>
                                         <TableCell>
-                                            <code className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-xs uppercase">
+                                            <code className="px-2 py-1 bg-slate-100 rounded text-xs uppercase">
                                                 {policy.accrualType}
                                             </code>
                                         </TableCell>
                                         <TableCell className="text-center">
                                             {policy.isActive ? (
-                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">
+                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                                     Active
                                                 </span>
                                             ) : (
-                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300">
+                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
                                                     Inactive
                                                 </span>
                                             )}

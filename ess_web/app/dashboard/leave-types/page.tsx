@@ -41,7 +41,7 @@ export default function LeaveTypesPage() {
                         <Calendar className="w-8 h-8 text-orange-600" />
                         Leave Types
                     </h1>
-                    <p className="text-slate-600 dark:text-slate-400 mt-1">
+                    <p className="text-slate-600 mt-1">
                         Manage leave categories and policies
                     </p>
                 </div>
@@ -83,29 +83,29 @@ export default function LeaveTypesPage() {
                                     <TableRow key={type.id}>
                                         <TableCell className="font-medium">{type.name}</TableCell>
                                         <TableCell>
-                                            <code className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-xs">
+                                            <code className="px-2 py-1 bg-slate-100 rounded text-xs">
                                                 {type.code}
                                             </code>
                                         </TableCell>
                                         <TableCell className="text-right font-medium">{type.defaultDays}</TableCell>
                                         <TableCell className="text-center">
                                             {type.carryForwardAllowed ? (
-                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">
+                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                                     Yes (Max: {type.maxCarryForward})
                                                 </span>
                                             ) : (
-                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-300">
+                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-800">
                                                     No
                                                 </span>
                                             )}
                                         </TableCell>
                                         <TableCell className="text-center">
                                             {type.encashmentAllowed ? (
-                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300">
+                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                                                     Allowed
                                                 </span>
                                             ) : (
-                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-300">
+                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-800">
                                                     Not Allowed
                                                 </span>
                                             )}
