@@ -5,10 +5,10 @@ yarn.lock
 
 # Environment variables
 /data/*
-.env.local
-.env.*.local
+# .env.local
+# .env.*.local
 
-.env
+# .env
 
 # Logs
 
@@ -35,7 +35,7 @@ build/
 
 # Prisma
 prisma/migrations/
-.env
+# .env
 
 # Docker
 docker-compose.override.yml
