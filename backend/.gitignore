@@ -34,7 +34,7 @@ dist/
 build/
 
 # Prisma
-prisma/migrations/
+# prisma/migrations/
 # .env
 
 # Docker
