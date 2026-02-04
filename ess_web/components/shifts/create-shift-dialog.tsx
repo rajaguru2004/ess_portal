@@ -18,6 +18,15 @@ interface CreateShiftDialogProps {
 
 export default function CreateShiftDialog({ open, onClose, onSuccess }: CreateShiftDialogProps) {
     const user = getUser();
+
+    // Helper to format initial time from default UTC string to Local HH:mm
+    const getInitialTime = (dateStr: string) => {
+        const date = new Date(dateStr);
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
+    };
+
     const [formData, setFormData] = useState<CreateShiftRequest>({
         tenantId: user?.tenantId || '',
         name: '',
@@ -28,8 +37,39 @@ export default function CreateShiftDialog({ open, onClose, onSuccess }: CreateSh
         breakMinutes: 60,
         isRotational: false,
     });
+
+    // Local state for time inputs using HH:mm format
+    const [startTimeInput, setStartTimeInput] = useState(getInitialTime(formData.startTime));
+    const [endTimeInput, setEndTimeInput] = useState(getInitialTime(formData.endTime));
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+
+    const handleTimeChange = (type: 'start' | 'end', value: string) => {
+        // Parse HH:mm from input
+        const [hours, minutes] = value.split(':').map(Number);
+
+        // Create a Date object for 2023-10-27 at the specified LOCAL time
+        // Note: Month is 0-indexed (9 = October)
+        const date = new Date(2023, 9, 27, hours, minutes);
+
+        // Convert to ISO string (UTC)
+        const isoString = date.toISOString();
+
+        if (type === 'start') {
+            setStartTimeInput(value);
+            setFormData(prev => ({
+                ...prev,
+                startTime: isoString
+            }));
+        } else {
+            setEndTimeInput(value);
+            setFormData(prev => ({
+                ...prev,
+                endTime: isoString
+            }));
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -39,16 +79,22 @@ export default function CreateShiftDialog({ open, onClose, onSuccess }: CreateSh
         try {
             const response = await apiClient.createShift(formData);
             if (response.success) {
+                // Reset form
+                const defaultStart = '2023-10-27T09:00:00.000Z';
+                const defaultEnd = '2023-10-27T18:00:00.000Z';
                 setFormData({
                     tenantId: user?.tenantId || '',
                     name: '',
                     code: '',
-                    startTime: '2023-10-27T09:00:00.000Z',
-                    endTime: '2023-10-27T18:00:00.000Z',
+                    startTime: defaultStart,
+                    endTime: defaultEnd,
                     graceMinutes: 15,
                     breakMinutes: 60,
                     isRotational: false,
                 });
+                setStartTimeInput(getInitialTime(defaultStart));
+                setEndTimeInput(getInitialTime(defaultEnd));
+
                 onSuccess();
             } else {
                 setError(response.message || 'Failed to create shift');
@@ -89,6 +135,29 @@ export default function CreateShiftDialog({ open, onClose, onSuccess }: CreateSh
                             placeholder="e.g., GEN_SHIFT"
                             required
                         />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="startTime">Start Time *</Label>
+                            <Input
+                                id="startTime"
+                                type="time"
+                                value={startTimeInput}
+                                onChange={(e) => handleTimeChange('start', e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="endTime">End Time *</Label>
+                            <Input
+                                id="endTime"
+                                type="time"
+                                value={endTimeInput}
+                                onChange={(e) => handleTimeChange('end', e.target.value)}
+                                required
+                            />
+                        </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
