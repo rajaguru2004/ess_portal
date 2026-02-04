@@ -158,6 +158,37 @@ class ApiClient {
         const response = await this.client.get('/api/v1/attendance/logs', { params });
         return response.data;
     }
+
+    // Shift Assignment endpoints
+    async getShiftAssignments(status?: string, date?: string, userId?: string) {
+        const params: any = {};
+        if (status) params.status = status;
+        if (date) params.date = date;
+        if (userId) params.userId = userId;
+
+        const response = await this.client.get('/api/v1/shift-assignments', { params });
+        return response.data;
+    }
+
+    async createShiftAssignment(data: any) {
+        const response = await this.client.post('/api/v1/shift-assignments', data);
+        return response.data;
+    }
+
+    async approveShiftAssignment(id: string) {
+        const response = await this.client.post(`/api/v1/shift-assignments/${id}/approve`);
+        return response.data;
+    }
+
+    async rejectShiftAssignment(id: string, reason: string) {
+        const response = await this.client.post(`/api/v1/shift-assignments/${id}/reject`, { reason });
+        return response.data;
+    }
+
+    async removeShiftAssignment(id: string) {
+        const response = await this.client.delete(`/api/v1/shift-assignments/${id}`);
+        return response.data;
+    }
 }
 
 const apiClient = new ApiClient();

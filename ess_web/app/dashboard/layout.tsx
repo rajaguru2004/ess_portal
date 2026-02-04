@@ -15,7 +15,8 @@ import {
     Briefcase,
     LogOut,
     ChevronRight,
-    Menu
+    Menu,
+    Layers
 } from 'lucide-react';
 import { getUser, clearAuth } from '@/lib/auth';
 import { useState } from 'react';
@@ -35,6 +36,7 @@ const navigation = [
             { name: 'Designations', href: '/dashboard/designations', icon: Award },
         ],
     },
+    { name: 'Shift Assignments', href: '/dashboard/shift-assignments', icon: Layers },
     { name: 'Leave Policies', href: '/dashboard/leave-policies', icon: FileText },
     { name: 'User Management', href: '/dashboard/users', icon: Users },
     { name: 'Attendance Reports', href: '/dashboard/attendance', icon: Clock },

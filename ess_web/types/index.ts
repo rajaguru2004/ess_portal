@@ -229,3 +229,29 @@ export interface Attendance {
     updatedAt: string;
     logs: AttendanceLog[];
 }
+
+// Shift Assignment Types
+export interface ShiftAssignment {
+    id: string;
+    userId: string;
+    shiftId: string;
+    date: string;
+    status: 'PENDING' | 'APPROVED' | 'REJECTED';
+    requestedBy: string;
+    approvedBy: string | null;
+    approvedAt: string | null;
+    rejectionReason: string | null;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface CreateShiftAssignmentRequest {
+    userId: string;
+    shiftId: string;
+    date: string;
+}
+
+export interface RejectShiftAssignmentRequest {
+    reason: string;
+}
+

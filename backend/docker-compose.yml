@@ -11,7 +11,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: ess_portal
     ports:
-      - '5432:5432'
+      - '9488:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -22,12 +22,26 @@ services:
     networks:
       - ess_network
 
+  # MinIO Object Storage
+  minio:
+    image: minio/minio
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9894:9001"
+    volumes:
+      - ./data:/data
+    environment:
+      MINIO_ROOT_USER: "admin"
+      MINIO_ROOT_PASSWORD: "StrongPassword@123"
+    command: server /data --console-address ":9001"
+    restart: always
+    networks:
+      - ess_network
+
   # Backend API
   backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: development
+    image: ess_portal_backend:latest
     container_name: ess_portal_backend
     restart: unless-stopped
     depends_on:
@@ -40,8 +54,14 @@ services:
       JWT_SECRET: dev-secret-key-change-in-production
       JWT_EXPIRY: 24h
       CORS_ORIGIN: '*'
+      MINIO_ENDPOINT: minio
+      MINIO_PORT: 9000
+      MINIO_ACCESS_KEY: admin
+      MINIO_SECRET_KEY: StrongPassword@123
+      MINIO_BUCKET: attendance-photos
+      MINIO_USE_SSL: false
     ports:
-      - '3000:3000'
+      - '8064:3000'
     volumes:
       # Mount source code for hot reload in development
       - ./src:/app/src
@@ -49,7 +69,7 @@ services:
       - /app/node_modules
     networks:
       - ess_network
-    command: sh -c "npx prisma migrate deploy && npm run dev"
+    command: sh -c "npx prisma migrate deploy && npx prisma generate && npm run dev"
 
 volumes:
   postgres_data:
