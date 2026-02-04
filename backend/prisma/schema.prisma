@@ -259,3 +259,36 @@ model AttendanceLog {
   @@index([type])
   @@index([timestamp])
 }
+
+// Shift Assignment Status Enum
+enum ShiftAssignmentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// Shift Assignment Model (Transaction Table)
+model ShiftAssignment {
+  id       String   @id @default(uuid())
+  userId   String
+  shiftId  String
+  date     DateTime @db.Date
+
+  status          ShiftAssignmentStatus @default(PENDING)
+  requestedBy     String
+  approvedBy      String?
+  approvedAt      DateTime?
+  rejectionReason String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Ensure one shift per user per day
+  @@unique([userId, date])
+  @@index([userId])
+  @@index([shiftId])
+  @@index([date])
+  @@index([status])
+  @@index([userId, date])
+  @@index([status, date])
+}
