@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Eye, EyeOff, Loader2, Lock, User, LayoutDashboard } from 'lucide-react';
 import apiClient from '@/lib/api-client';
 import { setAuthToken, setUser } from '@/lib/auth';
 
@@ -15,6 +16,12 @@ export default function LoginPage() {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -25,11 +32,8 @@ export default function LoginPage() {
             const response = await apiClient.login(username, password);
 
             if (response.success) {
-                // Store token and user info
                 setAuthToken(response.data.accessToken);
                 setUser(response.data.user);
-
-                // Redirect to dashboard
                 router.push('/dashboard');
             } else {
                 setError(response.message || 'Login failed');
@@ -42,81 +46,136 @@ export default function LoginPage() {
         }
     };
 
-    return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4">
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItSDI0di0yaDE2em0wLTRWMzJIMjR2LTJoMTZ6bTAtNHYySDI0di0yaDE2em0wLTR2MkgyNHYtMmgxNnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-30"></div>
+    if (!mounted) return null;
 
-            <div className="w-full max-w-md relative z-10">
-                <div className="mb-8 text-center">
-                    <h1 className="text-4xl font-bold text-white mb-2 tracking-tight">
-                        ESS Portal
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-slate-50 relative overflow-hidden">
+            {/* Ambient Background Effects */}
+            <div className="absolute inset-0 w-full h-full pointer-events-none">
+                <div className="absolute top-0 -left-4 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+                <div className="absolute top-0 -right-4 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+                <div className="absolute -bottom-8 left-20 w-96 h-96 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
+                <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-40"></div>
+            </div>
+
+            <div className="w-full max-w-md relative z-10 px-6">
+                <div className="mb-8 text-center space-y-2 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white shadow-xl shadow-slate-200 mb-6 border border-slate-100">
+                        <LayoutDashboard className="w-8 h-8 text-indigo-600" />
+                    </div>
+                    <h1 className="text-3xl font-bold text-slate-900 tracking-tight">
+                        Welcome Back
                     </h1>
-                    <p className="text-purple-200">Admin Dashboard</p>
+                    <p className="text-slate-500 text-sm">
+                        Sign in to access your ESS Portal dashboard
+                    </p>
                 </div>
 
-                <Card className="backdrop-blur-xl bg-white/10 border-white/20 shadow-2xl">
-                    <CardHeader className="space-y-1">
-                        <CardTitle className="text-2xl text-white">Welcome back</CardTitle>
-                        <CardDescription className="text-purple-200">
-                            Enter your credentials to access the admin panel
+                <Card className="border-slate-200/60 bg-white/80 backdrop-blur-xl shadow-2xl shadow-slate-200/50 animate-in fade-in zoom-in-95 duration-500 delay-150">
+                    <CardHeader className="space-y-1 pb-6">
+                        <CardTitle className="text-xl text-slate-800 font-semibold">Authentication</CardTitle>
+                        <CardDescription className="text-slate-500">
+                            Enter your credentials to continue
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <form onSubmit={handleSubmit} className="space-y-4">
+                        <form onSubmit={handleSubmit} className="space-y-5">
                             <div className="space-y-2">
-                                <Label htmlFor="username" className="text-white">Username</Label>
-                                <Input
-                                    id="username"
-                                    type="text"
-                                    placeholder="admin"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
-                                    required
-                                    className="bg-white/10 border-white/20 text-white placeholder:text-purple-300/50 focus:border-purple-400"
-                                />
+                                <Label htmlFor="username" className="text-slate-700 text-sm font-medium ml-1">Username</Label>
+                                <div className="relative group">
+                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <User className="h-4 w-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+                                    </div>
+                                    <Input
+                                        id="username"
+                                        type="text"
+                                        placeholder="Enter your username"
+                                        value={username}
+                                        onChange={(e) => setUsername(e.target.value)}
+                                        required
+                                        className="pl-10 bg-slate-50/50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-indigo-500 focus:ring-indigo-500/20 transition-all duration-200"
+                                    />
+                                </div>
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="password" className="text-white">Password</Label>
-                                <Input
-                                    id="password"
-                                    type="password"
-                                    placeholder="••••••••"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    required
-                                    className="bg-white/10 border-white/20 text-white placeholder:text-purple-300/50 focus:border-purple-400"
-                                />
+                                <Label htmlFor="password" className="text-slate-700 text-sm font-medium ml-1">Password</Label>
+                                <div className="relative group">
+                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <Lock className="h-4 w-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+                                    </div>
+                                    <Input
+                                        id="password"
+                                        type={showPassword ? "text" : "password"}
+                                        placeholder="Enter your password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                        className="pl-10 pr-10 bg-slate-50/50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-indigo-500 focus:ring-indigo-500/20 transition-all duration-200"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
+                                    >
+                                        {showPassword ? (
+                                            <EyeOff className="h-4 w-4" />
+                                        ) : (
+                                            <Eye className="h-4 w-4" />
+                                        )}
+                                    </button>
+                                </div>
                             </div>
 
                             {error && (
-                                <div className="p-3 rounded-md bg-red-500/20 border border-red-500/30 text-red-200 text-sm">
+                                <div className="p-3 rounded-lg bg-red-50 border border-red-100 text-red-600 text-sm animate-in fade-in slide-in-from-top-2 flex gap-2 items-center">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0" />
                                     {error}
                                 </div>
                             )}
 
                             <Button
                                 type="submit"
-                                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold shadow-lg shadow-purple-500/50"
+                                className="w-full h-11 bg-indigo-600 hover:bg-indigo-700 text-white font-medium shadow-lg shadow-indigo-500/25 transition-all duration-200 mt-2"
                                 disabled={loading}
                             >
-                                {loading ? 'Signing in...' : 'Sign in'}
+                                {loading ? (
+                                    <>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Signing in...
+                                    </>
+                                ) : (
+                                    'Sign In'
+                                )}
                             </Button>
                         </form>
-
-                        <div className="mt-6 text-center text-sm text-purple-200">
-                            <p>Default credentials:</p>
-                            <code className="text-xs bg-white/10 px-2 py-1 rounded mt-1 inline-block">
-                                admin / AdminPassword123!
-                            </code>
-                        </div>
                     </CardContent>
                 </Card>
 
-                <p className="text-center text-purple-200/60 text-xs mt-6">
-                    © 2026 ESS Portal. All rights reserved.
-                </p>
+                <div className="mt-8 text-center animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
+                    <p className="text-slate-400 text-xs">
+                        &copy; 2026 ESS Portal. Secure Admin Access.
+                    </p>
+                </div>
             </div>
+
+            <style jsx global>{`
+                @keyframes blob {
+                    0% { transform: translate(0px, 0px) scale(1); }
+                    33% { transform: translate(30px, -50px) scale(1.1); }
+                    66% { transform: translate(-20px, 20px) scale(0.9); }
+                    100% { transform: translate(0px, 0px) scale(1); }
+                }
+                .animate-blob {
+                    animation: blob 7s infinite;
+                }
+                .animation-delay-2000 {
+                    animation-delay: 2s;
+                }
+                .animation-delay-4000 {
+                    animation-delay: 4s;
+                }
+            `}</style>
         </div>
     );
 }
