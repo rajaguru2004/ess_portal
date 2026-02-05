@@ -1,0 +1,183 @@
+{
+    "status": "success",
+    "message": "Manager requests fetched successfully",
+    "data": {
+        "pendingRequests": [
+            {
+                "id": "REQ001",
+                "employeeId": "123456",
+                "employeeName": "Rohit Sharma",
+                "date": "2024-05-20",
+                "requestType": "leave",
+                "leaveType": "Special Leave",
+                "status": "pending",
+                "reason": "Family function",
+                "submittedOn": "2024-05-18T10:30:00"
+            },
+            {
+                "id": "REQ002",
+                "employeeId": "123457",
+                "employeeName": "Ravishankar Ashwin",
+                "date": "2024-05-25",
+                "requestType": "leave",
+                "leaveType": "Casual Leave",
+                "status": "pending",
+                "reason": "Personal work",
+                "submittedOn": "2024-05-19T14:20:00"
+            },
+            {
+                "id": "REQ003",
+                "employeeId": "123458",
+                "employeeName": "Kushal Kumar",
+                "date": "2024-05-22",
+                "requestType": "leave",
+                "leaveType": "Sick Leave",
+                "status": "pending",
+                "reason": "Medical appointment",
+                "submittedOn": "2024-05-20T09:15:00"
+            },
+            {
+                "id": "REQ004",
+                "employeeId": "123459",
+                "employeeName": "Manish Jaiswal",
+                "date": "2024-05-20",
+                "requestType": "leave",
+                "leaveType": "Sick Leave",
+                "status": "pending",
+                "reason": "Not feeling well",
+                "submittedOn": "2024-05-19T16:45:00"
+            },
+            {
+                "id": "REQ005",
+                "employeeId": "123460",
+                "employeeName": "Priya Singh",
+                "date": "2024-05-23",
+                "requestType": "attendance",
+                "leaveType": "Missing Punch",
+                "status": "pending",
+                "reason": "Forgot to punch in",
+                "submittedOn": "2024-05-23T10:00:00"
+            },
+            {
+                "id": "REQ006",
+                "employeeId": "123461",
+                "employeeName": "Amit Patel",
+                "date": "2024-05-24",
+                "requestType": "overtime",
+                "leaveType": "Extra Hours",
+                "status": "pending",
+                "reason": "Project deadline",
+                "submittedOn": "2024-05-24T18:30:00",
+                "overtimeHours": "3.5"
+            },
+            {
+                "id": "REQ007",
+                "employeeId": "123462",
+                "employeeName": "Sneha Reddy",
+                "date": "2024-05-21",
+                "requestType": "attendance",
+                "leaveType": "Incorrect Time",
+                "status": "pending",
+                "reason": "System error in punch time",
+                "submittedOn": "2024-05-22T09:30:00"
+            },
+            {
+                "id": "REQ008",
+                "employeeId": "123463",
+                "employeeName": "Rajesh Kumar",
+                "date": "2024-05-25",
+                "requestType": "overtime",
+                "leaveType": "Weekend Work",
+                "status": "pending",
+                "reason": "Client presentation preparation",
+                "submittedOn": "2024-05-25T20:15:00",
+                "overtimeHours": "5"
+            }
+        ],
+        "approvedRequests": [
+            {
+                "id": "REQ009",
+                "employeeId": "123464",
+                "employeeName": "Karan Mehta",
+                "date": "2024-05-15",
+                "requestType": "leave",
+                "leaveType": "Casual Leave",
+                "status": "approved",
+                "reason": "Personal emergency",
+                "submittedOn": "2024-05-14T11:00:00",
+                "approvedOn": "2024-05-14T15:30:00",
+                "approvedBy": "Manager Name",
+                "managerComments": "Approved - Valid reason"
+            },
+            {
+                "id": "REQ010",
+                "employeeId": "123465",
+                "employeeName": "Aisha Khan",
+                "date": "2024-05-16",
+                "requestType": "attendance",
+                "leaveType": "Missing Punch",
+                "status": "approved",
+                "reason": "Network issue",
+                "submittedOn": "2024-05-16T10:30:00",
+                "approvedOn": "2024-05-16T14:00:00",
+                "approvedBy": "Manager Name",
+                "managerComments": "Verified and approved"
+            },
+            {
+                "id": "REQ011",
+                "employeeId": "123466",
+                "employeeName": "Vikram Joshi",
+                "date": "2024-05-17",
+                "requestType": "overtime",
+                "leaveType": "Extra Hours",
+                "status": "approved",
+                "reason": "Production support",
+                "submittedOn": "2024-05-17T19:00:00",
+                "approvedOn": "2024-05-18T09:30:00",
+                "approvedBy": "Manager Name",
+                "managerComments": "Approved overtime",
+                "overtimeHours": "4"
+            }
+        ],
+        "rejectedRequests": [
+            {
+                "id": "REQ012",
+                "employeeId": "123467",
+                "employeeName": "Deepak Verma",
+                "date": "2024-05-10",
+                "requestType": "leave",
+                "leaveType": "Casual Leave",
+                "status": "rejected",
+                "reason": "Want to extend weekend",
+                "submittedOn": "2024-05-09T16:00:00",
+                "rejectedOn": "2024-05-10T10:00:00",
+                "rejectedBy": "Manager Name",
+                "managerComments": "Insufficient leave balance"
+            },
+            {
+                "id": "REQ013",
+                "employeeId": "123468",
+                "employeeName": "Neha Gupta",
+                "date": "2024-05-12",
+                "requestType": "attendance",
+                "leaveType": "Incorrect Time",
+                "status": "rejected",
+                "reason": "Late arrival",
+                "submittedOn": "2024-05-12T14:30:00",
+                "rejectedOn": "2024-05-12T17:00:00",
+                "rejectedBy": "Manager Name",
+                "managerComments": "Not a valid reason for correction"
+            }
+        ],
+        "requestTypes": [
+            "attendance",
+            "overtime",
+            "leave"
+        ],
+        "stats": {
+            "pending": 10,
+            "approved": 30,
+            "rejected": 5
+        }
+    }
+}

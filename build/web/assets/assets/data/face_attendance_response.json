@@ -1,0 +1,18 @@
+{
+    "status": "success",
+    "message": "Face attendance uploaded successfully",
+    "data": {
+        "attendanceId": "ATT123456789",
+        "employeeId": "123456",
+        "timestamp": "2026-01-23T15:18:23+05:30",
+        "imageUrl": "https://api.example.com/attendance/images/ATT123456789.jpg",
+        "location": {
+            "latitude": 12.9716,
+            "longitude": 77.5946,
+            "address": "Bangalore, Karnataka"
+        },
+        "deviceId": "device_12345",
+        "status": "verified",
+        "clockType": "clock_in"
+    }
+}

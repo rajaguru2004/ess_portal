@@ -1,0 +1,71 @@
+{
+    "status": "success",
+    "message": "Attendance regularization requests fetched successfully",
+    "data": {
+        "pendingRequests": [
+            {
+                "id": "REQ001",
+                "employeeId": "123456",
+                "employeeName": "Ashwin Pawar",
+                "date": "2026-01-20",
+                "requestType": "Missing Punch",
+                "reason": "Forgot to clock in due to urgent meeting",
+                "status": "pending",
+                "requestedTime": "09:00 AM",
+                "submittedOn": "2026-01-21T10:30:00",
+                "managerName": "Rajesh Kumar"
+            },
+            {
+                "id": "REQ002",
+                "employeeId": "123456",
+                "employeeName": "Ashwin Pawar",
+                "date": "2026-01-18",
+                "requestType": "Incorrect Time",
+                "reason": "System error - actual check-in was 9:15 AM",
+                "status": "pending",
+                "requestedTime": "09:15 AM",
+                "submittedOn": "2026-01-19T11:00:00",
+                "managerName": "Rajesh Kumar"
+            }
+        ],
+        "approvedRequests": [
+            {
+                "id": "REQ003",
+                "employeeId": "123456",
+                "employeeName": "Ashwin Pawar",
+                "date": "2026-01-15",
+                "requestType": "Missing Punch",
+                "reason": "Network issue in office premises",
+                "status": "approved",
+                "requestedTime": "06:00 PM",
+                "submittedOn": "2026-01-16T09:00:00",
+                "approvedOn": "2026-01-16T14:30:00",
+                "managerName": "Rajesh Kumar",
+                "managerComments": "Approved - Valid reason"
+            }
+        ],
+        "rejectedRequests": [
+            {
+                "id": "REQ004",
+                "employeeId": "123456",
+                "employeeName": "Ashwin Pawar",
+                "date": "2026-01-12",
+                "requestType": "Incorrect Time",
+                "reason": "Was late due to traffic",
+                "status": "rejected",
+                "requestedTime": "09:00 AM",
+                "submittedOn": "2026-01-13T10:00:00",
+                "rejectedOn": "2026-01-13T16:00:00",
+                "managerName": "Rajesh Kumar",
+                "managerComments": "Late arrival needs prior approval"
+            }
+        ],
+        "requestTypes": [
+            "Missing Punch",
+            "Incorrect Time",
+            "Early Exit",
+            "Late Entry",
+            "Other"
+        ]
+    }
+}

@@ -1,0 +1,49 @@
+{
+    "status": "success",
+    "message": "Dashboard data fetched successfully",
+    "data": {
+        "user": {
+            "name": "Arjun",
+            "employeeId": "EMP001",
+            "designation": "Software Engineer"
+        },
+        "shift": {
+            "startTime": "10:00 am",
+            "endTime": "7:30 pm",
+            "overtime": "+1"
+        },
+        "attendance": {
+            "workingHours": {
+                "hours": 3,
+                "minutes": 13,
+                "seconds": 5
+            },
+            "totalBreakTime": {
+                "hours": 1,
+                "minutes": 30
+            }
+        },
+        "activities": [
+            {
+                "type": "Punch In",
+                "time": "10:30am",
+                "isBreak": false
+            },
+            {
+                "type": "Punch Out",
+                "time": "1:30pm",
+                "isBreak": false
+            },
+            {
+                "type": "Break",
+                "duration": "30min Break",
+                "isBreak": true
+            },
+            {
+                "type": "Punch In",
+                "time": "2:00pm",
+                "isBreak": false
+            }
+        ]
+    }
+}
