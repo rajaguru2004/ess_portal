@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'dart:io';
@@ -143,8 +144,7 @@ class HomeController extends GetxController {
           activities.value = todayLog.logs!.map((log) {
             return {
               'type': log.type == 'IN' ? 'Punch In' : 'Punch Out',
-              'time':
-                  '${log.timestamp.hour}:${log.timestamp.minute}', // Format properly
+              'time': DateFormat('h:mm a').format(log.timestamp.toLocal()),
               'duration': '', // duration between logs?
               'isBreak': false,
               'icon': _getIconForActivityType(

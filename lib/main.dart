@@ -15,8 +15,7 @@ void main() {
       // Theme Configuration
       theme: AppTheme.lightTheme(),
       darkTheme: AppTheme.darkTheme(),
-      themeMode:
-          ThemeMode.system, // Automatically switches based on system settings
+      themeMode: ThemeMode.light,
     ),
   );
 }

@@ -121,10 +121,12 @@ class AttendanceScreenController extends GetxController {
           String? checkOutStr;
 
           if (log.checkInAt != null) {
-            checkInStr = DateFormat('hh:mm a').format(log.checkInAt!);
+            checkInStr = DateFormat('h:mm a').format(log.checkInAt!.toLocal());
             timeStr = checkInStr;
             if (log.checkOutAt != null) {
-              checkOutStr = DateFormat('hh:mm a').format(log.checkOutAt!);
+              checkOutStr = DateFormat(
+                'h:mm a',
+              ).format(log.checkOutAt!.toLocal());
               timeStr += ' - $checkOutStr';
             }
           }
@@ -133,8 +135,10 @@ class AttendanceScreenController extends GetxController {
             id: log.id,
             name: DateFormat(
               'EEE, dd MMM',
-            ).format(log.date), // Using date as name/title
-            initial: DateFormat('d').format(log.date), // Day number as initial
+            ).format(log.date.toLocal()), // Using date as name/title
+            initial: DateFormat(
+              'd',
+            ).format(log.date.toLocal()), // Day number as initial
             status: log.status.replaceAll('_', ' '),
             time: timeStr,
             checkInTime: checkInStr,

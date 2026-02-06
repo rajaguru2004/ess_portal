@@ -10,17 +10,17 @@ const createShiftAssignment = async (data, requestedBy) => {
     const { userId, shiftId, date } = data;
 
     // Check if shift assignment already exists for this user and date
-    const existing = await prisma.shiftAssignment.findUnique({
+    // Check if shift assignment already exists for this user, date, and SPECIFIC shift
+    const existing = await prisma.shiftAssignment.findFirst({
         where: {
-            userId_date: {
-                userId,
-                date: new Date(date),
-            },
+            userId,
+            shiftId,
+            date: new Date(date),
         },
     });
 
     if (existing) {
-        throw new Error('Shift already assigned for this user on this date');
+        throw new Error('This specific shift is already assigned for this user on this date');
     }
 
     // Create the shift assignment with PENDING status

@@ -15,6 +15,7 @@ const holidayRoutes = require('./Routes/holiday.routes');
 const designationRoutes = require('./Routes/designation.routes');
 const attendanceRoutes = require('./Routes/attendance.routes');
 const shiftAssignmentRoutes = require('./Routes/shiftAssignment.routes');
+const employeeShiftRoutes = require('./Routes/employeeShift.routes');
 const { errorHandler } = require('./Middlewares/error.middleware');
 const { errorResponse } = require('./Utils/response');
 
@@ -47,6 +48,7 @@ app.use('/api/v1/holidays', holidayRoutes);
 app.use('/api/v1/designations', designationRoutes);
 app.use('/api/v1/attendance', attendanceRoutes);
 app.use('/api/v1/shift-assignments', shiftAssignmentRoutes);
+app.use('/api/v1/employee/shifts', employeeShiftRoutes);
 
 // Health Check
 app.get('/health', (req, res) => {

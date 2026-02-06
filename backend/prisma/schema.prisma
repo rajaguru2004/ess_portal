@@ -283,8 +283,8 @@ model ShiftAssignment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // Ensure one shift per user per day
-  @@unique([userId, date])
+  // Ensure one unique shift type per user per day
+  @@unique([userId, date, shiftId])
   @@index([userId])
   @@index([shiftId])
   @@index([date])
