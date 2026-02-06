@@ -48117,7 +48117,7 @@ var $async$wz=A.I(function(e,f){if(e===1)return A.K(f,r)
 for(;;)switch(s){case 0:s=2
 return A.A(q.rs(),$async$wz)
 case 2:n=f
-m=A.eT("http://192.168.0.165:3000/api/v1/attendance/check-in",0,null)
+m=A.eT("https://api.ess.develop.thefusionapps.com/api/v1/attendance/check-in",0,null)
 A.bX("\ud83d\udd35 [AttendanceProvider] checkIn: Starting Request")
 A.bX("   URL: "+m.k(0))
 A.bX("   Latitude: "+b+", Longitude: "+c)
@@ -48140,7 +48140,7 @@ var $async$t5=A.I(function(a0,a1){if(a0===1)return A.K(a1,r)
 for(;;)switch(s){case 0:s=3
 return A.A(p.rs(),$async$t5)
 case 3:g=a1
-f=A.eT("http://192.168.0.165:3000/api/v1/attendance/check-out",0,null)
+f=A.eT("https://api.ess.develop.thefusionapps.com/api/v1/attendance/check-out",0,null)
 A.bX("\ud83d\udd35 [CheckOut] Request Starting")
 A.bX("   URL: "+f.k(0))
 A.bX("   Latitude: "+b+", Longitude: "+c)
@@ -48191,7 +48191,7 @@ j=A.u(k,k)
 j.p(0,"startDate",b)
 j.p(0,"endDate",a)
 s=4
-return A.A(A.aNv(A.eT("http://192.168.0.165:3000/api/v1/attendance/logs",0,null).a2o(0,j),A.ak(["Authorization","Bearer "+A.m(l),"Content-Type","application/json"],k,k)),$async$qR)
+return A.A(A.aNv(A.eT("https://api.ess.develop.thefusionapps.com/api/v1/attendance/logs",0,null).a2o(0,j),A.ak(["Authorization","Bearer "+A.m(l),"Content-Type","application/json"],k,k)),$async$qR)
 case 4:o=d
 if(o.b===200){A.bX("\ud83d\udfe3 [AttendanceProvider] getLogs: Response Received")
 k=o
@@ -48221,7 +48221,7 @@ var $async$uQ=A.I(function(a,b){if(a===1)return A.K(b,r)
 for(;;)switch(s){case 0:s=3
 return A.A(p.w4(),$async$uQ)
 case 3:i=b
-h=A.eT("http://192.168.0.165:3000/api/v1/employee/shifts/today",0,null)
+h=A.eT("https://api.ess.develop.thefusionapps.com/api/v1/employee/shifts/today",0,null)
 A.bX("\ud83d\udd35 [ShiftProvider] getTodayShifts: Starting Request")
 A.bX("   URL: "+h.k(0))
 m=t.N
@@ -48252,7 +48252,7 @@ var $async$uS=A.I(function(a,b){if(a===1)return A.K(b,r)
 for(;;)switch(s){case 0:s=3
 return A.A(p.w4(),$async$uS)
 case 3:k=b
-j=A.eT("http://192.168.0.165:3000/api/v1/employee/shifts/upcoming",0,null)
+j=A.eT("https://api.ess.develop.thefusionapps.com/api/v1/employee/shifts/upcoming",0,null)
 A.bX("\ud83d\udd35 [ShiftProvider] getUpcomingShifts: Starting Request")
 A.bX("   URL: "+j.k(0))
 m=t.N
@@ -48278,7 +48278,7 @@ DG(a,b){return this.aze(a,b)},
 aze(a4,a5){var s=0,r=A.N(t.DF),q,p=2,o=[],n,m,l,k,j,i,h,g,f,e,d,c,b,a,a0,a1,a2,a3
 var $async$DG=A.I(function(a7,a8){if(a7===1){o.push(a8)
 s=p}for(;;)switch(s){case 0:p=4
-n=A.eT("http://192.168.0.165:3000/api/v1/auth/login",0,null)
+n=A.eT("https://api.ess.develop.thefusionapps.com/api/v1/auth/login",0,null)
 i=t.N
 h=A.ak(["Content-Type","application/json"],i,i)
 s=7
@@ -48344,7 +48344,7 @@ BY(a,b,c){return this.ati(a,b,c)},
 ati(a,b,c){var s=0,r=A.N(t.a),q,p=2,o=[],n,m,l,k,j,i,h,g
 var $async$BY=A.I(function(d,e){if(d===1){o.push(e)
 s=p}for(;;)switch(s){case 0:p=4
-n=A.eT("http://192.168.0.165:3000/api/v1/auth/change-password",0,null)
+n=A.eT("https://api.ess.develop.thefusionapps.com/api/v1/auth/change-password",0,null)
 j=t.N
 i=A.ak(["Content-Type","application/json","Authorization","Bearer "+c],j,j)
 s=7
