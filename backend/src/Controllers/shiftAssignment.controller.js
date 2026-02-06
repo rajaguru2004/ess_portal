@@ -4,11 +4,30 @@ const { successResponse, errorResponse } = require('../Utils/response');
 /**
  * Create a new shift assignment request
  */
+/**
+ * Create a new shift assignment request
+ */
 const createShiftAssignment = async (req, res, next) => {
     try {
         const requestedBy = req.user.userId;
-        const assignment = await shiftAssignmentService.createShiftAssignment(req.body, requestedBy);
-        successResponse(res, assignment, 'Shift assignment request created successfully', 201);
+        const { date, startDate, endDate, ...otherData } = req.body;
+
+        // Standardize input to start/end dates
+        const finalStartDate = startDate || date;
+        const finalEndDate = endDate || date;
+
+        if (!finalStartDate || !finalEndDate) {
+            return errorResponse(res, 'Date or Start/End Date is required', 'INVALID_INPUT', 400);
+        }
+
+        const data = {
+            ...otherData,
+            startDate: finalStartDate,
+            endDate: finalEndDate,
+        };
+
+        const assignment = await shiftAssignmentService.createShiftAssignment(data, requestedBy);
+        successResponse(res, assignment, 'Shift assignment(s) created successfully', 201);
     } catch (error) {
         if (error.message.includes('already assigned')) {
             return errorResponse(res, error.message, 'DUPLICATE_ASSIGNMENT', 409);

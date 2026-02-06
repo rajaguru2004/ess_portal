@@ -1,0 +1,479 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import '../controllers/home_controller.dart';
+import '../../../data/models/shift_model.dart';
+
+class ShiftsDialog extends GetView<HomeController> {
+  const ShiftsDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      child: Container(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.8,
+          minHeight: 300,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 20,
+              offset: const Offset(0, 10),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            // Header with Gradient
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(24),
+                ),
+                gradient: LinearGradient(
+                  colors: [
+                    Theme.of(context).primaryColor,
+                    Theme.of(context).primaryColor.withOpacity(0.8),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(
+                          Icons.calendar_month_rounded,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Text(
+                        'My Shifts',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  IconButton(
+                    onPressed: () => Get.back(),
+                    icon: const Icon(Icons.close_rounded, color: Colors.white),
+                    style: IconButton.styleFrom(
+                      backgroundColor: Colors.white.withOpacity(0.2),
+                      highlightColor: Colors.white.withOpacity(0.1),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Content
+            Expanded(
+              child: DefaultTabController(
+                length: 2,
+                child: Column(
+                  children: [
+                    // Tabs
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade100,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: Colors.grey.shade200),
+                        ),
+                        child: TabBar(
+                          indicator: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.05),
+                                blurRadius: 4,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          indicatorSize: TabBarIndicatorSize.tab,
+                          dividerColor: Colors.transparent,
+                          labelColor: Theme.of(context).primaryColor,
+                          labelStyle: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                          unselectedLabelColor: Colors.grey.shade600,
+                          unselectedLabelStyle: const TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                          ),
+                          tabs: const [
+                            Tab(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.today_rounded, size: 18),
+                                  SizedBox(width: 8),
+                                  Text('Today'),
+                                ],
+                              ),
+                            ),
+                            Tab(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.upcoming_outlined, size: 18),
+                                  SizedBox(width: 8),
+                                  Text('Upcoming'),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    // Tab Views
+                    Expanded(
+                      child: TabBarView(
+                        children: [
+                          _buildTodayShifts(context),
+                          _buildUpcomingShifts(context),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTodayShifts(BuildContext context) {
+    return Obx(() {
+      if (controller.isShiftsLoading.value) {
+        return Center(
+          child: CircularProgressIndicator(
+            color: Theme.of(context).primaryColor,
+          ),
+        );
+      }
+      if (controller.todayShifts.isEmpty) {
+        return _buildEmptyState(
+          context,
+          'No Shifts Today',
+          'You don\'t have any shifts assigned for today.',
+          Icons.free_breakfast_outlined,
+        );
+      }
+      return ListView.separated(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        itemCount: controller.todayShifts.length,
+        separatorBuilder: (_, __) => const SizedBox(height: 16),
+        itemBuilder: (context, index) {
+          final shift = controller.todayShifts[index];
+          return _buildShiftCard(context, shift, null);
+        },
+      );
+    });
+  }
+
+  Widget _buildUpcomingShifts(BuildContext context) {
+    return Obx(() {
+      if (controller.isShiftsLoading.value) {
+        return Center(
+          child: CircularProgressIndicator(
+            color: Theme.of(context).primaryColor,
+          ),
+        );
+      }
+      if (controller.upcomingShifts.isEmpty) {
+        return _buildEmptyState(
+          context,
+          'No Upcoming Shifts',
+          'You don\'t have any upcoming shifts scheduled.',
+          Icons.event_busy_rounded,
+        );
+      }
+      return ListView.separated(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        itemCount: controller.upcomingShifts.length,
+        separatorBuilder: (_, __) => const SizedBox(height: 16),
+        itemBuilder: (context, index) {
+          final item = controller.upcomingShifts[index];
+          return _buildShiftCard(context, item.shift, item.date);
+        },
+      );
+    });
+  }
+
+  Widget _buildEmptyState(
+    BuildContext context,
+    String title,
+    String message,
+    IconData icon,
+  ) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade50,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, size: 48, color: Colors.grey.shade400),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            title,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: Colors.grey.shade800,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: Text(
+              message,
+              textAlign: TextAlign.center,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: Colors.grey.shade600),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildShiftCard(BuildContext context, Shift shift, String? dateLabel) {
+    final startTime = _formatTime(shift.startTime);
+    final endTime = _formatTime(shift.endTime);
+    final isMorning = startTime.toLowerCase().contains('am');
+    final shiftColor = isMorning ? Colors.orange : Colors.indigo;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (dateLabel != null) ...[
+          Padding(
+            padding: const EdgeInsets.only(left: 4, bottom: 8),
+            child: Text(
+              _formatDate(dateLabel).toUpperCase(),
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                color: Colors.grey.shade600,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.2,
+              ),
+            ),
+          ),
+        ],
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Colors.grey.shade100),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.shade200.withOpacity(0.5),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Stack(
+              children: [
+                Positioned(
+                  left: 0,
+                  top: 0,
+                  bottom: 0,
+                  width: 6,
+                  child: Container(color: shiftColor),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 20, 20, 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  shift.name,
+                                  style: Theme.of(context).textTheme.titleMedium
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                ),
+                                const SizedBox(height: 6),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: shiftColor.withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    shift.type,
+                                    style: TextStyle(
+                                      color: shiftColor,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade50,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Icon(
+                              isMorning
+                                  ? Icons.wb_sunny_rounded
+                                  : Icons.nights_stay_rounded,
+                              color: shiftColor,
+                              size: 28,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _buildTimeInfo(
+                              context,
+                              'Start Time',
+                              startTime,
+                              Icons.login_rounded,
+                              Colors.green,
+                            ),
+                          ),
+                          Container(
+                            width: 1,
+                            height: 32,
+                            color: Colors.grey.shade200,
+                          ),
+                          Expanded(
+                            child: _buildTimeInfo(
+                              context,
+                              'End Time',
+                              endTime,
+                              Icons.logout_rounded,
+                              Colors.red,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTimeInfo(
+    BuildContext context,
+    String label,
+    String time,
+    IconData icon,
+    Color color,
+  ) {
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: color.withOpacity(0.1),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(icon, size: 16, color: color),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: Theme.of(
+                  context,
+                ).textTheme.labelSmall?.copyWith(color: Colors.grey.shade500),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+              Text(
+                time,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey.shade800,
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  String _formatTime(String isoString) {
+    try {
+      final dt = DateTime.parse(isoString).toLocal();
+      return DateFormat('h:mm a').format(dt);
+    } catch (e) {
+      return isoString;
+    }
+  }
+
+  String _formatDate(String dateStr) {
+    try {
+      final dt = DateTime.parse(dateStr);
+      return DateFormat('EEEE, MMM d').format(dt);
+    } catch (e) {
+      return dateStr;
+    }
+  }
+}

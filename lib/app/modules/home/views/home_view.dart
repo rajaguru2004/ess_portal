@@ -109,6 +109,20 @@ class HomeView extends GetView<HomeController> {
                               ),
                             ),
                           ),
+                          const SizedBox(height: 12),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton.icon(
+                              onPressed: () => controller.showMyShifts(),
+                              icon: const Icon(Icons.calendar_month),
+                              label: const Text('My Shifts'),
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),

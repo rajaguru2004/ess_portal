@@ -15,7 +15,11 @@ import { User, Shift } from '@/types';
 const schema = z.object({
     userId: z.string().min(1, 'Employee is required'),
     shiftId: z.string().min(1, 'Shift is required'),
-    date: z.string().min(1, 'Date is required'),
+    startDate: z.string().min(1, 'Start Date is required'),
+    endDate: z.string().min(1, 'End Date is required'),
+}).refine((data) => new Date(data.endDate) >= new Date(data.startDate), {
+    message: "End date must be after start date",
+    path: ["endDate"],
 });
 
 type FormData = z.infer<typeof schema>;
@@ -140,17 +144,31 @@ export default function AssignShiftDialog({ open, onClose, onSuccess }: AssignSh
                         )}
                     </div>
 
-                    <div className="space-y-2">
-                        <Label htmlFor="date">Date</Label>
-                        <Input
-                            id="date"
-                            type="date"
-                            {...register('date')}
-                            className={errors.date ? 'border-red-500' : ''}
-                        />
-                        {errors.date && (
-                            <p className="text-xs text-red-500">{errors.date.message}</p>
-                        )}
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="startDate">Start Date</Label>
+                            <Input
+                                id="startDate"
+                                type="date"
+                                {...register('startDate')}
+                                className={errors.startDate ? 'border-red-500' : ''}
+                            />
+                            {errors.startDate && (
+                                <p className="text-xs text-red-500">{errors.startDate.message}</p>
+                            )}
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="endDate">End Date</Label>
+                            <Input
+                                id="endDate"
+                                type="date"
+                                {...register('endDate')}
+                                className={errors.endDate ? 'border-red-500' : ''}
+                            />
+                            {errors.endDate && (
+                                <p className="text-xs text-red-500">{errors.endDate.message}</p>
+                            )}
+                        </div>
                     </div>
 
                     <DialogFooter>

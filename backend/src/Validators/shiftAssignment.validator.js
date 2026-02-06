@@ -25,12 +25,28 @@ const createShiftAssignmentSchema = Joi.object({
         }),
     date: Joi.date()
         .iso()
-        .required()
         .messages({
             'date.format': 'Invalid date format, expected YYYY-MM-DD',
-            'any.required': 'Date is required',
         }),
-});
+    startDate: Joi.date()
+        .iso()
+        .messages({
+            'date.format': 'Invalid start date format, expected YYYY-MM-DD',
+        }),
+    endDate: Joi.date()
+        .iso()
+        .min(Joi.ref('startDate'))
+        .messages({
+            'date.format': 'Invalid end date format, expected YYYY-MM-DD',
+            'date.min': 'End date must be after or same as start date',
+        }),
+})
+    .or('date', 'startDate')
+    .with('startDate', 'endDate')
+    .messages({
+        'object.missing': 'Either Date or Start Date/End Date is required',
+        'object.with': 'End Date is required when Start Date is provided',
+    });
 
 /**
  * Reject shift assignment schema

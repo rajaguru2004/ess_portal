@@ -20,6 +20,8 @@ class ApiEndpoints {
 
   // Shift Management
   static const String shifts = '/api/v1/shifts';
+  static const String shiftsToday = '/api/v1/employee/shifts/today';
+  static const String shiftsUpcoming = '/api/v1/employee/shifts/upcoming';
 
   // Leave Type Management
   static const String leaveTypes = '/api/v1/leave-types';

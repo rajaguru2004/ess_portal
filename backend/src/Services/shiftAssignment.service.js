@@ -1,4 +1,5 @@
 const { prisma } = require('../Prisma/client');
+const { addDays, format, differenceInDays } = require('date-fns');
 
 /**
  * Create a new shift assignment request
@@ -6,33 +7,82 @@ const { prisma } = require('../Prisma/client');
  * @param {string} requestedBy - User ID who requested the assignment
  * @returns {Promise<Object>} Created shift assignment
  */
+/**
+ * Create new shift assignment request(s)
+ * @param {Object} data - Assignment data (userId, shiftId, startDate, endDate)
+ * @param {string} requestedBy - User ID who requested the assignment
+ * @returns {Promise<Object>} Created shift assignments summary
+ */
 const createShiftAssignment = async (data, requestedBy) => {
-    const { userId, shiftId, date } = data;
+    const { userId, shiftId, startDate, endDate } = data;
 
-    // Check if shift assignment already exists for this user and date
-    // Check if shift assignment already exists for this user, date, and SPECIFIC shift
-    const existing = await prisma.shiftAssignment.findFirst({
-        where: {
-            userId,
-            shiftId,
-            date: new Date(date),
-        },
-    });
+    // Ensure dates are Date objects
+    let currentDate = new Date(startDate);
+    const end = new Date(endDate);
 
-    if (existing) {
-        throw new Error('This specific shift is already assigned for this user on this date');
+    const results = {
+        created: [],
+        failed: [],
+    };
+
+    // Calculate number of days (sanity check to prevent infinite loops or huge ranges)
+    const diff = differenceInDays(end, currentDate);
+    if (diff < 0) {
+        throw new Error('End date cannot be before start date');
+    }
+    if (diff > 365) {
+        throw new Error('Cannot assign shift for more than 1 year at a time');
     }
 
-    // Create the shift assignment with PENDING status
-    return await prisma.shiftAssignment.create({
-        data: {
-            userId,
-            shiftId,
-            date: new Date(date),
-            status: 'PENDING',
-            requestedBy,
-        },
-    });
+    // Loop through each day
+    while (currentDate <= end) {
+        const dateStr = format(currentDate, 'yyyy-MM-dd');
+
+        try {
+            // Check specific duplicate
+            const existing = await prisma.shiftAssignment.findFirst({
+                where: {
+                    userId,
+                    shiftId,
+                    date: new Date(dateStr),
+                },
+            });
+
+            if (existing) {
+                results.failed.push({ date: dateStr, reason: 'Already assigned' });
+            } else {
+                const created = await prisma.shiftAssignment.create({
+                    data: {
+                        userId,
+                        shiftId,
+                        date: new Date(dateStr),
+                        status: 'APPROVED', // Auto-approve as per prompt implying admin action, or stick to PENDING?
+                        // The previous code set it to PENDING. However, for "shift allocation API is done", usually admin does it directly.
+                        // But let's check the previous code... it set PENDING.
+                        // The prompt says "admin can create".
+                        // I'll keep it as PENDING for now unless user asked otherwise, but usually Admin actions are auto-approved.
+                        // Actually, looking at the previous controller logic, there was an approve endpoint.
+                        // BUT, if this is the "Admin Panel" creating it, typically it's APPROVED.
+                        // Let's stick to PENDING to be safe/consistent with previous logic, OR check if user role matters.
+                        // Re-reading logic: "Create a new shift assignment request".
+                        // I will stick to PENDING to avoid breaking workflow assumptions, but generally admin creates = Approved.
+                        // Let's look at the "business rules" from prompt 1: "Only APPROVED shifts are visible".
+                        // User said "admin can create the multiple shifts". Admin creation usually implies direct assignment.
+                        // I'll set it to PENDING to match previous logic for now.
+                        status: 'PENDING',
+                        requestedBy,
+                    },
+                });
+                results.created.push(created);
+            }
+        } catch (error) {
+            results.failed.push({ date: dateStr, reason: error.message });
+        }
+
+        currentDate = addDays(currentDate, 1);
+    }
+
+    return results;
 };
 
 /**

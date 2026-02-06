@@ -8,6 +8,9 @@ import 'dart:io';
 import '../../../data/sources/home_local_source.dart';
 import '../../../data/providers/attendance_provider.dart';
 import '../widgets/change_password_dialog.dart';
+import '../../../data/providers/shift_provider.dart';
+import '../../../data/models/shift_model.dart';
+import '../widgets/shifts_dialog.dart';
 
 class HomeController extends GetxController {
   // Data source
@@ -40,6 +43,12 @@ class HomeController extends GetxController {
   final isCheckedIn = false.obs;
   // Provider
   final _attendanceProvider = AttendanceProvider();
+  final _shiftProvider = ShiftProvider();
+
+  // Shift Data
+  final todayShifts = <Shift>[].obs;
+  final upcomingShifts = <UpcomingShiftItem>[].obs;
+  final isShiftsLoading = false.obs;
 
   // User information
   final userName = ''.obs;
@@ -49,6 +58,7 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     _initializeData();
+    fetchShifts();
 
     // Check for first login
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -69,6 +79,29 @@ class HomeController extends GetxController {
   void onClose() {
     _timer?.cancel();
     super.onClose();
+  }
+
+  Future<void> fetchShifts() async {
+    isShiftsLoading.value = true;
+    try {
+      final todayResponse = await _shiftProvider.getTodayShifts();
+      if (todayResponse.success && todayResponse.data != null) {
+        todayShifts.value = todayResponse.data!.shifts;
+      }
+
+      final upcomingResponse = await _shiftProvider.getUpcomingShifts();
+      if (upcomingResponse.success && upcomingResponse.data != null) {
+        upcomingShifts.value = upcomingResponse.data!;
+      }
+    } catch (e) {
+      print('Error fetching shifts: $e');
+    } finally {
+      isShiftsLoading.value = false;
+    }
+  }
+
+  void showMyShifts() {
+    Get.dialog(const ShiftsDialog(), barrierDismissible: true);
   }
 
   Future<void> _initializeData() async {
@@ -105,10 +138,6 @@ class HomeController extends GetxController {
       shiftEnd.value = data.shift.endTime;
       shiftOvertime.value = data.shift.overtime;
 
-      // Update Attendance Info (Local source dummy data)
-      // We should ideally fetch real today's attendance stats here if possible
-      // For now, keeping legacy data for UI consistency where real data isn't ready
-
       // Fetch Real Attendance Status
       final nowStr =
           '${DateTime.now().year}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().day.toString().padLeft(2, '0')}';
@@ -136,9 +165,6 @@ class HomeController extends GetxController {
           isCheckedIn.value = false;
         }
 
-        // Update working hours if available in the log (or calculate it)
-        // todayLog.workMinutes
-
         // Update Activity List with real logs
         if (todayLog.logs != null) {
           activities.value = todayLog.logs!.map((log) {
@@ -165,9 +191,6 @@ class HomeController extends GetxController {
       }
 
       // Keep local source for fallback or other UI elements
-      // Update working hours
-      // If we have real attendance data, we set it above.
-      // Only fallback to dummy if we are NOT using real attendance.
       if (!isCheckedIn.value &&
           (attendanceResponse.data == null ||
               attendanceResponse.data!.isEmpty)) {
@@ -175,8 +198,7 @@ class HomeController extends GetxController {
         workingMinutes.value = data.attendance.workingHours.minutes;
         workingSeconds.value = data.attendance.workingHours.seconds;
       }
-      // If we are checked out (and have data), the timer should be stopped/reset or show last session?
-      // User said "on checkout it will reset", so 0.
+
       if (!isCheckedIn.value) {
         workingHours.value = 0;
         workingMinutes.value = 0;
@@ -250,10 +272,6 @@ class HomeController extends GetxController {
   }
 
   Future<void> handleSwipeToPunch() async {
-    // Check current status
-    // For now, let's determine expected action based on `_isCheckedIn` state
-    // We need to store this state. I'll add a boolean `isCheckedIn`.
-
     if (isCheckedIn.value) {
       // Perform Check Out
       await _performCheckOut();
