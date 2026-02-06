@@ -39,6 +39,23 @@ const login = async (req, res, next) => {
     }
 };
 
+/**
+ * Change Password Controller
+ */
+const changePassword = async (req, res, next) => {
+    try {
+        const { newPassword } = req.body;
+        const userId = req.user.userId;
+
+        await authService.changePassword(userId, newPassword);
+
+        return successResponse(res, null, 'Password changed successfully');
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
     login,
+    changePassword
 };

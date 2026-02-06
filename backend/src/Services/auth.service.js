@@ -1,5 +1,5 @@
 const { prisma } = require('../Prisma/client');
-const { comparePassword } = require('../Utils/password');
+const { comparePassword, hashPassword } = require('../Utils/password');
 const { generateAccessToken } = require('../Utils/jwt');
 
 /**
@@ -97,6 +97,39 @@ const login = async (username, password, clientIp) => {
     };
 };
 
+
+
+/**
+ * Change Password Service
+ */
+const changePassword = async (userId, newPassword) => {
+    // 1. Find User
+    const user = await prisma.user.findUnique({
+        where: { id: userId }
+    });
+
+    if (!user) {
+        throw new Error('User not found');
+    }
+
+    // 2. Hash New Password
+    const passwordHash = await hashPassword(newPassword);
+
+    // 3. Update User
+    await prisma.user.update({
+        where: { id: userId },
+        data: {
+            passwordHash: passwordHash,
+            firstLogin: false,
+            failedLoginAttempts: 0,
+            isLocked: false // Unlock if they were locked (optional, but good for self-service recovery if we allow it)
+        }
+    });
+
+    return true;
+};
+
 module.exports = {
     login,
+    changePassword
 };
