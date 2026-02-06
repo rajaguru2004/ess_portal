@@ -6,6 +6,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'dart:io';
 import '../../../data/sources/home_local_source.dart';
 import '../../../data/providers/attendance_provider.dart';
+import '../widgets/change_password_dialog.dart';
 
 class HomeController extends GetxController {
   // Data source
@@ -47,6 +48,20 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     _initializeData();
+
+    // Check for first login
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (Get.arguments != null && Get.arguments is Map) {
+        final args = Get.arguments as Map;
+        if (args['firstLogin'] == true) {
+          _showChangePasswordDialog();
+        }
+      }
+    });
+  }
+
+  void _showChangePasswordDialog() {
+    Get.dialog(const ChangePasswordDialog(), barrierDismissible: false);
   }
 
   @override

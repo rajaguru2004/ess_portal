@@ -89,7 +89,10 @@ class LoginScreenController extends GetxController {
         print('User: ${response.data!.user}');
 
         // Navigate to main layout (replace all previous routes)
-        Get.offAllNamed('/main');
+        Get.offAllNamed(
+          '/main',
+          arguments: {'firstLogin': response.data!.user.firstLogin},
+        );
       } else {
         // Show error message
         errorMessage.value = response.message.isNotEmpty

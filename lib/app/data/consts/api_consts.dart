@@ -6,6 +6,7 @@ class ApiConsts {
 class ApiEndpoints {
   // Auth
   static const String login = '/api/v1/auth/login';
+  static const String changePassword = '/api/v1/auth/change-password';
 
   // User Management
   static const String users = '/api/v1/users';
