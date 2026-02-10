@@ -6,6 +6,7 @@ import '../../home/views/home_view.dart';
 import '../../attendance_screen/views/attendance_screen_view.dart';
 import '../../apply_leave_screen/views/apply_leave_screen_view.dart';
 import '../../attendance_regularization/views/attendance_regularization_view.dart';
+import '../../shifts/views/shifts_view.dart';
 import '../controllers/main_layout_controller.dart';
 
 class MainLayoutView extends GetView<MainLayoutController> {
@@ -17,6 +18,7 @@ class MainLayoutView extends GetView<MainLayoutController> {
     final List<Widget> pages = [
       const HomeView(),
       const AttendanceScreenView(),
+      const ShiftsView(),
       const ApplyLeaveScreenView(),
       const AttendanceRegularizationView(),
     ];
@@ -71,8 +73,9 @@ class MainLayoutView extends GetView<MainLayoutController> {
                 tabs: const [
                   GButton(icon: Icons.home, text: 'Home'),
                   GButton(icon: Icons.calendar_today, text: 'Attendance'),
+                  GButton(icon: Icons.calendar_month, text: 'Shifts'),
                   GButton(icon: Icons.umbrella, text: 'Leave'),
-                  GButton(icon: Icons.lock_clock, text: 'Regularize'),
+                  // GButton(icon: Icons.lock_clock, text: 'Regularize'),
                 ],
                 selectedIndex: controller.selectedIndex,
                 onTabChange: (index) {

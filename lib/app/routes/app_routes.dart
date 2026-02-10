@@ -13,6 +13,7 @@ abstract class Routes {
   static const MAIN_LAYOUT = _Paths.MAIN_LAYOUT;
   static const MANAGER_REQUESTS = _Paths.MANAGER_REQUESTS;
   static const ATTENDANCE_DETAIL = _Paths.ATTENDANCE_DETAIL;
+  static const SHIFTS = _Paths.SHIFTS;
 }
 
 abstract class _Paths {
@@ -27,4 +28,5 @@ abstract class _Paths {
   static const MAIN_LAYOUT = '/main';
   static const MANAGER_REQUESTS = '/manager-requests';
   static const ATTENDANCE_DETAIL = '/attendance-detail';
+  static const SHIFTS = '/shifts';
 }

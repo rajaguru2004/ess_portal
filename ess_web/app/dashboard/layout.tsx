@@ -37,7 +37,14 @@ const navigation = [
         ],
     },
     { name: 'Shift Assignments', href: '/dashboard/shift-assignments', icon: Layers },
-    { name: 'Leave Policies', href: '/dashboard/leave-policies', icon: FileText },
+    {
+        name: 'Leave Management',
+        icon: Calendar,
+        children: [
+            { name: 'Leave Approvals', href: '/dashboard/leave-approvals', icon: FileText },
+            { name: 'Team Calendar', href: '/dashboard/team-calendar', icon: Calendar },
+        ],
+    },
     { name: 'User Management', href: '/dashboard/users', icon: Users },
     { name: 'Attendance Reports', href: '/dashboard/attendance', icon: Clock },
 ];

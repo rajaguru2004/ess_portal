@@ -189,6 +189,29 @@ class ApiClient {
         const response = await this.client.delete(`/api/v1/shift-assignments/${id}`);
         return response.data;
     }
+
+    // Leave Approval endpoints
+    async getPendingLeaveApprovals() {
+        const response = await this.client.get('/api/v1/leave-approval/pending');
+        return response.data;
+    }
+
+    async approveLeave(id: string) {
+        const response = await this.client.post(`/api/v1/leave-approval/${id}/approve`);
+        return response.data;
+    }
+
+    async rejectLeave(id: string, reason: string) {
+        const response = await this.client.post(`/api/v1/leave-approval/${id}/reject`, { reason });
+        return response.data;
+    }
+
+    async getTeamCalendar(startDate: string, endDate: string) {
+        const response = await this.client.get('/api/v1/leave-approval/team-calendar', {
+            params: { startDate, endDate }
+        });
+        return response.data;
+    }
 }
 
 const apiClient = new ApiClient();

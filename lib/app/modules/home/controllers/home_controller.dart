@@ -8,9 +8,7 @@ import 'dart:io';
 import '../../../data/sources/home_local_source.dart';
 import '../../../data/providers/attendance_provider.dart';
 import '../widgets/change_password_dialog.dart';
-import '../../../data/providers/shift_provider.dart';
-import '../../../data/models/shift_model.dart';
-import '../widgets/shifts_dialog.dart';
+import '../../../data/services/storage_service.dart';
 
 class HomeController extends GetxController {
   // Data source
@@ -43,12 +41,6 @@ class HomeController extends GetxController {
   final isCheckedIn = false.obs;
   // Provider
   final _attendanceProvider = AttendanceProvider();
-  final _shiftProvider = ShiftProvider();
-
-  // Shift Data
-  final todayShifts = <Shift>[].obs;
-  final upcomingShifts = <UpcomingShiftItem>[].obs;
-  final isShiftsLoading = false.obs;
 
   // User information
   final userName = ''.obs;
@@ -58,7 +50,6 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     _initializeData();
-    fetchShifts();
 
     // Check for first login
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -79,29 +70,6 @@ class HomeController extends GetxController {
   void onClose() {
     _timer?.cancel();
     super.onClose();
-  }
-
-  Future<void> fetchShifts() async {
-    isShiftsLoading.value = true;
-    try {
-      final todayResponse = await _shiftProvider.getTodayShifts();
-      if (todayResponse.success && todayResponse.data != null) {
-        todayShifts.value = todayResponse.data!.shifts;
-      }
-
-      final upcomingResponse = await _shiftProvider.getUpcomingShifts();
-      if (upcomingResponse.success && upcomingResponse.data != null) {
-        upcomingShifts.value = upcomingResponse.data!;
-      }
-    } catch (e) {
-      print('Error fetching shifts: $e');
-    } finally {
-      isShiftsLoading.value = false;
-    }
-  }
-
-  void showMyShifts() {
-    Get.dialog(const ShiftsDialog(), barrierDismissible: true);
   }
 
   Future<void> _initializeData() async {
@@ -131,7 +99,12 @@ class HomeController extends GetxController {
       final data = homeResponse.data;
 
       // Update User Info
-      userName.value = data.user.name;
+      final user = await StorageService().getUser();
+      if (user != null) {
+        userName.value = user.fullName;
+      } else {
+        userName.value = data.user.name;
+      }
 
       // Update Shift Info
       shiftStart.value = data.shift.startTime;

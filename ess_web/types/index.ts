@@ -255,3 +255,43 @@ export interface RejectShiftAssignmentRequest {
     reason: string;
 }
 
+// Leave Management Types
+export interface LeaveRequest {
+    id: string;
+    userId: string;
+    leaveTypeId: string;
+    startDate: string;
+    endDate: string;
+    halfDayType: string | null;
+    totalDays: number;
+    reason: string;
+    year: number;
+    status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELLED';
+    appliedAt: string;
+    approvedBy: string | null;
+    approvedAt: string | null;
+    rejectedBy: string | null;
+    rejectedAt: string | null;
+    rejectionReason: string | null;
+    cancelledAt: string | null;
+    cancelledBy: string | null;
+    createdAt: string;
+    updatedAt: string;
+    user: {
+        id: string;
+        fullName: string;
+        employeeCode: string;
+        email?: string;
+        designation?: string | null;
+    };
+    leaveType: {
+        id: string;
+        name: string;
+        code: string;
+    };
+}
+
+export interface RejectLeaveRequest {
+    reason: string;
+}
+

@@ -20,6 +20,8 @@ import '../modules/manager_requests/bindings/manager_requests_binding.dart';
 import '../modules/manager_requests/views/manager_requests_view.dart';
 import '../modules/attendance_detail/bindings/attendance_detail_binding.dart';
 import '../modules/attendance_detail/views/attendance_detail_view.dart';
+import '../modules/shifts/bindings/shifts_binding.dart';
+import '../modules/shifts/views/shifts_view.dart';
 
 part 'app_routes.dart';
 
@@ -78,6 +80,11 @@ class AppPages {
       name: _Paths.ATTENDANCE_DETAIL,
       page: () => const AttendanceDetailView(),
       binding: AttendanceDetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.SHIFTS,
+      page: () => const ShiftsView(),
+      binding: ShiftsBinding(),
     ),
   ];
 }

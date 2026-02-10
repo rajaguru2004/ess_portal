@@ -49,84 +49,69 @@ class HomeView extends GetView<HomeController> {
                     const SizedBox(height: 24),
 
                     // Manager Access Section (Temporary for testing)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Quick Actions',
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(height: 12),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: ElevatedButton.icon(
-                                  onPressed: () =>
-                                      Get.toNamed('/manager-requests'),
-                                  icon: const Icon(Icons.manage_accounts),
-                                  label: const Text('Requests'),
-                                  style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 12,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: ElevatedButton.icon(
-                                  onPressed: () =>
-                                      Get.toNamed('/attendance-detail'),
-                                  icon: const Icon(Icons.edit_calendar),
-                                  label: const Text('Edit Att.'),
-                                  style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 12,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 12),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton.icon(
-                              onPressed: () {
-                                Get.find<AttendanceScreenController>()
-                                    .refreshData();
-                                Get.toNamed('/attendance-screen');
-                              },
-                              icon: const Icon(Icons.assignment),
-                              label: const Text('Attendance Logs'),
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 12,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton.icon(
-                              onPressed: () => controller.showMyShifts(),
-                              icon: const Icon(Icons.calendar_month),
-                              label: const Text('My Shifts'),
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 12,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 16),
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       Text(
+                    //         'Quick Actions',
+                    //         style: Theme.of(context).textTheme.titleMedium
+                    //             ?.copyWith(fontWeight: FontWeight.bold),
+                    //       ),
+                    //       const SizedBox(height: 12),
+                    //       Row(
+                    //         children: [
+                    //           // Expanded(
+                    //           //   child: ElevatedButton.icon(
+                    //           //     onPressed: () =>
+                    //           //         Get.toNamed('/manager-requests'),
+                    //           //     icon: const Icon(Icons.manage_accounts),
+                    //           //     label: const Text('Requests'),
+                    //           //     style: ElevatedButton.styleFrom(
+                    //           //       padding: const EdgeInsets.symmetric(
+                    //           //         vertical: 12,
+                    //           //       ),
+                    //           //     ),
+                    //           //   ),
+                    //           // ),
+                    //           // const SizedBox(width: 12),
+                    //           // Expanded(
+                    //           //   child: ElevatedButton.icon(
+                    //           //     onPressed: () =>
+                    //           //         Get.toNamed('/attendance-detail'),
+                    //           //     icon: const Icon(Icons.edit_calendar),
+                    //           //     label: const Text('Edit Att.'),
+                    //           //     style: ElevatedButton.styleFrom(
+                    //           //       padding: const EdgeInsets.symmetric(
+                    //           //         vertical: 12,
+                    //           //       ),
+                    //           //     ),
+                    //           //   ),
+                    //           // ),
+                    //         ],
+                    //       ),
+                    //       // const SizedBox(height: 12),
+                    //       // SizedBox(
+                    //       //   width: double.infinity,
+                    //       //   child: ElevatedButton.icon(
+                    //       //     onPressed: () {
+                    //       //       Get.find<AttendanceScreenController>()
+                    //       //           .refreshData();
+                    //       //       Get.toNamed('/attendance-screen');
+                    //       //     },
+                    //       //     icon: const Icon(Icons.assignment),
+                    //       //     label: const Text('Attendance Logs'),
+                    //       //     style: ElevatedButton.styleFrom(
+                    //       //       padding: const EdgeInsets.symmetric(
+                    //       //         vertical: 12,
+                    //       //       ),
+                    //       //     ),
+                    //       //   ),
+                    //       // ),
+                    //     ],
+                    //   ),
+                    // ),
                     const SizedBox(height: 24), // Space for swipe button
                   ],
                 ),
