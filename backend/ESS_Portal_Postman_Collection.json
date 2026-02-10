@@ -984,6 +984,312 @@
                     }
                 }
             ]
+        },
+        {
+            "name": "Leave Management",
+            "item": [
+                {
+                    "name": "Employee",
+                    "item": [
+                        {
+                            "name": "Apply Leave",
+                            "request": {
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{accessToken}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "method": "POST",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"leaveTypeId\": \"LEAVE_TYPE_UUID_HERE\",\n  \"startDate\": \"2026-03-10\",\n  \"endDate\": \"2026-03-12\",\n  \"reason\": \"Family function\",\n  \"halfDayType\": null\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/leave/apply",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "leave",
+                                        "apply"
+                                    ]
+                                },
+                                "description": "Apply for leave. Validates balance, overlaps, and holidays."
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Get My Leaves",
+                            "request": {
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{accessToken}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/leave/my-leaves?year=2026",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "leave",
+                                        "my-leaves"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "year",
+                                            "value": "2026"
+                                        }
+                                    ]
+                                },
+                                "description": "Get leave history for authenticated employee."
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Get Leave Balance",
+                            "request": {
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{accessToken}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/leave/balance?year=2026",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "leave",
+                                        "balance"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "year",
+                                            "value": "2026"
+                                        }
+                                    ]
+                                },
+                                "description": "Get current leave balance (allocated, used, pending, available)."
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Cancel Leave",
+                            "request": {
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{accessToken}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "method": "DELETE",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/leave/LEAVE_ID_HERE/cancel",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "leave",
+                                        "LEAVE_ID_HERE",
+                                        "cancel"
+                                    ]
+                                },
+                                "description": "Cancel a pending or future approved leave."
+                            },
+                            "response": []
+                        }
+                    ]
+                },
+                {
+                    "name": "Manager",
+                    "item": [
+                        {
+                            "name": "Get Pending Approvals",
+                            "request": {
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{accessToken}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/leave-approval/pending",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "leave-approval",
+                                        "pending"
+                                    ]
+                                },
+                                "description": "Get all leaves pending approval in manager's department."
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Approve Leave",
+                            "request": {
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{accessToken}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/leave-approval/LEAVE_ID_HERE/approve",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "leave-approval",
+                                        "LEAVE_ID_HERE",
+                                        "approve"
+                                    ]
+                                },
+                                "description": "Approve a leave application. Updates balance and creates attendance records."
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Reject Leave",
+                            "request": {
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{accessToken}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "method": "POST",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"reason\": \"Team requirement during this period\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/leave-approval/LEAVE_ID_HERE/reject",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "leave-approval",
+                                        "LEAVE_ID_HERE",
+                                        "reject"
+                                    ]
+                                },
+                                "description": "Reject a leave application with a reason."
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Get Team Calendar",
+                            "request": {
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{accessToken}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/leave-approval/team-calendar?startDate=2026-03-01&endDate=2026-03-31",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "leave-approval",
+                                        "team-calendar"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "startDate",
+                                            "value": "2026-03-01"
+                                        },
+                                        {
+                                            "key": "endDate",
+                                            "value": "2026-03-31"
+                                        }
+                                    ]
+                                },
+                                "description": "Get approved leaves for team members in a date range."
+                            },
+                            "response": []
+                        }
+                    ]
+                }
+            ]
         }
     ],
     "variable": [

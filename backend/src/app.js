@@ -16,6 +16,8 @@ const designationRoutes = require('./Routes/designation.routes');
 const attendanceRoutes = require('./Routes/attendance.routes');
 const shiftAssignmentRoutes = require('./Routes/shiftAssignment.routes');
 const employeeShiftRoutes = require('./Routes/employeeShift.routes');
+const leaveRoutes = require('./Routes/leave.routes');
+const leaveApprovalRoutes = require('./Routes/leaveApproval.routes');
 const { errorHandler } = require('./Middlewares/error.middleware');
 const { errorResponse } = require('./Utils/response');
 
@@ -49,6 +51,8 @@ app.use('/api/v1/designations', designationRoutes);
 app.use('/api/v1/attendance', attendanceRoutes);
 app.use('/api/v1/shift-assignments', shiftAssignmentRoutes);
 app.use('/api/v1/employee/shifts', employeeShiftRoutes);
+app.use('/api/v1/leave', leaveRoutes);
+app.use('/api/v1/leave-approval', leaveApprovalRoutes);
 
 // Health Check
 app.get('/health', (req, res) => {

@@ -34,4 +34,29 @@ const authenticate = (req, res, next) => {
     }
 };
 
-module.exports = { authenticate };
+/**
+ * Role-based Authorization Middleware
+ * @param {string[]} allowedRoles - Array of allowed role codes (e.g., ['ADMIN', 'MANAGER'])
+ */
+const authorize = (allowedRoles = []) => {
+    return (req, res, next) => {
+        try {
+            if (!req.user) {
+                return errorResponse(res, 'User not authenticated', 'AUTH_007', 401);
+            }
+
+            const { roleCode } = req.user;
+
+            if (!allowedRoles.includes(roleCode)) {
+                return errorResponse(res, 'You do not have permission to perform this action', 'AUTH_008', 403);
+            }
+
+            next();
+        } catch (error) {
+            console.error('Authorization Middleware Error:', error);
+            return errorResponse(res, 'Internal Server Error', 'AUTH_009', 500);
+        }
+    };
+};
+
+module.exports = { authenticate, authorize };

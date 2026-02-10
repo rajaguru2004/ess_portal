@@ -46,6 +46,8 @@ model User {
   manager      User?  @relation("UserManager", fields: [managerId], references: [id])
   subordinates User[] @relation("UserManager")
   Role         Role   @relation(fields: [roleId], references: [id])
+  leaveApplications LeaveApplication[]
+  leaveBalances     LeaveBalance[]
 
   @@index([tenantId])
   @@index([branchId])
@@ -63,7 +65,8 @@ model Role {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  users User[]
+  users         User[]
+  leavePolicies RoleLeavePolicy[]
 
   @@index([code])
   @@index([isSystemRole])
@@ -129,6 +132,10 @@ model LeaveType {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  leaveApplications LeaveApplication[]
+  rolePolicies      RoleLeavePolicy[]
+  leaveBalances     LeaveBalance[]
+
   @@unique([tenantId, code])
   @@index([tenantId])
   @@index([isActive])
@@ -152,6 +159,9 @@ model RoleLeavePolicy {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  role      Role      @relation(fields: [roleId], references: [id])
+  leaveType LeaveType @relation(fields: [leaveTypeId], references: [id])
 
   @@unique([roleId, leaveTypeId])
   @@index([roleId])
@@ -204,6 +214,7 @@ enum AttendanceStatus {
   PENDING
   CHECKED_IN
   CHECKED_OUT
+  ON_LEAVE
 }
 
 enum AttendanceLogType {
@@ -216,6 +227,7 @@ model Attendance {
   userId   String
   date     DateTime @db.Date
   shiftId  String?
+  leaveApplicationId String?
 
   checkInAt  DateTime?
   checkOutAt DateTime?
@@ -229,6 +241,7 @@ model Attendance {
   updatedAt DateTime @updatedAt
 
   logs AttendanceLog[]
+  leaveApplication LeaveApplication? @relation(fields: [leaveApplicationId], references: [id])
 
   // ⚠️ TESTING MODE: Unique constraint disabled to allow multiple check-ins per day
   // @@unique([userId, date])
@@ -291,4 +304,90 @@ model ShiftAssignment {
   @@index([status])
   @@index([userId, date])
   @@index([status, date])
+}
+
+// Leave Management Enums
+
+enum HalfDayType {
+  FIRST_HALF
+  SECOND_HALF
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+// Leave Application Model
+model LeaveApplication {
+  id          String      @id @default(uuid())
+  userId      String
+  leaveTypeId String
+
+  startDate   DateTime    @db.Date
+  endDate     DateTime    @db.Date
+  halfDayType HalfDayType?
+  totalDays   Float
+  reason      String
+  year        Int
+
+  status LeaveStatus @default(PENDING)
+
+  // Application tracking
+  appliedAt DateTime @default(now())
+
+  // Approval tracking
+  approvedBy String?
+  approvedAt DateTime?
+
+  // Rejection tracking
+  rejectedBy      String?
+  rejectedAt      DateTime?
+  rejectionReason String?
+
+  // Cancellation tracking
+  cancelledAt DateTime?
+  cancelledBy String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id])
+  leaveType LeaveType @relation(fields: [leaveTypeId], references: [id])
+  attendances Attendance[]
+
+  @@index([userId])
+  @@index([leaveTypeId])
+  @@index([status])
+  @@index([year])
+  @@index([userId, status])
+  @@index([userId, year])
+  @@index([startDate, endDate])
+}
+
+// Leave Balance Model
+model LeaveBalance {
+  id          String @id @default(uuid())
+  userId      String
+  leaveTypeId String
+  year        Int
+
+  allocated    Float @default(0)
+  used         Float @default(0)
+  carryForward Float @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User      @relation(fields: [userId], references: [id])
+  leaveType LeaveType @relation(fields: [leaveTypeId], references: [id])
+
+  @@unique([userId, leaveTypeId, year])
+  @@index([userId])
+  @@index([leaveTypeId])
+  @@index([year])
+  @@index([userId, year])
 }

@@ -80,6 +80,20 @@ const checkIn = async (userId, photo, latitude, longitude, deviceInfo, ipAddress
         throw new Error('User not found');
     }
 
+    // 6.5. Check if user is on approved leave
+    const approvedLeave = await prisma.leaveApplication.findFirst({
+        where: {
+            userId,
+            status: 'APPROVED',
+            startDate: { lte: new Date(currentDate) },
+            endDate: { gte: new Date(currentDate) }
+        }
+    });
+
+    if (approvedLeave) {
+        throw new Error('Cannot punch in. You are on approved leave.');
+    }
+
     // 7. Fetch user's shift (optional - allow if not assigned)
     let shift = null;
     let shiftId = null;
