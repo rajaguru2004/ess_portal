@@ -1,7 +1,7 @@
 class ApiConsts {
   // Use 10.0.2.2 for Android emulator to access localhost
-  static const String baseUrl = 'https://api.ess.develop.thefusionapps.com';
-  // static const String baseUrl = 'http://192.168.0.165:3000';
+  // static const String baseUrl = 'https://api.ess.develop.thefusionapps.com';
+  static const String baseUrl = 'http://192.168.0.165:3000';
 }
 
 class ApiEndpoints {
@@ -41,4 +41,10 @@ class ApiEndpoints {
   static const String attendanceLogs = '/api/v1/attendance/logs';
   static const String attendanceStatus = '/api/v1/attendance/status';
   static const String attendanceHistory = '/api/v1/attendance/history';
+
+  // Leave Management
+  static const String applyLeave = '/api/v1/leave/apply';
+  static const String myLeaves = '/api/v1/leave/my-leaves';
+  static const String leaveBalance = '/api/v1/leave/balance';
+  static const String cancelLeave = '/api/v1/leave/{id}/cancel';
 }
