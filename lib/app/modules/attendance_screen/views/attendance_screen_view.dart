@@ -98,11 +98,11 @@ class AttendanceScreenView extends GetView<AttendanceScreenController> {
             ),
           ),
           const Spacer(),
-          IconButton(
-            icon: const Icon(Icons.history, color: Colors.blue),
-            onPressed: () => Get.toNamed('/attendance-regularization'),
-            tooltip: 'Attendance Requests',
-          ),
+          // IconButton(
+          //   icon: const Icon(Icons.history, color: Colors.blue),
+          //   onPressed: () => Get.toNamed('/attendance-regularization'),
+          //   tooltip: 'Attendance Requests',
+          // ),
           IconButton(
             icon: const Icon(Icons.add_circle_outline, color: Colors.blue),
             onPressed: () => Get.toNamed('/apply-leave-screen'),

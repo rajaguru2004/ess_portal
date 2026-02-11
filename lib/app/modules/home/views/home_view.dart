@@ -287,7 +287,7 @@ class HomeView extends GetView<HomeController> {
           ),
           child: Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.white,
               fontSize: 32,
               fontWeight: FontWeight.bold,
@@ -295,10 +295,7 @@ class HomeView extends GetView<HomeController> {
           ),
         ),
         const SizedBox(height: 4),
-        Text(
-          label,
-          style: const TextStyle(color: Colors.white70, fontSize: 12),
-        ),
+        Text(label, style: TextStyle(color: Colors.white70, fontSize: 12)),
       ],
     );
   }

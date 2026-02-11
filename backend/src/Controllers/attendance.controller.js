@@ -117,10 +117,10 @@ const checkOut = async (req, res, next) => {
  */
 const getAttendanceLogs = async (req, res, next) => {
     try {
-        const userId = req.user.userId; // From JWT
+        const requestingUser = req.user; // From JWT
         const { startDate, endDate } = req.query;
 
-        const logs = await attendanceService.getAttendanceLogs(userId, startDate, endDate);
+        const logs = await attendanceService.getAttendanceLogs(requestingUser, startDate, endDate);
 
         return successResponse(res, logs, 'Attendance logs fetched successfully', 200);
     } catch (error) {

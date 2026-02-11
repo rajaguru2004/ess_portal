@@ -252,12 +252,14 @@ const checkOut = async (userId, latitude, longitude, photo, deviceInfo, ipAddres
 
 /**
  * Get Attendance Logs with Photos
- * @param {string} userId - User ID from JWT
+ * @param {Object} requestingUser - User object from JWT {userId, roleCode}
  * @param {string} startDate - Optional start date (YYYY-MM-DD)
  * @param {string} endDate - Optional end date (YYYY-MM-DD)
- * @returns {Promise<Array>} Attendance logs with photo URLs
+ * @returns {Promise<Array>} Attendance logs with photo URLs and user info (if admin)
  */
-const getAttendanceLogs = async (userId, startDate, endDate) => {
+const getAttendanceLogs = async (requestingUser, startDate, endDate) => {
+    const { userId, roleCode } = requestingUser;
+
     // Build date filter
     const dateFilter = {};
     if (startDate || endDate) {
@@ -270,10 +272,9 @@ const getAttendanceLogs = async (userId, startDate, endDate) => {
         }
     }
 
-    // Fetch attendance records with logs
-    const attendanceRecords = await prisma.attendance.findMany({
+    // Build query options
+    const queryOptions = {
         where: {
-            userId,
             ...dateFilter,
         },
         include: {
@@ -286,7 +287,25 @@ const getAttendanceLogs = async (userId, startDate, endDate) => {
         orderBy: {
             date: 'desc',
         },
-    });
+    };
+
+    // Role-based filtering and inclusions
+    if (roleCode === 'ADMIN') {
+        // Admins can see everyone's logs
+        queryOptions.include.user = {
+            select: {
+                fullName: true,
+                employeeCode: true,
+                username: true
+            }
+        };
+    } else {
+        // Regular users can only see their own logs
+        queryOptions.where.userId = userId;
+    }
+
+    // Fetch attendance records
+    const attendanceRecords = await prisma.attendance.findMany(queryOptions);
 
     return attendanceRecords;
 };

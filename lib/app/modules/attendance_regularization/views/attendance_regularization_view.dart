@@ -126,7 +126,7 @@ class AttendanceRegularizationView
           const SizedBox(width: 12),
           Text(
             '$name (#$id)',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
         ],
       );
@@ -319,7 +319,7 @@ class AttendanceRegularizationView
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
               request.formattedDate, // "22/07/2024"
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
           Padding(
@@ -401,7 +401,7 @@ class AttendanceRegularizationView
                           const SizedBox(width: 4),
                           Text(
                             request.requestedTime,
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -497,7 +497,7 @@ class AttendanceRegularizationView
                   child: const Icon(Icons.check, size: 12, color: Colors.green),
                 ),
                 const SizedBox(width: 8),
-                const Text(
+                Text(
                   'Line Manager',
                   style: TextStyle(
                     color: Colors.green,
@@ -546,7 +546,7 @@ class AttendanceRegularizationView
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
-                          child: const Text(
+                          child: Text(
                             'Reject',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
@@ -566,7 +566,7 @@ class AttendanceRegularizationView
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
-                          child: const Text(
+                          child: Text(
                             'Recommend',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),

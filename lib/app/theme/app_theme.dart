@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
 
 /// Centralized theme configuration for the application
@@ -11,6 +12,7 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
+      fontFamily: GoogleFonts.montserrat().fontFamily,
 
       // Color Scheme
       colorScheme: const ColorScheme.light(
@@ -37,44 +39,52 @@ class AppTheme {
       ),
 
       // Text Theme
-      textTheme: const TextTheme(
-        displayLarge: TextStyle(
-          fontSize: 32,
-          fontWeight: FontWeight.bold,
-          color: AppColors.lightTextPrimary,
-        ),
-        displayMedium: TextStyle(
-          fontSize: 28,
-          fontWeight: FontWeight.bold,
-          color: AppColors.lightTextPrimary,
-        ),
-        displaySmall: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-          color: AppColors.lightTextPrimary,
-        ),
-        headlineMedium: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: AppColors.lightTextPrimary,
-        ),
-        titleLarge: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
-          color: AppColors.lightTextPrimary,
-        ),
-        titleMedium: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w500,
-          color: AppColors.lightTextPrimary,
-        ),
-        bodyLarge: TextStyle(fontSize: 16, color: AppColors.lightTextPrimary),
-        bodyMedium: TextStyle(fontSize: 14, color: AppColors.lightTextPrimary),
-        bodySmall: TextStyle(fontSize: 12, color: AppColors.lightTextSecondary),
-        labelLarge: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: AppColors.lightTextSecondary,
+      textTheme: GoogleFonts.montserratTextTheme(
+        const TextTheme(
+          displayLarge: TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+            color: AppColors.lightTextPrimary,
+          ),
+          displayMedium: TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: AppColors.lightTextPrimary,
+          ),
+          displaySmall: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: AppColors.lightTextPrimary,
+          ),
+          headlineMedium: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: AppColors.lightTextPrimary,
+          ),
+          titleLarge: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: AppColors.lightTextPrimary,
+          ),
+          titleMedium: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: AppColors.lightTextPrimary,
+          ),
+          bodyLarge: TextStyle(fontSize: 16, color: AppColors.lightTextPrimary),
+          bodyMedium: TextStyle(
+            fontSize: 14,
+            color: AppColors.lightTextPrimary,
+          ),
+          bodySmall: TextStyle(
+            fontSize: 12,
+            color: AppColors.lightTextSecondary,
+          ),
+          labelLarge: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: AppColors.lightTextSecondary,
+          ),
         ),
       ),
 
@@ -161,6 +171,7 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
+      fontFamily: GoogleFonts.montserrat().fontFamily,
 
       // Color Scheme
       colorScheme: const ColorScheme.dark(
@@ -187,44 +198,49 @@ class AppTheme {
       ),
 
       // Text Theme
-      textTheme: const TextTheme(
-        displayLarge: TextStyle(
-          fontSize: 32,
-          fontWeight: FontWeight.bold,
-          color: AppColors.darkTextPrimary,
-        ),
-        displayMedium: TextStyle(
-          fontSize: 28,
-          fontWeight: FontWeight.bold,
-          color: AppColors.darkTextPrimary,
-        ),
-        displaySmall: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-          color: AppColors.darkTextPrimary,
-        ),
-        headlineMedium: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: AppColors.darkTextPrimary,
-        ),
-        titleLarge: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
-          color: AppColors.darkTextPrimary,
-        ),
-        titleMedium: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w500,
-          color: AppColors.darkTextPrimary,
-        ),
-        bodyLarge: TextStyle(fontSize: 16, color: AppColors.darkTextPrimary),
-        bodyMedium: TextStyle(fontSize: 14, color: AppColors.darkTextPrimary),
-        bodySmall: TextStyle(fontSize: 12, color: AppColors.darkTextSecondary),
-        labelLarge: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: AppColors.darkTextSecondary,
+      textTheme: GoogleFonts.montserratTextTheme(
+        const TextTheme(
+          displayLarge: TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+            color: AppColors.darkTextPrimary,
+          ),
+          displayMedium: TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: AppColors.darkTextPrimary,
+          ),
+          displaySmall: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: AppColors.darkTextPrimary,
+          ),
+          headlineMedium: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: AppColors.darkTextPrimary,
+          ),
+          titleLarge: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: AppColors.darkTextPrimary,
+          ),
+          titleMedium: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: AppColors.darkTextPrimary,
+          ),
+          bodyLarge: TextStyle(fontSize: 16, color: AppColors.darkTextPrimary),
+          bodyMedium: TextStyle(fontSize: 14, color: AppColors.darkTextPrimary),
+          bodySmall: TextStyle(
+            fontSize: 12,
+            color: AppColors.darkTextSecondary,
+          ),
+          labelLarge: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: AppColors.darkTextSecondary,
+          ),
         ),
       ),
 

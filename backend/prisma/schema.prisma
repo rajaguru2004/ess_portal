@@ -48,6 +48,7 @@ model User {
   Role         Role   @relation(fields: [roleId], references: [id])
   leaveApplications LeaveApplication[]
   leaveBalances     LeaveBalance[]
+  attendances       Attendance[]
 
   @@index([tenantId])
   @@index([branchId])
@@ -241,6 +242,7 @@ model Attendance {
   updatedAt DateTime @updatedAt
 
   logs AttendanceLog[]
+  user User @relation(fields: [userId], references: [id])
   leaveApplication LeaveApplication? @relation(fields: [leaveApplicationId], references: [id])
 
   // ⚠️ TESTING MODE: Unique constraint disabled to allow multiple check-ins per day

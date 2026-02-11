@@ -2,10 +2,12 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../../../data/providers/attendance_provider.dart';
 import '../../../data/models/attendance_response_model.dart';
+import '../../../data/services/storage_service.dart';
 
 class AttendanceScreenController extends GetxController {
   // Data source
   final _attendanceProvider = AttendanceProvider();
+  final _storageService = StorageService();
 
   // Observable state variables
   final isLoading = true.obs;
@@ -43,6 +45,7 @@ class AttendanceScreenController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    _updateDateString();
     refreshData();
   }
 
@@ -50,6 +53,13 @@ class AttendanceScreenController extends GetxController {
     isLoading.value = true;
 
     try {
+      // Fetch user info from storage
+      final user = await _storageService.getUser();
+      if (user != null) {
+        userName.value = user.fullName;
+        employeeId.value = user.employeeCode;
+      }
+
       // Fetch attendance data for the current month
       final now = DateTime.now();
       final startDate = DateTime(now.year, now.month, 1);
@@ -83,23 +93,20 @@ class AttendanceScreenController extends GetxController {
         // Calculate stats
         int total = logs.length; // Total days with records
         int present = logs
-            .where((l) => l.status == 'CHECKED_IN' || l.status == 'CHECKED_OUT')
+            .where(
+              (l) =>
+                  l.status == 'CHECKED_IN' ||
+                  l.status == 'CHECKED_OUT' ||
+                  l.status == 'PRESENT',
+            )
             .length;
         int late = logs.where((l) => l.isLate).length;
         // Absent logic: This usually requires knowing total working days in month vs present.
         // For now, let's assume specific "ABSENT" status logs exist OR we calculate based on past days without logs?
         // Simple logic given the API: Absent count from logs with status 'ABSENT' if any, or 0.
-        // User JSON doesn't show ABSENT logs, only existing ones.
-        // We'll trust the stats calculation relative to retrieved logs.
-        int absent = logs.where((l) => l.status == 'ABSENT').length;
+        int absent = logs.where((l) => l.status.contains('ABSENT')).length;
 
-        // If "total" means working days passed, we can't know that from just logs.
-        // But for the donut chart, "Total" usually splits into Present/Absent/Leave.
-        // If we only have logs for days present, Absent will be 0.
-        // Let's stick to counting explicit statuses if available.
-        // If only Present logs exist, Absent=0 is technically correct for "Logs Retrieved".
-
-        int leave = logs.where((l) => l.status == 'LEAVE').length;
+        int leave = logs.where((l) => l.status.contains('LEAVE')).length;
 
         totalDays.value = total;
         presentCount.value = present;
