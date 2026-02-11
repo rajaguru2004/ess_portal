@@ -1,3 +1,4 @@
+import 'package:ess_portal/app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../data/services/auth_service.dart';
@@ -95,10 +96,13 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
+                Text(
                   'For security reasons, you must change your password on first login.',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                  style: AppTheme.globalFont.copyWith(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
                 ),
                 const SizedBox(height: 20),
                 if (_errorMessage.isNotEmpty)
@@ -106,7 +110,10 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                     padding: const EdgeInsets.only(bottom: 10),
                     child: Text(
                       _errorMessage,
-                      style: const TextStyle(color: Colors.red, fontSize: 13),
+                      style: AppTheme.globalFont.copyWith(
+                        color: Colors.red,
+                        fontSize: 13,
+                      ),
                     ),
                   ),
                 TextFormField(
@@ -181,7 +188,10 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
         actions: [
           TextButton(
             onPressed: _isLoading ? null : _logout,
-            child: const Text('Logout', style: TextStyle(color: Colors.grey)),
+            child: Text(
+              'Logout',
+              style: AppTheme.globalFont.copyWith(color: Colors.grey),
+            ),
           ),
           ElevatedButton(
             onPressed: _isLoading ? null : _submit,

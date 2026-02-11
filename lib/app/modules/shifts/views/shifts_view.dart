@@ -1,3 +1,4 @@
+import 'package:ess_portal/app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -13,14 +14,16 @@ class ShiftsView extends GetView<ShiftsController> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
+          title: Text(
             'My Shifts',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: AppTheme.globalFont.copyWith(fontWeight: FontWeight.bold),
           ),
           centerTitle: true,
           bottom: TabBar(
             indicatorSize: TabBarIndicatorSize.tab,
-            labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+            labelStyle: AppTheme.globalFont.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
             tabs: const [
               Tab(
                 child: Row(
@@ -221,7 +224,7 @@ class ShiftsView extends GetView<ShiftsController> {
                                   ),
                                   child: Text(
                                     shift.type,
-                                    style: TextStyle(
+                                    style: AppTheme.globalFont.copyWith(
                                       color: shiftColor,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,

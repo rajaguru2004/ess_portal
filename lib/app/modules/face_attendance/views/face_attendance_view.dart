@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:ess_portal/app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/face_attendance_controller.dart';
@@ -36,10 +37,10 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
 
           if (!controller.isCameraInitialized.value ||
               controller.cameraController == null) {
-            return const Center(
+            return Center(
               child: Text(
                 'Camera not available',
-                style: TextStyle(color: Colors.white),
+                style: AppTheme.globalFont.copyWith(color: Colors.white),
               ),
             );
           }
@@ -88,9 +89,12 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
                     color: Colors.black.withOpacity(0.6),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Face forward & look directly at camera',
-                    style: TextStyle(color: Colors.white, fontSize: 14),
+                    style: AppTheme.globalFont.copyWith(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -150,7 +154,7 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
                   const SizedBox(width: 8),
                   Text(
                     'Take your photo',
-                    style: TextStyle(
+                    style: AppTheme.globalFont.copyWith(
                       color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -184,9 +188,9 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        child: const Text(
+                        child: Text(
                           'Capture Photo',
-                          style: TextStyle(
+                          style: AppTheme.globalFont.copyWith(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             color: Colors.white,
@@ -210,7 +214,7 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
         Expanded(
           child: Text(
             text,
-            style: const TextStyle(
+            style: AppTheme.globalFont.copyWith(
               color: Colors.white,
               fontSize: 12,
               height: 1.4,
@@ -246,7 +250,7 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
               // Success Title
               Text(
                 'Clock in successful',
-                style: TextStyle(
+                style: AppTheme.globalFont.copyWith(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.onSurface,
@@ -258,7 +262,7 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
               // Success Message
               Text(
                 'Great job! Your clock in has been successfully saved.',
-                style: TextStyle(
+                style: AppTheme.globalFont.copyWith(
                   fontSize: 16,
                   color: Theme.of(context).textTheme.bodyMedium?.color,
                 ),
@@ -277,9 +281,9 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   'Back to Home',
-                  style: TextStyle(
+                  style: AppTheme.globalFont.copyWith(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
@@ -299,9 +303,9 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   'View attendance log',
-                  style: TextStyle(
+                  style: AppTheme.globalFont.copyWith(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: Color(0xFF2563EB),

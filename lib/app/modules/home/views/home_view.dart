@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../theme/app_theme.dart';
 import '../controllers/home_controller.dart';
-import '../../attendance_screen/controllers/attendance_screen_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -261,7 +261,7 @@ class HomeView extends GetView<HomeController> {
                   const SizedBox(width: 8),
                   Text(
                     'Total Break Time - ${controller.totalBreakHours.value}h ${controller.totalBreakMinutes.value}m',
-                    style: TextStyle(
+                    style: AppTheme.globalFont.copyWith(
                       color: Colors.orange.shade800,
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
@@ -287,7 +287,7 @@ class HomeView extends GetView<HomeController> {
           ),
           child: Text(
             value,
-            style: TextStyle(
+            style: AppTheme.globalFont.copyWith(
               color: Colors.white,
               fontSize: 32,
               fontWeight: FontWeight.bold,
@@ -295,17 +295,23 @@ class HomeView extends GetView<HomeController> {
           ),
         ),
         const SizedBox(height: 4),
-        Text(label, style: TextStyle(color: Colors.white70, fontSize: 12)),
+        Text(
+          label,
+          style: AppTheme.globalFont.copyWith(
+            color: Colors.white70,
+            fontSize: 12,
+          ),
+        ),
       ],
     );
   }
 
   Widget _buildTimeSeparator(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Text(
         ':',
-        style: TextStyle(
+        style: AppTheme.globalFont.copyWith(
           color: Colors.white,
           fontSize: 32,
           fontWeight: FontWeight.bold,
@@ -432,7 +438,7 @@ class HomeView extends GetView<HomeController> {
           ),
           child: Text(
             duration,
-            style: TextStyle(
+            style: AppTheme.globalFont.copyWith(
               color: Colors.orange.shade800,
               fontSize: 12,
               fontWeight: FontWeight.w500,

@@ -1,7 +1,7 @@
 class ApiConsts {
   // Use 10.0.2.2 for Android emulator to access localhost
-  static const String baseUrl = 'https://api.ess.develop.thefusionapps.com';
-  // static const String baseUrl = 'http://192.168.0.181:3000';
+  //static const String baseUrl = 'https://api.ess.develop.thefusionapps.com';
+  static const String baseUrl = 'http://192.168.0.181:3000';
 }
 
 class ApiEndpoints {

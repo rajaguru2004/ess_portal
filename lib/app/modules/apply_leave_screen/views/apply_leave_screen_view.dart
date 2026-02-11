@@ -1,3 +1,4 @@
+import 'package:ess_portal/app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -97,7 +98,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                           )
                         : Text(
                             "Apply Leave",
-                            style: TextStyle(
+                            style: AppTheme.globalFont.copyWith(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
@@ -127,14 +128,17 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
       return RichText(
         text: TextSpan(
           text: text.substring(0, text.length - 1),
-          style: TextStyle(
+          style: AppTheme.globalFont.copyWith(
             color: theme.colorScheme.onSurface.withOpacity(0.6),
             fontSize: 14,
           ),
           children: [
             TextSpan(
               text: '*',
-              style: TextStyle(color: theme.colorScheme.error, fontSize: 14),
+              style: AppTheme.globalFont.copyWith(
+                color: theme.colorScheme.error,
+                fontSize: 14,
+              ),
             ),
           ],
         ),
@@ -142,7 +146,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
     }
     return Text(
       text,
-      style: TextStyle(
+      style: AppTheme.globalFont.copyWith(
         color: theme.colorScheme.onSurface.withOpacity(0.6),
         fontSize: 14,
       ),
@@ -271,7 +275,9 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                   children: [
                     Text(
                       leave.leaveType?.name ?? "Leave Application",
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      style: AppTheme.globalFont.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     _buildStatusBadge(leave.status),
                   ],
@@ -293,9 +299,9 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                     alignment: Alignment.centerRight,
                     child: TextButton(
                       onPressed: () => controller.cancelLeave(leave.id),
-                      child: const Text(
+                      child: Text(
                         "Cancel Request",
-                        style: TextStyle(color: Colors.red),
+                        style: AppTheme.globalFont.copyWith(color: Colors.red),
                       ),
                     ),
                   ),
@@ -335,7 +341,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
       ),
       child: Text(
         status,
-        style: TextStyle(
+        style: AppTheme.globalFont.copyWith(
           color: color,
           fontSize: 12,
           fontWeight: FontWeight.bold,

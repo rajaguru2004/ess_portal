@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../theme/app_theme.dart';
 import '../controllers/login_screen_controller.dart';
 
 class LoginScreenView extends GetView<LoginScreenController> {
@@ -191,7 +192,7 @@ class LoginScreenView extends GetView<LoginScreenController> {
             Expanded(
               child: Text(
                 controller.errorMessage.value,
-                style: TextStyle(
+                style: AppTheme.globalFont.copyWith(
                   color: Get.theme.colorScheme.error,
                   fontSize: 14,
                 ),

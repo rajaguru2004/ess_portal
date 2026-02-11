@@ -1,3 +1,4 @@
+import 'package:ess_portal/app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -17,9 +18,9 @@ class NewRegularizationRequestView
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'New Regularization Request',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: AppTheme.globalFont.copyWith(fontWeight: FontWeight.bold),
         ),
         centerTitle: false,
         elevation: 0,
@@ -213,9 +214,9 @@ class NewRegularizationRequestView
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child: const Text(
+              child: Text(
                 'Submit Request',
-                style: TextStyle(
+                style: AppTheme.globalFont.copyWith(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   color: Colors.white,

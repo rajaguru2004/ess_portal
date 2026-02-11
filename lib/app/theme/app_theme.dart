@@ -1,3 +1,4 @@
+import 'package:ess_portal/app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
@@ -5,14 +6,21 @@ import 'app_colors.dart';
 /// Centralized theme configuration for the application
 /// Provides both Light and Dark theme configurations
 class AppTheme {
-  AppTheme._(); // Private constructor to prevent instantiation
+  AppTheme._();
+
+  /// Central font style derived from GoogleFonts
+  /// Change this to another GoogleFont to update the entire app
+  static TextStyle get globalFont => GoogleFonts.montserrat();
+
+  /// Simplified font family name for use in ThemeData
+  static String? get fontFamily => globalFont.fontFamily;
 
   /// Light Theme Configuration
   static ThemeData lightTheme() {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
-      fontFamily: GoogleFonts.montserrat().fontFamily,
+      fontFamily: fontFamily,
 
       // Color Scheme
       colorScheme: const ColorScheme.light(
@@ -40,47 +48,50 @@ class AppTheme {
 
       // Text Theme
       textTheme: GoogleFonts.montserratTextTheme(
-        const TextTheme(
-          displayLarge: TextStyle(
+        TextTheme(
+          displayLarge: AppTheme.globalFont.copyWith(
             fontSize: 32,
             fontWeight: FontWeight.bold,
             color: AppColors.lightTextPrimary,
           ),
-          displayMedium: TextStyle(
+          displayMedium: AppTheme.globalFont.copyWith(
             fontSize: 28,
             fontWeight: FontWeight.bold,
             color: AppColors.lightTextPrimary,
           ),
-          displaySmall: TextStyle(
+          displaySmall: AppTheme.globalFont.copyWith(
             fontSize: 24,
             fontWeight: FontWeight.bold,
             color: AppColors.lightTextPrimary,
           ),
-          headlineMedium: TextStyle(
+          headlineMedium: AppTheme.globalFont.copyWith(
             fontSize: 20,
             fontWeight: FontWeight.w600,
             color: AppColors.lightTextPrimary,
           ),
-          titleLarge: TextStyle(
+          titleLarge: AppTheme.globalFont.copyWith(
             fontSize: 18,
             fontWeight: FontWeight.w600,
             color: AppColors.lightTextPrimary,
           ),
-          titleMedium: TextStyle(
+          titleMedium: AppTheme.globalFont.copyWith(
             fontSize: 16,
             fontWeight: FontWeight.w500,
             color: AppColors.lightTextPrimary,
           ),
-          bodyLarge: TextStyle(fontSize: 16, color: AppColors.lightTextPrimary),
-          bodyMedium: TextStyle(
+          bodyLarge: AppTheme.globalFont.copyWith(
+            fontSize: 16,
+            color: AppColors.lightTextPrimary,
+          ),
+          bodyMedium: AppTheme.globalFont.copyWith(
             fontSize: 14,
             color: AppColors.lightTextPrimary,
           ),
-          bodySmall: TextStyle(
+          bodySmall: AppTheme.globalFont.copyWith(
             fontSize: 12,
             color: AppColors.lightTextSecondary,
           ),
-          labelLarge: TextStyle(
+          labelLarge: AppTheme.globalFont.copyWith(
             fontSize: 14,
             fontWeight: FontWeight.w500,
             color: AppColors.lightTextSecondary,
@@ -122,9 +133,11 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: AppColors.lightError, width: 2),
         ),
-        labelStyle: const TextStyle(color: AppColors.lightTextSecondary),
-        hintStyle: const TextStyle(color: AppColors.lightTextHint),
-        errorStyle: const TextStyle(color: AppColors.lightError),
+        labelStyle: AppTheme.globalFont.copyWith(
+          color: AppColors.lightTextSecondary,
+        ),
+        hintStyle: AppTheme.globalFont.copyWith(color: AppColors.lightTextHint),
+        errorStyle: AppTheme.globalFont.copyWith(color: AppColors.lightError),
       ),
 
       // Elevated Button Theme
@@ -139,7 +152,10 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          textStyle: AppTheme.globalFont.copyWith(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
 
@@ -148,7 +164,10 @@ class AppTheme {
         style: TextButton.styleFrom(
           foregroundColor: AppColors.lightPrimary,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          textStyle: AppTheme.globalFont.copyWith(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
 
@@ -171,7 +190,7 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
-      fontFamily: GoogleFonts.montserrat().fontFamily,
+      fontFamily: fontFamily,
 
       // Color Scheme
       colorScheme: const ColorScheme.dark(
@@ -199,44 +218,50 @@ class AppTheme {
 
       // Text Theme
       textTheme: GoogleFonts.montserratTextTheme(
-        const TextTheme(
-          displayLarge: TextStyle(
+        TextTheme(
+          displayLarge: AppTheme.globalFont.copyWith(
             fontSize: 32,
             fontWeight: FontWeight.bold,
             color: AppColors.darkTextPrimary,
           ),
-          displayMedium: TextStyle(
+          displayMedium: AppTheme.globalFont.copyWith(
             fontSize: 28,
             fontWeight: FontWeight.bold,
             color: AppColors.darkTextPrimary,
           ),
-          displaySmall: TextStyle(
+          displaySmall: AppTheme.globalFont.copyWith(
             fontSize: 24,
             fontWeight: FontWeight.bold,
             color: AppColors.darkTextPrimary,
           ),
-          headlineMedium: TextStyle(
+          headlineMedium: AppTheme.globalFont.copyWith(
             fontSize: 20,
             fontWeight: FontWeight.w600,
             color: AppColors.darkTextPrimary,
           ),
-          titleLarge: TextStyle(
+          titleLarge: AppTheme.globalFont.copyWith(
             fontSize: 18,
             fontWeight: FontWeight.w600,
             color: AppColors.darkTextPrimary,
           ),
-          titleMedium: TextStyle(
+          titleMedium: AppTheme.globalFont.copyWith(
             fontSize: 16,
             fontWeight: FontWeight.w500,
             color: AppColors.darkTextPrimary,
           ),
-          bodyLarge: TextStyle(fontSize: 16, color: AppColors.darkTextPrimary),
-          bodyMedium: TextStyle(fontSize: 14, color: AppColors.darkTextPrimary),
-          bodySmall: TextStyle(
+          bodyLarge: AppTheme.globalFont.copyWith(
+            fontSize: 16,
+            color: AppColors.darkTextPrimary,
+          ),
+          bodyMedium: AppTheme.globalFont.copyWith(
+            fontSize: 14,
+            color: AppColors.darkTextPrimary,
+          ),
+          bodySmall: AppTheme.globalFont.copyWith(
             fontSize: 12,
             color: AppColors.darkTextSecondary,
           ),
-          labelLarge: TextStyle(
+          labelLarge: AppTheme.globalFont.copyWith(
             fontSize: 14,
             fontWeight: FontWeight.w500,
             color: AppColors.darkTextSecondary,
@@ -272,9 +297,11 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: AppColors.darkError, width: 2),
         ),
-        labelStyle: const TextStyle(color: AppColors.darkTextSecondary),
-        hintStyle: const TextStyle(color: AppColors.darkTextHint),
-        errorStyle: const TextStyle(color: AppColors.darkError),
+        labelStyle: AppTheme.globalFont.copyWith(
+          color: AppColors.darkTextSecondary,
+        ),
+        hintStyle: AppTheme.globalFont.copyWith(color: AppColors.darkTextHint),
+        errorStyle: AppTheme.globalFont.copyWith(color: AppColors.darkError),
       ),
 
       // Elevated Button Theme
@@ -289,7 +316,10 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          textStyle: AppTheme.globalFont.copyWith(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
 
@@ -298,7 +328,10 @@ class AppTheme {
         style: TextButton.styleFrom(
           foregroundColor: AppColors.darkPrimary,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          textStyle: AppTheme.globalFont.copyWith(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
 

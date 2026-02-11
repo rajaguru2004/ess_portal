@@ -1,3 +1,4 @@
+import 'package:ess_portal/app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/attendance_regularization_controller.dart';
@@ -74,11 +75,14 @@ class AttendanceRegularizationView
               ),
             ),
           ),
-          const Expanded(
+          Expanded(
             child: Center(
               child: Text(
                 'Attendance Request',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: AppTheme.globalFont.copyWith(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
@@ -116,7 +120,7 @@ class AttendanceRegularizationView
               backgroundColor: Colors.blue.shade100,
               child: Text(
                 name.isNotEmpty ? name[0] : 'U',
-                style: TextStyle(
+                style: AppTheme.globalFont.copyWith(
                   color: Colors.blue.shade800,
                   fontWeight: FontWeight.bold,
                 ),
@@ -126,7 +130,10 @@ class AttendanceRegularizationView
           const SizedBox(width: 12),
           Text(
             '$name (#$id)',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            style: AppTheme.globalFont.copyWith(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       );
@@ -153,7 +160,7 @@ class AttendanceRegularizationView
             children: [
               Text(
                 'Last 30 Days',
-                style: TextStyle(
+                style: AppTheme.globalFont.copyWith(
                   color: theme.colorScheme.onSurface.withOpacity(0.7),
                   fontWeight: FontWeight.w500,
                 ),
@@ -217,7 +224,7 @@ class AttendanceRegularizationView
         children: [
           Text(
             label,
-            style: TextStyle(
+            style: AppTheme.globalFont.copyWith(
               color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
               fontSize: 12,
             ),
@@ -225,7 +232,7 @@ class AttendanceRegularizationView
           const SizedBox(height: 4),
           Text(
             count,
-            style: TextStyle(
+            style: AppTheme.globalFont.copyWith(
               fontWeight: FontWeight.bold,
               fontSize: 16,
               color: Theme.of(context).colorScheme.onBackground,
@@ -252,7 +259,7 @@ class AttendanceRegularizationView
       return Center(
         child: Text(
           "No requests found",
-          style: TextStyle(
+          style: AppTheme.globalFont.copyWith(
             color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
           ),
         ),
@@ -298,14 +305,14 @@ class AttendanceRegularizationView
               children: [
                 Text(
                   'Manual Attendance', // Could be request type
-                  style: TextStyle(
+                  style: AppTheme.globalFont.copyWith(
                     color: Colors.indigo.shade400,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 Text(
                   'Processing', // Mapping status to UI text
-                  style: TextStyle(
+                  style: AppTheme.globalFont.copyWith(
                     color: Colors.blue.shade400,
                     fontWeight: FontWeight.w600,
                     fontSize: 12,
@@ -319,14 +326,20 @@ class AttendanceRegularizationView
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
               request.formattedDate, // "22/07/2024"
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: AppTheme.globalFont.copyWith(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             child: Text(
               'Created at: ${request.formattedSubmittedOn}',
-              style: TextStyle(color: secondaryTextColor, fontSize: 12),
+              style: AppTheme.globalFont.copyWith(
+                color: secondaryTextColor,
+                fontSize: 12,
+              ),
             ),
           ),
 
@@ -344,7 +357,7 @@ class AttendanceRegularizationView
               children: [
                 Text(
                   'Day Shift',
-                  style: TextStyle(
+                  style: AppTheme.globalFont.copyWith(
                     color: Colors.blue.shade400,
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
@@ -353,7 +366,7 @@ class AttendanceRegularizationView
                 const SizedBox(height: 4),
                 Text(
                   '9:00 am - 6:00 pm',
-                  style: TextStyle(
+                  style: AppTheme.globalFont.copyWith(
                     color: theme.colorScheme.onSurface,
                     fontWeight: FontWeight.w500,
                     fontSize: 14,
@@ -376,7 +389,7 @@ class AttendanceRegularizationView
                     children: [
                       Text(
                         'Check-in',
-                        style: TextStyle(
+                        style: AppTheme.globalFont.copyWith(
                           color: secondaryTextColor,
                           fontSize: 12,
                         ),
@@ -386,7 +399,7 @@ class AttendanceRegularizationView
                         children: [
                           Text(
                             '11:00 AM',
-                            style: TextStyle(
+                            style: AppTheme.globalFont.copyWith(
                               fontWeight: FontWeight.bold,
                               decoration: TextDecoration.lineThrough,
                               color: secondaryTextColor,
@@ -401,7 +414,9 @@ class AttendanceRegularizationView
                           const SizedBox(width: 4),
                           Text(
                             request.requestedTime,
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: AppTheme.globalFont.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
@@ -414,7 +429,7 @@ class AttendanceRegularizationView
                     children: [
                       Text(
                         'Check-out',
-                        style: TextStyle(
+                        style: AppTheme.globalFont.copyWith(
                           color: secondaryTextColor,
                           fontSize: 12,
                         ),
@@ -424,7 +439,7 @@ class AttendanceRegularizationView
                         children: [
                           Text(
                             '8:00 PM',
-                            style: TextStyle(
+                            style: AppTheme.globalFont.copyWith(
                               fontWeight: FontWeight.bold,
                               decoration: TextDecoration.lineThrough,
                               color: secondaryTextColor,
@@ -437,9 +452,11 @@ class AttendanceRegularizationView
                             color: secondaryTextColor,
                           ),
                           const SizedBox(width: 4),
-                          const Text(
+                          Text(
                             '6:00 PM',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: AppTheme.globalFont.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
@@ -460,7 +477,7 @@ class AttendanceRegularizationView
               children: [
                 Text(
                   'Reason',
-                  style: TextStyle(
+                  style: AppTheme.globalFont.copyWith(
                     color: secondaryTextColor,
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
@@ -469,7 +486,7 @@ class AttendanceRegularizationView
                 const SizedBox(height: 4),
                 Text(
                   request.reason,
-                  style: TextStyle(
+                  style: AppTheme.globalFont.copyWith(
                     color: theme.colorScheme.onSurface,
                     fontSize: 14,
                     height: 1.4,
@@ -499,7 +516,7 @@ class AttendanceRegularizationView
                 const SizedBox(width: 8),
                 Text(
                   'Line Manager',
-                  style: TextStyle(
+                  style: AppTheme.globalFont.copyWith(
                     color: Colors.green,
                     fontWeight: FontWeight.bold,
                   ),
@@ -507,7 +524,10 @@ class AttendanceRegularizationView
                 const Spacer(),
                 Text(
                   'Jul 26, 2024, 3:14 PM', // Dummy timestamp
-                  style: TextStyle(color: secondaryTextColor, fontSize: 12),
+                  style: AppTheme.globalFont.copyWith(
+                    color: secondaryTextColor,
+                    fontSize: 12,
+                  ),
                 ),
                 const SizedBox(width: 4),
                 Icon(
@@ -530,7 +550,10 @@ class AttendanceRegularizationView
                 children: [
                   Text(
                     'You are Recommending as a Line Manager',
-                    style: TextStyle(color: secondaryTextColor, fontSize: 12),
+                    style: AppTheme.globalFont.copyWith(
+                      color: secondaryTextColor,
+                      fontSize: 12,
+                    ),
                   ),
                   const SizedBox(height: 12),
                   Row(
@@ -548,7 +571,9 @@ class AttendanceRegularizationView
                           ),
                           child: Text(
                             'Reject',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: AppTheme.globalFont.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
@@ -568,7 +593,9 @@ class AttendanceRegularizationView
                           ),
                           child: Text(
                             'Recommend',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: AppTheme.globalFont.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
