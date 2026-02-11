@@ -48666,7 +48666,7 @@ var $async$wN=A.E(function(e,f){if(e===1)return A.F(f,r)
 for(;;)switch(s){case 0:s=2
 return A.r(q.rq(),$async$wN)
 case 2:n=f
-m=A.e5("http://192.168.0.181:3000/api/v1/attendance/check-in",0,null)
+m=A.e5("https://api.ess.develop.thefusionapps.com/api/v1/attendance/check-in",0,null)
 A.bT("\ud83d\udd35 [AttendanceProvider] checkIn: Starting Request")
 A.bT("   URL: "+m.k(0))
 A.bT("   Latitude: "+b+", Longitude: "+c)
@@ -48689,7 +48689,7 @@ var $async$ti=A.E(function(a0,a1){if(a0===1)return A.F(a1,r)
 for(;;)switch(s){case 0:s=3
 return A.r(p.rq(),$async$ti)
 case 3:g=a1
-f=A.e5("http://192.168.0.181:3000/api/v1/attendance/check-out",0,null)
+f=A.e5("https://api.ess.develop.thefusionapps.com/api/v1/attendance/check-out",0,null)
 A.bT("\ud83d\udd35 [CheckOut] Request Starting")
 A.bT("   URL: "+f.k(0))
 A.bT("   Latitude: "+b+", Longitude: "+c)
@@ -48740,7 +48740,7 @@ j=A.t(k,k)
 j.n(0,"startDate",b)
 j.n(0,"endDate",a)
 s=4
-return A.r(A.a6Q(A.e5("http://192.168.0.181:3000/api/v1/attendance/logs",0,null).a2S(0,j),A.af(["Authorization","Bearer "+A.m(l),"Content-Type","application/json"],k,k)),$async$r1)
+return A.r(A.a6Q(A.e5("https://api.ess.develop.thefusionapps.com/api/v1/attendance/logs",0,null).a2S(0,j),A.af(["Authorization","Bearer "+A.m(l),"Content-Type","application/json"],k,k)),$async$r1)
 case 4:o=d
 if(o.b===200){A.bT("\ud83d\udfe3 [AttendanceProvider] getLogs: Response Received")
 k=o
@@ -48781,7 +48781,7 @@ return A.H($async$pv,r)},
 uW(){var s=0,r=A.I(t.h9),q,p=this,o,n,m
 var $async$uW=A.E(function(a,b){if(a===1)return A.F(b,r)
 for(;;)switch(s){case 0:n=A
-m=A.e5("http://192.168.0.181:3000/api/v1/leave/balance",0,null)
+m=A.e5("https://api.ess.develop.thefusionapps.com/api/v1/leave/balance",0,null)
 s=4
 return A.r(p.pv(),$async$uW)
 case 4:s=3
@@ -48796,7 +48796,7 @@ uZ(a){return this.a47(a)},
 a47(a){var s=0,r=A.I(t.O9),q,p=this,o,n,m
 var $async$uZ=A.E(function(b,c){if(b===1)return A.F(c,r)
 for(;;)switch(s){case 0:n=A
-m=A.e5("http://192.168.0.181:3000/api/v1/leave/my-leaves?year="+a,0,null)
+m=A.e5("https://api.ess.develop.thefusionapps.com/api/v1/leave/my-leaves?year="+a,0,null)
 s=4
 return A.r(p.pv(),$async$uZ)
 case 4:s=3
@@ -48811,7 +48811,7 @@ wF(a,b,c,d){return this.ata(a,b,c,d)},
 ata(a,b,c,d){var s=0,r=A.I(t.Q1),q,p=this,o,n,m,l,k,j,i,h
 var $async$wF=A.E(function(e,f){if(e===1)return A.F(f,r)
 for(;;)switch(s){case 0:j=A
-i=A.e5("http://192.168.0.181:3000/api/v1/leave/apply",0,null)
+i=A.e5("https://api.ess.develop.thefusionapps.com/api/v1/leave/apply",0,null)
 h=B.ag.xk(A.af(["leaveTypeId",b,"startDate",d,"endDate",a,"reason",c,"halfDayType",null],t.N,t.T),null)
 s=4
 return A.r(p.pv(),$async$wF)
@@ -48833,7 +48833,7 @@ lN(a){return this.atN(a)},
 atN(a){var s=0,r=A.I(t.v),q,p=this,o,n,m
 var $async$lN=A.E(function(b,c){if(b===1)return A.F(c,r)
 for(;;)switch(s){case 0:n=A
-m=A.e5(B.c.EX("http://192.168.0.181:3000/api/v1/leave/{id}/cancel","{id}",a),0,null)
+m=A.e5(B.c.EX("https://api.ess.develop.thefusionapps.com/api/v1/leave/{id}/cancel","{id}",a),0,null)
 s=4
 return A.r(p.pv(),$async$lN)
 case 4:s=3
@@ -48864,7 +48864,7 @@ var $async$v1=A.E(function(a,b){if(a===1)return A.F(b,r)
 for(;;)switch(s){case 0:s=3
 return A.r(p.vR(),$async$v1)
 case 3:i=b
-h=A.e5("http://192.168.0.181:3000/api/v1/employee/shifts/today",0,null)
+h=A.e5("https://api.ess.develop.thefusionapps.com/api/v1/employee/shifts/today",0,null)
 A.bT("\ud83d\udd35 [ShiftProvider] getTodayShifts: Starting Request")
 A.bT("   URL: "+h.k(0))
 m=t.N
@@ -48895,7 +48895,7 @@ var $async$v3=A.E(function(a,b){if(a===1)return A.F(b,r)
 for(;;)switch(s){case 0:s=3
 return A.r(p.vR(),$async$v3)
 case 3:k=b
-j=A.e5("http://192.168.0.181:3000/api/v1/employee/shifts/upcoming",0,null)
+j=A.e5("https://api.ess.develop.thefusionapps.com/api/v1/employee/shifts/upcoming",0,null)
 A.bT("\ud83d\udd35 [ShiftProvider] getUpcomingShifts: Starting Request")
 A.bT("   URL: "+j.k(0))
 m=t.N
@@ -48921,7 +48921,7 @@ DY(a,b){return this.azV(a,b)},
 azV(a,a0){var s=0,r=A.I(t.DF),q,p=2,o=[],n,m,l,k,j,i,h,g,f,e,d,c,b
 var $async$DY=A.E(function(a2,a3){if(a2===1){o.push(a3)
 s=p}for(;;)switch(s){case 0:p=4
-n=A.e5("http://192.168.0.181:3000/api/v1/auth/login",0,null)
+n=A.e5("https://api.ess.develop.thefusionapps.com/api/v1/auth/login",0,null)
 i=t.N
 h=A.af(["Content-Type","application/json"],i,i)
 s=7
@@ -48972,7 +48972,7 @@ Cj(a,b,c){return this.atU(a,b,c)},
 atU(a,b,c){var s=0,r=A.I(t.a),q,p=2,o=[],n,m,l,k,j,i,h,g
 var $async$Cj=A.E(function(d,e){if(d===1){o.push(e)
 s=p}for(;;)switch(s){case 0:p=4
-n=A.e5("http://192.168.0.181:3000/api/v1/auth/change-password",0,null)
+n=A.e5("https://api.ess.develop.thefusionapps.com/api/v1/auth/change-password",0,null)
 j=t.N
 i=A.af(["Content-Type","application/json","Authorization","Bearer "+c],j,j)
 s=7
