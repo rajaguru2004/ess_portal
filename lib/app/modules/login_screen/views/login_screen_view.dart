@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../theme/app_theme.dart';
 import '../controllers/login_screen_controller.dart';
 
@@ -102,7 +103,7 @@ class LoginScreenView extends GetView<LoginScreenController> {
   Widget _buildTitle(BuildContext context) {
     return Text(
       'Employee Login',
-      style: Theme.of(context).textTheme.displaySmall,
+      style: GoogleFonts.montserrat(fontSize: 24, fontWeight: FontWeight.bold),
       textAlign: TextAlign.center,
     );
   }
@@ -111,7 +112,9 @@ class LoginScreenView extends GetView<LoginScreenController> {
   Widget _buildSubtitle(BuildContext context) {
     return Text(
       'Sign in to continue',
-      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+      style: GoogleFonts.montserrat(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
         color: Theme.of(context).textTheme.bodySmall?.color,
       ),
       textAlign: TextAlign.center,
@@ -192,7 +195,7 @@ class LoginScreenView extends GetView<LoginScreenController> {
             Expanded(
               child: Text(
                 controller.errorMessage.value,
-                style: AppTheme.globalFont.copyWith(
+                style: GoogleFonts.montserrat(
                   color: Get.theme.colorScheme.error,
                   fontSize: 14,
                 ),

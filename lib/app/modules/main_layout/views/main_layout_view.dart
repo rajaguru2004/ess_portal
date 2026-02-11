@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import '../../../theme/app_theme.dart';
 
 import '../../home/views/home_view.dart';
 import '../../attendance_screen/views/attendance_screen_view.dart';
@@ -64,6 +66,10 @@ class MainLayoutView extends GetView<MainLayoutController> {
                   vertical: 12,
                 ),
                 duration: const Duration(milliseconds: 400),
+                textStyle: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                ),
                 tabBackgroundColor: Theme.of(
                   context,
                 ).colorScheme.primary.withOpacity(0.1),

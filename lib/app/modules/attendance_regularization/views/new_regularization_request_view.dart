@@ -1,6 +1,7 @@
 import 'package:ess_portal/app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../controllers/attendance_regularization_controller.dart';
 
@@ -20,7 +21,7 @@ class NewRegularizationRequestView
       appBar: AppBar(
         title: Text(
           'New Regularization Request',
-          style: AppTheme.globalFont.copyWith(fontWeight: FontWeight.bold),
+          style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
         ),
         centerTitle: false,
         elevation: 0,
@@ -216,7 +217,7 @@ class NewRegularizationRequestView
               ),
               child: Text(
                 'Submit Request',
-                style: AppTheme.globalFont.copyWith(
+                style: GoogleFonts.montserrat(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   color: Colors.white,

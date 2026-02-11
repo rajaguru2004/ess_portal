@@ -1,6 +1,7 @@
 import 'package:ess_portal/app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../data/services/auth_service.dart';
 import '../../../data/services/storage_service.dart';
 
@@ -99,7 +100,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                 Text(
                   'For security reasons, you must change your password on first login.',
                   textAlign: TextAlign.center,
-                  style: AppTheme.globalFont.copyWith(
+                  style: GoogleFonts.montserrat(
                     fontSize: 14,
                     color: Colors.grey,
                   ),
@@ -110,7 +111,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                     padding: const EdgeInsets.only(bottom: 10),
                     child: Text(
                       _errorMessage,
-                      style: AppTheme.globalFont.copyWith(
+                      style: GoogleFonts.montserrat(
                         color: Colors.red,
                         fontSize: 13,
                       ),
@@ -190,7 +191,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
             onPressed: _isLoading ? null : _logout,
             child: Text(
               'Logout',
-              style: AppTheme.globalFont.copyWith(color: Colors.grey),
+              style: GoogleFonts.montserrat(color: Colors.grey),
             ),
           ),
           ElevatedButton(

@@ -1,6 +1,7 @@
 import 'package:ess_portal/app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import '../controllers/apply_leave_screen_controller.dart';
@@ -98,7 +99,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                           )
                         : Text(
                             "Apply Leave",
-                            style: AppTheme.globalFont.copyWith(
+                            style: GoogleFonts.montserrat(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
@@ -128,14 +129,14 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
       return RichText(
         text: TextSpan(
           text: text.substring(0, text.length - 1),
-          style: AppTheme.globalFont.copyWith(
+          style: GoogleFonts.montserrat(
             color: theme.colorScheme.onSurface.withOpacity(0.6),
             fontSize: 14,
           ),
           children: [
             TextSpan(
               text: '*',
-              style: AppTheme.globalFont.copyWith(
+              style: GoogleFonts.montserrat(
                 color: theme.colorScheme.error,
                 fontSize: 14,
               ),
@@ -146,7 +147,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
     }
     return Text(
       text,
-      style: AppTheme.globalFont.copyWith(
+      style: GoogleFonts.montserrat(
         color: theme.colorScheme.onSurface.withOpacity(0.6),
         fontSize: 14,
       ),
@@ -275,7 +276,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                   children: [
                     Text(
                       leave.leaveType?.name ?? "Leave Application",
-                      style: AppTheme.globalFont.copyWith(
+                      style: GoogleFonts.montserrat(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -301,7 +302,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                       onPressed: () => controller.cancelLeave(leave.id),
                       child: Text(
                         "Cancel Request",
-                        style: AppTheme.globalFont.copyWith(color: Colors.red),
+                        style: GoogleFonts.montserrat(color: Colors.red),
                       ),
                     ),
                   ),
@@ -341,7 +342,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
       ),
       child: Text(
         status,
-        style: AppTheme.globalFont.copyWith(
+        style: GoogleFonts.montserrat(
           color: color,
           fontSize: 12,
           fontWeight: FontWeight.bold,

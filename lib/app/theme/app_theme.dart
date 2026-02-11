@@ -1,4 +1,3 @@
-import 'package:ess_portal/app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
@@ -13,7 +12,7 @@ class AppTheme {
   static TextStyle get globalFont => GoogleFonts.montserrat();
 
   /// Simplified font family name for use in ThemeData
-  static String? get fontFamily => globalFont.fontFamily;
+  static String? get fontFamily => GoogleFonts.montserrat().fontFamily;
 
   /// Light Theme Configuration
   static ThemeData lightTheme() {
@@ -46,56 +45,54 @@ class AppTheme {
         iconTheme: IconThemeData(color: AppColors.lightTextPrimary),
       ),
 
-      // Text Theme
-      textTheme: GoogleFonts.montserratTextTheme(
-        TextTheme(
-          displayLarge: AppTheme.globalFont.copyWith(
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
-            color: AppColors.lightTextPrimary,
-          ),
-          displayMedium: AppTheme.globalFont.copyWith(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: AppColors.lightTextPrimary,
-          ),
-          displaySmall: AppTheme.globalFont.copyWith(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: AppColors.lightTextPrimary,
-          ),
-          headlineMedium: AppTheme.globalFont.copyWith(
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: AppColors.lightTextPrimary,
-          ),
-          titleLarge: AppTheme.globalFont.copyWith(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: AppColors.lightTextPrimary,
-          ),
-          titleMedium: AppTheme.globalFont.copyWith(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: AppColors.lightTextPrimary,
-          ),
-          bodyLarge: AppTheme.globalFont.copyWith(
-            fontSize: 16,
-            color: AppColors.lightTextPrimary,
-          ),
-          bodyMedium: AppTheme.globalFont.copyWith(
-            fontSize: 14,
-            color: AppColors.lightTextPrimary,
-          ),
-          bodySmall: AppTheme.globalFont.copyWith(
-            fontSize: 12,
-            color: AppColors.lightTextSecondary,
-          ),
-          labelLarge: AppTheme.globalFont.copyWith(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: AppColors.lightTextSecondary,
-          ),
+      // Text Theme - Using GoogleFonts explicitly for every style
+      textTheme: TextTheme(
+        displayLarge: GoogleFonts.montserrat(
+          fontSize: 32,
+          fontWeight: FontWeight.bold,
+          color: AppColors.lightTextPrimary,
+        ),
+        displayMedium: GoogleFonts.montserrat(
+          fontSize: 28,
+          fontWeight: FontWeight.bold,
+          color: AppColors.lightTextPrimary,
+        ),
+        displaySmall: GoogleFonts.montserrat(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: AppColors.lightTextPrimary,
+        ),
+        headlineMedium: GoogleFonts.montserrat(
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color: AppColors.lightTextPrimary,
+        ),
+        titleLarge: GoogleFonts.montserrat(
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+          color: AppColors.lightTextPrimary,
+        ),
+        titleMedium: GoogleFonts.montserrat(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          color: AppColors.lightTextPrimary,
+        ),
+        bodyLarge: GoogleFonts.montserrat(
+          fontSize: 16,
+          color: AppColors.lightTextPrimary,
+        ),
+        bodyMedium: GoogleFonts.montserrat(
+          fontSize: 14,
+          color: AppColors.lightTextPrimary,
+        ),
+        bodySmall: GoogleFonts.montserrat(
+          fontSize: 12,
+          color: AppColors.lightTextSecondary,
+        ),
+        labelLarge: GoogleFonts.montserrat(
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          color: AppColors.lightTextSecondary,
         ),
       ),
 
@@ -133,11 +130,9 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: AppColors.lightError, width: 2),
         ),
-        labelStyle: AppTheme.globalFont.copyWith(
-          color: AppColors.lightTextSecondary,
-        ),
-        hintStyle: AppTheme.globalFont.copyWith(color: AppColors.lightTextHint),
-        errorStyle: AppTheme.globalFont.copyWith(color: AppColors.lightError),
+        labelStyle: GoogleFonts.montserrat(color: AppColors.lightTextSecondary),
+        hintStyle: GoogleFonts.montserrat(color: AppColors.lightTextHint),
+        errorStyle: GoogleFonts.montserrat(color: AppColors.lightError),
       ),
 
       // Elevated Button Theme
@@ -152,7 +147,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: AppTheme.globalFont.copyWith(
+          textStyle: GoogleFonts.montserrat(
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
@@ -164,7 +159,7 @@ class AppTheme {
         style: TextButton.styleFrom(
           foregroundColor: AppColors.lightPrimary,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          textStyle: AppTheme.globalFont.copyWith(
+          textStyle: GoogleFonts.montserrat(
             fontSize: 14,
             fontWeight: FontWeight.w500,
           ),
@@ -216,56 +211,54 @@ class AppTheme {
         iconTheme: IconThemeData(color: AppColors.darkTextPrimary),
       ),
 
-      // Text Theme
-      textTheme: GoogleFonts.montserratTextTheme(
-        TextTheme(
-          displayLarge: AppTheme.globalFont.copyWith(
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
-            color: AppColors.darkTextPrimary,
-          ),
-          displayMedium: AppTheme.globalFont.copyWith(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: AppColors.darkTextPrimary,
-          ),
-          displaySmall: AppTheme.globalFont.copyWith(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: AppColors.darkTextPrimary,
-          ),
-          headlineMedium: AppTheme.globalFont.copyWith(
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: AppColors.darkTextPrimary,
-          ),
-          titleLarge: AppTheme.globalFont.copyWith(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: AppColors.darkTextPrimary,
-          ),
-          titleMedium: AppTheme.globalFont.copyWith(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: AppColors.darkTextPrimary,
-          ),
-          bodyLarge: AppTheme.globalFont.copyWith(
-            fontSize: 16,
-            color: AppColors.darkTextPrimary,
-          ),
-          bodyMedium: AppTheme.globalFont.copyWith(
-            fontSize: 14,
-            color: AppColors.darkTextPrimary,
-          ),
-          bodySmall: AppTheme.globalFont.copyWith(
-            fontSize: 12,
-            color: AppColors.darkTextSecondary,
-          ),
-          labelLarge: AppTheme.globalFont.copyWith(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: AppColors.darkTextSecondary,
-          ),
+      // Text Theme - Using GoogleFonts explicitly for every style
+      textTheme: TextTheme(
+        displayLarge: GoogleFonts.montserrat(
+          fontSize: 32,
+          fontWeight: FontWeight.bold,
+          color: AppColors.darkTextPrimary,
+        ),
+        displayMedium: GoogleFonts.montserrat(
+          fontSize: 28,
+          fontWeight: FontWeight.bold,
+          color: AppColors.darkTextPrimary,
+        ),
+        displaySmall: GoogleFonts.montserrat(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: AppColors.darkTextPrimary,
+        ),
+        headlineMedium: GoogleFonts.montserrat(
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color: AppColors.darkTextPrimary,
+        ),
+        titleLarge: GoogleFonts.montserrat(
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+          color: AppColors.darkTextPrimary,
+        ),
+        titleMedium: GoogleFonts.montserrat(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          color: AppColors.darkTextPrimary,
+        ),
+        bodyLarge: GoogleFonts.montserrat(
+          fontSize: 16,
+          color: AppColors.darkTextPrimary,
+        ),
+        bodyMedium: GoogleFonts.montserrat(
+          fontSize: 14,
+          color: AppColors.darkTextPrimary,
+        ),
+        bodySmall: GoogleFonts.montserrat(
+          fontSize: 12,
+          color: AppColors.darkTextSecondary,
+        ),
+        labelLarge: GoogleFonts.montserrat(
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          color: AppColors.darkTextSecondary,
         ),
       ),
 
@@ -297,11 +290,9 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: AppColors.darkError, width: 2),
         ),
-        labelStyle: AppTheme.globalFont.copyWith(
-          color: AppColors.darkTextSecondary,
-        ),
-        hintStyle: AppTheme.globalFont.copyWith(color: AppColors.darkTextHint),
-        errorStyle: AppTheme.globalFont.copyWith(color: AppColors.darkError),
+        labelStyle: GoogleFonts.montserrat(color: AppColors.darkTextSecondary),
+        hintStyle: GoogleFonts.montserrat(color: AppColors.darkTextHint),
+        errorStyle: GoogleFonts.montserrat(color: AppColors.darkError),
       ),
 
       // Elevated Button Theme
@@ -316,7 +307,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: AppTheme.globalFont.copyWith(
+          textStyle: GoogleFonts.montserrat(
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
@@ -328,7 +319,7 @@ class AppTheme {
         style: TextButton.styleFrom(
           foregroundColor: AppColors.darkPrimary,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          textStyle: AppTheme.globalFont.copyWith(
+          textStyle: GoogleFonts.montserrat(
             fontSize: 14,
             fontWeight: FontWeight.w500,
           ),

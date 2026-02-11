@@ -1,6 +1,7 @@
 import 'package:ess_portal/app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../controllers/shifts_controller.dart';
 import '../../../data/models/shift_model.dart';
@@ -16,14 +17,12 @@ class ShiftsView extends GetView<ShiftsController> {
         appBar: AppBar(
           title: Text(
             'My Shifts',
-            style: AppTheme.globalFont.copyWith(fontWeight: FontWeight.bold),
+            style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
           ),
           centerTitle: true,
           bottom: TabBar(
             indicatorSize: TabBarIndicatorSize.tab,
-            labelStyle: AppTheme.globalFont.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            labelStyle: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
             tabs: const [
               Tab(
                 child: Row(
@@ -224,7 +223,7 @@ class ShiftsView extends GetView<ShiftsController> {
                                   ),
                                   child: Text(
                                     shift.type,
-                                    style: AppTheme.globalFont.copyWith(
+                                    style: GoogleFonts.montserrat(
                                       color: shiftColor,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,

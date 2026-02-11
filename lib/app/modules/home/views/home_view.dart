@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../theme/app_theme.dart';
 import '../controllers/home_controller.dart';
 
@@ -261,7 +262,7 @@ class HomeView extends GetView<HomeController> {
                   const SizedBox(width: 8),
                   Text(
                     'Total Break Time - ${controller.totalBreakHours.value}h ${controller.totalBreakMinutes.value}m',
-                    style: AppTheme.globalFont.copyWith(
+                    style: GoogleFonts.montserrat(
                       color: Colors.orange.shade800,
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
@@ -287,7 +288,7 @@ class HomeView extends GetView<HomeController> {
           ),
           child: Text(
             value,
-            style: AppTheme.globalFont.copyWith(
+            style: GoogleFonts.montserrat(
               color: Colors.white,
               fontSize: 32,
               fontWeight: FontWeight.bold,
@@ -297,10 +298,7 @@ class HomeView extends GetView<HomeController> {
         const SizedBox(height: 4),
         Text(
           label,
-          style: AppTheme.globalFont.copyWith(
-            color: Colors.white70,
-            fontSize: 12,
-          ),
+          style: GoogleFonts.montserrat(color: Colors.white70, fontSize: 12),
         ),
       ],
     );
@@ -311,7 +309,7 @@ class HomeView extends GetView<HomeController> {
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Text(
         ':',
-        style: AppTheme.globalFont.copyWith(
+        style: GoogleFonts.montserrat(
           color: Colors.white,
           fontSize: 32,
           fontWeight: FontWeight.bold,
@@ -438,7 +436,7 @@ class HomeView extends GetView<HomeController> {
           ),
           child: Text(
             duration,
-            style: AppTheme.globalFont.copyWith(
+            style: GoogleFonts.montserrat(
               color: Colors.orange.shade800,
               fontSize: 12,
               fontWeight: FontWeight.w500,

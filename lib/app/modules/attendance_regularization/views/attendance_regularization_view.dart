@@ -1,6 +1,7 @@
 import 'package:ess_portal/app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../controllers/attendance_regularization_controller.dart';
 
 class AttendanceRegularizationView
@@ -79,7 +80,7 @@ class AttendanceRegularizationView
             child: Center(
               child: Text(
                 'Attendance Request',
-                style: AppTheme.globalFont.copyWith(
+                style: GoogleFonts.montserrat(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -120,7 +121,7 @@ class AttendanceRegularizationView
               backgroundColor: Colors.blue.shade100,
               child: Text(
                 name.isNotEmpty ? name[0] : 'U',
-                style: AppTheme.globalFont.copyWith(
+                style: GoogleFonts.montserrat(
                   color: Colors.blue.shade800,
                   fontWeight: FontWeight.bold,
                 ),
@@ -130,7 +131,7 @@ class AttendanceRegularizationView
           const SizedBox(width: 12),
           Text(
             '$name (#$id)',
-            style: AppTheme.globalFont.copyWith(
+            style: GoogleFonts.montserrat(
               fontSize: 16,
               fontWeight: FontWeight.w600,
             ),
@@ -160,7 +161,7 @@ class AttendanceRegularizationView
             children: [
               Text(
                 'Last 30 Days',
-                style: AppTheme.globalFont.copyWith(
+                style: GoogleFonts.montserrat(
                   color: theme.colorScheme.onSurface.withOpacity(0.7),
                   fontWeight: FontWeight.w500,
                 ),
@@ -224,7 +225,7 @@ class AttendanceRegularizationView
         children: [
           Text(
             label,
-            style: AppTheme.globalFont.copyWith(
+            style: GoogleFonts.montserrat(
               color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
               fontSize: 12,
             ),
@@ -232,7 +233,7 @@ class AttendanceRegularizationView
           const SizedBox(height: 4),
           Text(
             count,
-            style: AppTheme.globalFont.copyWith(
+            style: GoogleFonts.montserrat(
               fontWeight: FontWeight.bold,
               fontSize: 16,
               color: Theme.of(context).colorScheme.onBackground,
@@ -259,7 +260,7 @@ class AttendanceRegularizationView
       return Center(
         child: Text(
           "No requests found",
-          style: AppTheme.globalFont.copyWith(
+          style: GoogleFonts.montserrat(
             color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
           ),
         ),
@@ -305,14 +306,14 @@ class AttendanceRegularizationView
               children: [
                 Text(
                   'Manual Attendance', // Could be request type
-                  style: AppTheme.globalFont.copyWith(
+                  style: GoogleFonts.montserrat(
                     color: Colors.indigo.shade400,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 Text(
                   'Processing', // Mapping status to UI text
-                  style: AppTheme.globalFont.copyWith(
+                  style: GoogleFonts.montserrat(
                     color: Colors.blue.shade400,
                     fontWeight: FontWeight.w600,
                     fontSize: 12,
@@ -326,7 +327,7 @@ class AttendanceRegularizationView
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
               request.formattedDate, // "22/07/2024"
-              style: AppTheme.globalFont.copyWith(
+              style: GoogleFonts.montserrat(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -336,7 +337,7 @@ class AttendanceRegularizationView
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             child: Text(
               'Created at: ${request.formattedSubmittedOn}',
-              style: AppTheme.globalFont.copyWith(
+              style: GoogleFonts.montserrat(
                 color: secondaryTextColor,
                 fontSize: 12,
               ),
@@ -357,7 +358,7 @@ class AttendanceRegularizationView
               children: [
                 Text(
                   'Day Shift',
-                  style: AppTheme.globalFont.copyWith(
+                  style: GoogleFonts.montserrat(
                     color: Colors.blue.shade400,
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
@@ -366,7 +367,7 @@ class AttendanceRegularizationView
                 const SizedBox(height: 4),
                 Text(
                   '9:00 am - 6:00 pm',
-                  style: AppTheme.globalFont.copyWith(
+                  style: GoogleFonts.montserrat(
                     color: theme.colorScheme.onSurface,
                     fontWeight: FontWeight.w500,
                     fontSize: 14,
@@ -389,7 +390,7 @@ class AttendanceRegularizationView
                     children: [
                       Text(
                         'Check-in',
-                        style: AppTheme.globalFont.copyWith(
+                        style: GoogleFonts.montserrat(
                           color: secondaryTextColor,
                           fontSize: 12,
                         ),
@@ -399,7 +400,7 @@ class AttendanceRegularizationView
                         children: [
                           Text(
                             '11:00 AM',
-                            style: AppTheme.globalFont.copyWith(
+                            style: GoogleFonts.montserrat(
                               fontWeight: FontWeight.bold,
                               decoration: TextDecoration.lineThrough,
                               color: secondaryTextColor,
@@ -414,7 +415,7 @@ class AttendanceRegularizationView
                           const SizedBox(width: 4),
                           Text(
                             request.requestedTime,
-                            style: AppTheme.globalFont.copyWith(
+                            style: GoogleFonts.montserrat(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -429,7 +430,7 @@ class AttendanceRegularizationView
                     children: [
                       Text(
                         'Check-out',
-                        style: AppTheme.globalFont.copyWith(
+                        style: GoogleFonts.montserrat(
                           color: secondaryTextColor,
                           fontSize: 12,
                         ),
@@ -439,7 +440,7 @@ class AttendanceRegularizationView
                         children: [
                           Text(
                             '8:00 PM',
-                            style: AppTheme.globalFont.copyWith(
+                            style: GoogleFonts.montserrat(
                               fontWeight: FontWeight.bold,
                               decoration: TextDecoration.lineThrough,
                               color: secondaryTextColor,
@@ -454,7 +455,7 @@ class AttendanceRegularizationView
                           const SizedBox(width: 4),
                           Text(
                             '6:00 PM',
-                            style: AppTheme.globalFont.copyWith(
+                            style: GoogleFonts.montserrat(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -477,7 +478,7 @@ class AttendanceRegularizationView
               children: [
                 Text(
                   'Reason',
-                  style: AppTheme.globalFont.copyWith(
+                  style: GoogleFonts.montserrat(
                     color: secondaryTextColor,
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
@@ -486,7 +487,7 @@ class AttendanceRegularizationView
                 const SizedBox(height: 4),
                 Text(
                   request.reason,
-                  style: AppTheme.globalFont.copyWith(
+                  style: GoogleFonts.montserrat(
                     color: theme.colorScheme.onSurface,
                     fontSize: 14,
                     height: 1.4,
@@ -516,7 +517,7 @@ class AttendanceRegularizationView
                 const SizedBox(width: 8),
                 Text(
                   'Line Manager',
-                  style: AppTheme.globalFont.copyWith(
+                  style: GoogleFonts.montserrat(
                     color: Colors.green,
                     fontWeight: FontWeight.bold,
                   ),
@@ -524,7 +525,7 @@ class AttendanceRegularizationView
                 const Spacer(),
                 Text(
                   'Jul 26, 2024, 3:14 PM', // Dummy timestamp
-                  style: AppTheme.globalFont.copyWith(
+                  style: GoogleFonts.montserrat(
                     color: secondaryTextColor,
                     fontSize: 12,
                   ),
@@ -550,7 +551,7 @@ class AttendanceRegularizationView
                 children: [
                   Text(
                     'You are Recommending as a Line Manager',
-                    style: AppTheme.globalFont.copyWith(
+                    style: GoogleFonts.montserrat(
                       color: secondaryTextColor,
                       fontSize: 12,
                     ),
@@ -571,7 +572,7 @@ class AttendanceRegularizationView
                           ),
                           child: Text(
                             'Reject',
-                            style: AppTheme.globalFont.copyWith(
+                            style: GoogleFonts.montserrat(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -593,7 +594,7 @@ class AttendanceRegularizationView
                           ),
                           child: Text(
                             'Recommend',
-                            style: AppTheme.globalFont.copyWith(
+                            style: GoogleFonts.montserrat(
                               fontWeight: FontWeight.bold,
                             ),
                           ),

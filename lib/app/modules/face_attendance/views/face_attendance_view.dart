@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:ess_portal/app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../controllers/face_attendance_controller.dart';
 
 class FaceAttendanceView extends GetView<FaceAttendanceController> {
@@ -40,7 +41,7 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
             return Center(
               child: Text(
                 'Camera not available',
-                style: AppTheme.globalFont.copyWith(color: Colors.white),
+                style: GoogleFonts.montserrat(color: Colors.white),
               ),
             );
           }
@@ -91,7 +92,7 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
                   ),
                   child: Text(
                     'Face forward & look directly at camera',
-                    style: AppTheme.globalFont.copyWith(
+                    style: GoogleFonts.montserrat(
                       color: Colors.white,
                       fontSize: 14,
                     ),
@@ -154,7 +155,7 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
                   const SizedBox(width: 8),
                   Text(
                     'Take your photo',
-                    style: AppTheme.globalFont.copyWith(
+                    style: GoogleFonts.montserrat(
                       color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -190,7 +191,7 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
                         ),
                         child: Text(
                           'Capture Photo',
-                          style: AppTheme.globalFont.copyWith(
+                          style: GoogleFonts.montserrat(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             color: Colors.white,
@@ -214,7 +215,7 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
         Expanded(
           child: Text(
             text,
-            style: AppTheme.globalFont.copyWith(
+            style: GoogleFonts.montserrat(
               color: Colors.white,
               fontSize: 12,
               height: 1.4,
@@ -250,7 +251,7 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
               // Success Title
               Text(
                 'Clock in successful',
-                style: AppTheme.globalFont.copyWith(
+                style: GoogleFonts.montserrat(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.onSurface,
@@ -262,7 +263,7 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
               // Success Message
               Text(
                 'Great job! Your clock in has been successfully saved.',
-                style: AppTheme.globalFont.copyWith(
+                style: GoogleFonts.montserrat(
                   fontSize: 16,
                   color: Theme.of(context).textTheme.bodyMedium?.color,
                 ),
@@ -283,7 +284,7 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
                 ),
                 child: Text(
                   'Back to Home',
-                  style: AppTheme.globalFont.copyWith(
+                  style: GoogleFonts.montserrat(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
@@ -305,7 +306,7 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
                 ),
                 child: Text(
                   'View attendance log',
-                  style: AppTheme.globalFont.copyWith(
+                  style: GoogleFonts.montserrat(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: Color(0xFF2563EB),
