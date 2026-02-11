@@ -271,7 +271,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                   children: [
                     Text(
                       leave.leaveType?.name ?? "Leave Application",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     _buildStatusBadge(leave.status),
                   ],
