@@ -1,3 +1,4 @@
+import 'package:ess_portal/app/theme/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/attendance_detail_controller.dart';
@@ -72,13 +73,13 @@ class AttendanceDetailView extends GetView<AttendanceDetailController> {
         () => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            AppText(
               controller.employeeName.value,
               style: Theme.of(
                 context,
               ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
-            Text(
+            AppText(
               'ID: ${controller.employeeId.value}',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Theme.of(context).textTheme.bodySmall?.color,
@@ -110,7 +111,7 @@ class AttendanceDetailView extends GetView<AttendanceDetailController> {
           color: controller.statusColor.withOpacity(0.1),
         ),
         child: Center(
-          child: Text(
+          child: AppText(
             'Status: ${controller.statusLabel}',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: controller.statusColor,
@@ -137,7 +138,7 @@ class AttendanceDetailView extends GetView<AttendanceDetailController> {
         children: [
           SizedBox(
             width: 72,
-            child: Text(
+            child: AppText(
               'Type',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Theme.of(context).textTheme.bodySmall?.color,
@@ -145,7 +146,7 @@ class AttendanceDetailView extends GetView<AttendanceDetailController> {
             ),
           ),
           Expanded(
-            child: Text(
+            child: AppText(
               'Time',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Theme.of(context).textTheme.bodySmall?.color,
@@ -186,7 +187,7 @@ class AttendanceDetailView extends GetView<AttendanceDetailController> {
             final isSelected = controller.status.value == value;
 
             return ChoiceChip(
-              label: Text(label),
+              label: AppText(label),
               selected: isSelected,
               onSelected: (selected) {
                 if (selected) {
@@ -241,13 +242,13 @@ class AttendanceDetailView extends GetView<AttendanceDetailController> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
+        AppText(
           label,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
             color: Theme.of(context).textTheme.bodyMedium?.color,
           ),
         ),
-        Text(
+        AppText(
           value,
           style: Theme.of(
             context,
@@ -286,7 +287,7 @@ class AttendanceDetailView extends GetView<AttendanceDetailController> {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child: const Text('Save Changes'),
+              child: const AppText('Save Changes'),
             ),
           ),
 
@@ -305,7 +306,7 @@ class AttendanceDetailView extends GetView<AttendanceDetailController> {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child: const Text('Cancel'),
+              child: const AppText('Cancel'),
             ),
           ),
         ],

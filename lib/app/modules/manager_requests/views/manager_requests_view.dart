@@ -1,3 +1,4 @@
+import 'package:ess_portal/app/theme/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/manager_requests_controller.dart';
@@ -54,7 +55,7 @@ class ManagerRequestsView extends GetView<ManagerRequestsController> {
         ),
         onPressed: () => Get.back(),
       ),
-      title: Text(
+      title: AppText(
         'Requests',
         style: Theme.of(
           context,
@@ -70,7 +71,10 @@ class ManagerRequestsView extends GetView<ManagerRequestsController> {
                 onChanged: (_) => controller.toggleSelectAll(),
                 activeColor: Theme.of(context).colorScheme.primary,
               ),
-              Text('Select All', style: Theme.of(context).textTheme.bodySmall),
+              AppText(
+                'Select All',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
             ],
           ),
         ),
@@ -144,7 +148,7 @@ class ManagerRequestsView extends GetView<ManagerRequestsController> {
       onTap: () => controller.changeTab(index),
       child: Column(
         children: [
-          Text(
+          AppText(
             '$label ($count)',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: isSelected
@@ -205,7 +209,7 @@ class ManagerRequestsView extends GetView<ManagerRequestsController> {
                 : Theme.of(context).textTheme.bodyMedium?.color,
           ),
           const SizedBox(width: 6),
-          Text(label),
+          AppText(label),
         ],
       ),
       selected: isSelected,
@@ -242,7 +246,7 @@ class ManagerRequestsView extends GetView<ManagerRequestsController> {
                 color: Theme.of(context).textTheme.bodySmall?.color,
               ),
               const SizedBox(height: 16),
-              Text(
+              AppText(
                 'No requests found',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: Theme.of(context).textTheme.bodySmall?.color,
@@ -304,7 +308,7 @@ class ManagerRequestsView extends GetView<ManagerRequestsController> {
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
-              child: const Text('Reject'),
+              child: const AppText('Reject'),
             ),
           ),
           const SizedBox(width: 16),
@@ -319,7 +323,7 @@ class ManagerRequestsView extends GetView<ManagerRequestsController> {
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
-              child: const Text('Approve'),
+              child: const AppText('Approve'),
             ),
           ),
         ],

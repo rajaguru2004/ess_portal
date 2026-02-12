@@ -55,7 +55,7 @@ class HomeView extends GetView<HomeController> {
                     //   child: Column(
                     //     crossAxisAlignment: CrossAxisAlignment.start,
                     //     children: [
-                    //       Text(
+                    //       AppText(
                     //         'Quick Actions',
                     //         style: Theme.of(context).textTheme.titleMedium
                     //             ?.copyWith(fontWeight: FontWeight.bold),
@@ -68,7 +68,7 @@ class HomeView extends GetView<HomeController> {
                     //           //     onPressed: () =>
                     //           //         Get.toNamed('/manager-requests'),
                     //           //     icon: const Icon(Icons.manage_accounts),
-                    //           //     label: const Text('Requests'),
+                    //           //     label: const AppText('Requests'),
                     //           //     style: ElevatedButton.styleFrom(
                     //           //       padding: const EdgeInsets.symmetric(
                     //           //         vertical: 12,
@@ -82,7 +82,7 @@ class HomeView extends GetView<HomeController> {
                     //           //     onPressed: () =>
                     //           //         Get.toNamed('/attendance-detail'),
                     //           //     icon: const Icon(Icons.edit_calendar),
-                    //           //     label: const Text('Edit Att.'),
+                    //           //     label: const AppText('Edit Att.'),
                     //           //     style: ElevatedButton.styleFrom(
                     //           //       padding: const EdgeInsets.symmetric(
                     //           //         vertical: 12,
@@ -102,7 +102,7 @@ class HomeView extends GetView<HomeController> {
                     //       //       Get.toNamed('/attendance-screen');
                     //       //     },
                     //       //     icon: const Icon(Icons.assignment),
-                    //       //     label: const Text('Attendance Logs'),
+                    //       //     label: const AppText('Attendance Logs'),
                     //       //     style: ElevatedButton.styleFrom(
                     //       //       padding: const EdgeInsets.symmetric(
                     //       //         vertical: 12,
@@ -147,11 +147,11 @@ class HomeView extends GetView<HomeController> {
                 () => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    AppText(
                       'Welcome',
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
-                    Text(
+                    AppText(
                       controller.userName.value,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
@@ -179,7 +179,7 @@ class HomeView extends GetView<HomeController> {
                     color: Theme.of(context).colorScheme.primary,
                   ),
                   const SizedBox(width: 6),
-                  Text(
+                  AppText(
                     controller.currentDate.value,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Theme.of(context).colorScheme.primary,
@@ -205,7 +205,7 @@ class HomeView extends GetView<HomeController> {
       child: Column(
         children: [
           // Title
-          Text(
+          AppText(
             'Working Hours',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               color: Colors.white,
@@ -260,9 +260,9 @@ class HomeView extends GetView<HomeController> {
                     color: Colors.orange.shade800,
                   ),
                   const SizedBox(width: 8),
-                  Text(
+                  AppText(
                     'Total Break Time - ${controller.totalBreakHours.value}h ${controller.totalBreakMinutes.value}m',
-                    style: GoogleFonts.montserrat(
+                    style: TextStyle(
                       color: Colors.orange.shade800,
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
@@ -286,9 +286,9 @@ class HomeView extends GetView<HomeController> {
             color: const Color(0xFF374151),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Text(
+          child: AppText(
             value,
-            style: GoogleFonts.montserrat(
+            style: TextStyle(
               color: Colors.white,
               fontSize: 32,
               fontWeight: FontWeight.bold,
@@ -296,10 +296,7 @@ class HomeView extends GetView<HomeController> {
           ),
         ),
         const SizedBox(height: 4),
-        Text(
-          label,
-          style: GoogleFonts.montserrat(color: Colors.white70, fontSize: 12),
-        ),
+        AppText(label, style: TextStyle(color: Colors.white70, fontSize: 12)),
       ],
     );
   }
@@ -307,9 +304,9 @@ class HomeView extends GetView<HomeController> {
   Widget _buildTimeSeparator(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Text(
+      child: AppText(
         ':',
-        style: GoogleFonts.montserrat(
+        style: TextStyle(
           color: Colors.white,
           fontSize: 32,
           fontWeight: FontWeight.bold,
@@ -338,7 +335,7 @@ class HomeView extends GetView<HomeController> {
             ),
             const SizedBox(width: 8),
             Expanded(
-              child: Text(
+              child: AppText(
                 'Your first shift timings are ${controller.shiftStart.value} - ${controller.shiftEnd.value} ${controller.shiftOvertime.value}',
                 style: Theme.of(context).textTheme.bodySmall,
               ),
@@ -353,7 +350,7 @@ class HomeView extends GetView<HomeController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        AppText(
           'Your Activity',
           style: Theme.of(
             context,
@@ -410,14 +407,14 @@ class HomeView extends GetView<HomeController> {
             ),
             const SizedBox(width: 12),
             Expanded(
-              child: Text(
+              child: AppText(
                 type,
                 style: Theme.of(
                   context,
                 ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
               ),
             ),
-            Text(time, style: Theme.of(context).textTheme.bodyMedium),
+            AppText(time, style: Theme.of(context).textTheme.bodyMedium),
           ],
         ),
       ),
@@ -434,9 +431,9 @@ class HomeView extends GetView<HomeController> {
             color: Colors.orange.shade100,
             borderRadius: BorderRadius.circular(20),
           ),
-          child: Text(
+          child: AppText(
             duration,
-            style: GoogleFonts.montserrat(
+            style: TextStyle(
               color: Colors.orange.shade800,
               fontSize: 12,
               fontWeight: FontWeight.w500,
@@ -486,7 +483,7 @@ class HomeView extends GetView<HomeController> {
                   color: Colors.white,
                 ),
                 const SizedBox(width: 12),
-                Text(
+                AppText(
                   isCheckedIn ? 'Swipe To Punch Out' : 'Swipe To Punch In',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     color: Colors.white,

@@ -19,9 +19,9 @@ class NewRegularizationRequestView
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        title: Text(
+        title: AppText(
           'New Regularization Request',
-          style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: false,
         elevation: 0,
@@ -32,7 +32,7 @@ class NewRegularizationRequestView
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Request Type
-            Text(
+            AppText(
               'Request Type',
               style: Theme.of(
                 context,
@@ -54,7 +54,10 @@ class NewRegularizationRequestView
                     value: selectedType.value,
                     isExpanded: true,
                     items: controller.requestTypes.map((type) {
-                      return DropdownMenuItem(value: type, child: Text(type));
+                      return DropdownMenuItem(
+                        value: type,
+                        child: AppText(type),
+                      );
                     }).toList(),
                     onChanged: (value) {
                       if (value != null) selectedType.value = value;
@@ -67,7 +70,7 @@ class NewRegularizationRequestView
             const SizedBox(height: 24),
 
             // Date Selection
-            Text(
+            AppText(
               'Date',
               style: Theme.of(
                 context,
@@ -99,7 +102,7 @@ class NewRegularizationRequestView
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      AppText(
                         DateFormat('MMM dd, yyyy').format(selectedDate.value),
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
@@ -113,7 +116,7 @@ class NewRegularizationRequestView
             const SizedBox(height: 24),
 
             // Time Selection
-            Text(
+            AppText(
               'Requested Time',
               style: Theme.of(
                 context,
@@ -141,7 +144,7 @@ class NewRegularizationRequestView
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      AppText(
                         selectedTime.value.format(context),
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
@@ -155,7 +158,7 @@ class NewRegularizationRequestView
             const SizedBox(height: 24),
 
             // Reason
-            Text(
+            AppText(
               'Reason',
               style: Theme.of(
                 context,
@@ -215,9 +218,9 @@ class NewRegularizationRequestView
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child: Text(
+              child: AppText(
                 'Submit Request',
-                style: GoogleFonts.montserrat(
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   color: Colors.white,

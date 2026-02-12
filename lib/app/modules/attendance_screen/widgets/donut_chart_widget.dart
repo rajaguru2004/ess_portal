@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:ess_portal/app/theme/app_text.dart';
 import 'package:flutter/material.dart';
 
 class DonutChartWidget extends StatelessWidget {
@@ -35,14 +36,14 @@ class DonutChartWidget extends StatelessWidget {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
+              AppText(
                 'Total',
                 style: Theme.of(
                   context,
                 ).textTheme.bodySmall?.copyWith(color: Colors.grey),
               ),
               const SizedBox(height: 4),
-              Text(
+              AppText(
                 total.toString(),
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,

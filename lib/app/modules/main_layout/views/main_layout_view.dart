@@ -66,10 +66,7 @@ class MainLayoutView extends GetView<MainLayoutController> {
                   vertical: 12,
                 ),
                 duration: const Duration(milliseconds: 400),
-                textStyle: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                ),
+                textStyle: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                 tabBackgroundColor: Theme.of(
                   context,
                 ).colorScheme.primary.withOpacity(0.1),

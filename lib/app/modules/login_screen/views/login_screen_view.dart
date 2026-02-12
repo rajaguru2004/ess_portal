@@ -101,18 +101,18 @@ class LoginScreenView extends GetView<LoginScreenController> {
 
   /// Build title text
   Widget _buildTitle(BuildContext context) {
-    return Text(
+    return AppText(
       'Employee Login',
-      style: GoogleFonts.montserrat(fontSize: 24, fontWeight: FontWeight.bold),
+      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
       textAlign: TextAlign.center,
     );
   }
 
   /// Build subtitle text
   Widget _buildSubtitle(BuildContext context) {
-    return Text(
+    return AppText(
       'Sign in to continue',
-      style: GoogleFonts.montserrat(
+      style: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w500,
         color: Theme.of(context).textTheme.bodySmall?.color,
@@ -193,9 +193,9 @@ class LoginScreenView extends GetView<LoginScreenController> {
             ),
             const SizedBox(width: 12),
             Expanded(
-              child: Text(
+              child: AppText(
                 controller.errorMessage.value,
-                style: GoogleFonts.montserrat(
+                style: TextStyle(
                   color: Get.theme.colorScheme.error,
                   fontSize: 14,
                 ),
@@ -225,7 +225,7 @@ class LoginScreenView extends GetView<LoginScreenController> {
                     color: Get.theme.colorScheme.onPrimary,
                   ),
                 )
-              : const Text('Login'),
+              : const AppText('Login'),
         ),
       );
     });
@@ -235,7 +235,7 @@ class LoginScreenView extends GetView<LoginScreenController> {
   Widget _buildForgotPassword(BuildContext context) {
     return TextButton(
       onPressed: null, // Disabled as per requirements
-      child: Text(
+      child: AppText(
         'Forgot Password?',
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
           color: Theme.of(
@@ -248,7 +248,7 @@ class LoginScreenView extends GetView<LoginScreenController> {
 
   /// Build app version display
   Widget _buildAppVersion(BuildContext context) {
-    return Text(
+    return AppText(
       'Version 1.0.0',
       style: Theme.of(context).textTheme.bodySmall,
       textAlign: TextAlign.center,

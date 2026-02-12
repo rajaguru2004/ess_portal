@@ -1,3 +1,4 @@
+import 'package:ess_portal/app/theme/app_text.dart';
 import 'package:flutter/material.dart';
 import '../controllers/attendance_detail_controller.dart';
 
@@ -41,7 +42,7 @@ class PunchEntryWidget extends StatelessWidget {
               // Type label
               SizedBox(
                 width: 40,
-                child: Text(
+                child: AppText(
                   entry.label,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
@@ -53,7 +54,7 @@ class PunchEntryWidget extends StatelessWidget {
               Expanded(
                 child: Row(
                   children: [
-                    Text(
+                    AppText(
                       entry.time,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.w500,
@@ -95,7 +96,7 @@ class PunchEntryWidget extends StatelessWidget {
         if (breakTime != null && breakTime!.isNotEmpty)
           Container(
             padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Text(
+            child: AppText(
               'Break Time: $breakTime',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Theme.of(context).textTheme.bodySmall?.color,

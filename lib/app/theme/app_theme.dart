@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
+export 'app_text.dart';
 
 /// Centralized theme configuration for the application
 /// Provides both Light and Dark theme configurations
@@ -9,10 +10,10 @@ class AppTheme {
 
   /// Central font style derived from GoogleFonts
   /// Change this to another GoogleFont to update the entire app
-  static TextStyle get globalFont => GoogleFonts.montserrat();
+  static TextStyle get globalFont => TextStyle();
 
   /// Simplified font family name for use in ThemeData
-  static String? get fontFamily => GoogleFonts.montserrat().fontFamily;
+  static String? get fontFamily => TextStyle().fontFamily;
 
   /// Light Theme Configuration
   static ThemeData lightTheme() {
@@ -47,49 +48,40 @@ class AppTheme {
 
       // Text Theme - Using GoogleFonts explicitly for every style
       textTheme: TextTheme(
-        displayLarge: GoogleFonts.montserrat(
+        displayLarge: TextStyle(
           fontSize: 32,
           fontWeight: FontWeight.bold,
           color: AppColors.lightTextPrimary,
         ),
-        displayMedium: GoogleFonts.montserrat(
+        displayMedium: TextStyle(
           fontSize: 28,
           fontWeight: FontWeight.bold,
           color: AppColors.lightTextPrimary,
         ),
-        displaySmall: GoogleFonts.montserrat(
+        displaySmall: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.bold,
           color: AppColors.lightTextPrimary,
         ),
-        headlineMedium: GoogleFonts.montserrat(
+        headlineMedium: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w600,
           color: AppColors.lightTextPrimary,
         ),
-        titleLarge: GoogleFonts.montserrat(
+        titleLarge: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w600,
           color: AppColors.lightTextPrimary,
         ),
-        titleMedium: GoogleFonts.montserrat(
+        titleMedium: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
           color: AppColors.lightTextPrimary,
         ),
-        bodyLarge: GoogleFonts.montserrat(
-          fontSize: 16,
-          color: AppColors.lightTextPrimary,
-        ),
-        bodyMedium: GoogleFonts.montserrat(
-          fontSize: 14,
-          color: AppColors.lightTextPrimary,
-        ),
-        bodySmall: GoogleFonts.montserrat(
-          fontSize: 12,
-          color: AppColors.lightTextSecondary,
-        ),
-        labelLarge: GoogleFonts.montserrat(
+        bodyLarge: TextStyle(fontSize: 16, color: AppColors.lightTextPrimary),
+        bodyMedium: TextStyle(fontSize: 14, color: AppColors.lightTextPrimary),
+        bodySmall: TextStyle(fontSize: 12, color: AppColors.lightTextSecondary),
+        labelLarge: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w500,
           color: AppColors.lightTextSecondary,
@@ -130,9 +122,9 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: AppColors.lightError, width: 2),
         ),
-        labelStyle: GoogleFonts.montserrat(color: AppColors.lightTextSecondary),
-        hintStyle: GoogleFonts.montserrat(color: AppColors.lightTextHint),
-        errorStyle: GoogleFonts.montserrat(color: AppColors.lightError),
+        labelStyle: TextStyle(color: AppColors.lightTextSecondary),
+        hintStyle: TextStyle(color: AppColors.lightTextHint),
+        errorStyle: TextStyle(color: AppColors.lightError),
       ),
 
       // Elevated Button Theme
@@ -147,10 +139,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: GoogleFonts.montserrat(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+          textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
       ),
 
@@ -159,10 +148,7 @@ class AppTheme {
         style: TextButton.styleFrom(
           foregroundColor: AppColors.lightPrimary,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          textStyle: GoogleFonts.montserrat(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
+          textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
         ),
       ),
 
@@ -213,49 +199,40 @@ class AppTheme {
 
       // Text Theme - Using GoogleFonts explicitly for every style
       textTheme: TextTheme(
-        displayLarge: GoogleFonts.montserrat(
+        displayLarge: TextStyle(
           fontSize: 32,
           fontWeight: FontWeight.bold,
           color: AppColors.darkTextPrimary,
         ),
-        displayMedium: GoogleFonts.montserrat(
+        displayMedium: TextStyle(
           fontSize: 28,
           fontWeight: FontWeight.bold,
           color: AppColors.darkTextPrimary,
         ),
-        displaySmall: GoogleFonts.montserrat(
+        displaySmall: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.bold,
           color: AppColors.darkTextPrimary,
         ),
-        headlineMedium: GoogleFonts.montserrat(
+        headlineMedium: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w600,
           color: AppColors.darkTextPrimary,
         ),
-        titleLarge: GoogleFonts.montserrat(
+        titleLarge: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w600,
           color: AppColors.darkTextPrimary,
         ),
-        titleMedium: GoogleFonts.montserrat(
+        titleMedium: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
           color: AppColors.darkTextPrimary,
         ),
-        bodyLarge: GoogleFonts.montserrat(
-          fontSize: 16,
-          color: AppColors.darkTextPrimary,
-        ),
-        bodyMedium: GoogleFonts.montserrat(
-          fontSize: 14,
-          color: AppColors.darkTextPrimary,
-        ),
-        bodySmall: GoogleFonts.montserrat(
-          fontSize: 12,
-          color: AppColors.darkTextSecondary,
-        ),
-        labelLarge: GoogleFonts.montserrat(
+        bodyLarge: TextStyle(fontSize: 16, color: AppColors.darkTextPrimary),
+        bodyMedium: TextStyle(fontSize: 14, color: AppColors.darkTextPrimary),
+        bodySmall: TextStyle(fontSize: 12, color: AppColors.darkTextSecondary),
+        labelLarge: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w500,
           color: AppColors.darkTextSecondary,
@@ -290,9 +267,9 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: AppColors.darkError, width: 2),
         ),
-        labelStyle: GoogleFonts.montserrat(color: AppColors.darkTextSecondary),
-        hintStyle: GoogleFonts.montserrat(color: AppColors.darkTextHint),
-        errorStyle: GoogleFonts.montserrat(color: AppColors.darkError),
+        labelStyle: TextStyle(color: AppColors.darkTextSecondary),
+        hintStyle: TextStyle(color: AppColors.darkTextHint),
+        errorStyle: TextStyle(color: AppColors.darkError),
       ),
 
       // Elevated Button Theme
@@ -307,10 +284,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: GoogleFonts.montserrat(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+          textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
       ),
 
@@ -319,10 +293,7 @@ class AppTheme {
         style: TextButton.styleFrom(
           foregroundColor: AppColors.darkPrimary,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          textStyle: GoogleFonts.montserrat(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
+          textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
         ),
       ),
 

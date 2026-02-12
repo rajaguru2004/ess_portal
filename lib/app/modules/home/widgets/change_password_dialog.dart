@@ -90,31 +90,25 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
     return WillPopScope(
       onWillPop: () async => false, // Prevent closing by back button
       child: AlertDialog(
-        title: const Text('Change Password'),
+        title: const AppText('Change Password'),
         content: SingleChildScrollView(
           child: Form(
             key: _formKey,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
+                AppText(
                   'For security reasons, you must change your password on first login.',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.montserrat(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
+                  style: TextStyle(fontSize: 14, color: Colors.grey),
                 ),
                 const SizedBox(height: 20),
                 if (_errorMessage.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),
-                    child: Text(
+                    child: AppText(
                       _errorMessage,
-                      style: GoogleFonts.montserrat(
-                        color: Colors.red,
-                        fontSize: 13,
-                      ),
+                      style: TextStyle(color: Colors.red, fontSize: 13),
                     ),
                   ),
                 TextFormField(
@@ -189,10 +183,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
         actions: [
           TextButton(
             onPressed: _isLoading ? null : _logout,
-            child: Text(
-              'Logout',
-              style: GoogleFonts.montserrat(color: Colors.grey),
-            ),
+            child: AppText('Logout', style: TextStyle(color: Colors.grey)),
           ),
           ElevatedButton(
             onPressed: _isLoading ? null : _submit,
@@ -212,7 +203,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                       color: Colors.white,
                     ),
                   )
-                : const Text('Change Password'),
+                : const AppText('Change Password'),
           ),
         ],
       ),

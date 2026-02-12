@@ -18,7 +18,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: Text('Apply Leave', style: theme.textTheme.titleLarge),
+        title: AppText('Apply Leave', style: theme.textTheme.titleLarge),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: theme.iconTheme.color),
           onPressed: () => Get.back(),
@@ -97,9 +97,9 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                               strokeWidth: 2,
                             ),
                           )
-                        : Text(
+                        : AppText(
                             "Apply Leave",
-                            style: GoogleFonts.montserrat(
+                            style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
@@ -108,7 +108,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                 ),
               ),
               const SizedBox(height: 32),
-              Text(
+              AppText(
                 "My Leaves",
                 style: theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
@@ -129,25 +129,22 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
       return RichText(
         text: TextSpan(
           text: text.substring(0, text.length - 1),
-          style: GoogleFonts.montserrat(
+          style: TextStyle(
             color: theme.colorScheme.onSurface.withOpacity(0.6),
             fontSize: 14,
           ),
           children: [
             TextSpan(
               text: '*',
-              style: GoogleFonts.montserrat(
-                color: theme.colorScheme.error,
-                fontSize: 14,
-              ),
+              style: TextStyle(color: theme.colorScheme.error, fontSize: 14),
             ),
           ],
         ),
       );
     }
-    return Text(
+    return AppText(
       text,
-      style: GoogleFonts.montserrat(
+      style: TextStyle(
         color: theme.colorScheme.onSurface.withOpacity(0.6),
         fontSize: 14,
       ),
@@ -178,7 +175,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
             items: controller.leaveBalances.map((LeaveBalance balance) {
               return DropdownMenuItem<LeaveBalance>(
                 value: balance,
-                child: Text(balance.leaveType.name),
+                child: AppText(balance.leaveType.name),
               );
             }).toList(),
             onChanged: controller.setLeaveType,
@@ -193,7 +190,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
     return Obx(() {
       final balance = controller.selectedLeaveBalance.value;
       if (balance == null) return const SizedBox.shrink();
-      return Text(
+      return AppText(
         "Available: ${balance.available} days (Pending: ${balance.pending})",
         style: theme.textTheme.bodySmall?.copyWith(
           color: theme.colorScheme.primary,
@@ -235,7 +232,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Obx(
-              () => Text(
+              () => AppText(
                 isStart
                     ? controller.formattedStartDate
                     : controller.formattedEndDate,
@@ -252,7 +249,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
     final theme = Theme.of(context);
     return Obx(() {
       if (controller.myLeaves.isEmpty) {
-        return const Center(child: Text("No leave history found"));
+        return const Center(child: AppText("No leave history found"));
       }
       return ListView.separated(
         shrinkWrap: true,
@@ -274,21 +271,19 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    AppText(
                       leave.leaveType?.name ?? "Leave Application",
-                      style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     _buildStatusBadge(leave.status),
                   ],
                 ),
                 const SizedBox(height: 8),
-                Text(
+                AppText(
                   "${DateFormat('dd MMM').format(leave.startDate)} - ${DateFormat('dd MMM yyyy').format(leave.endDate)} (${leave.totalDays} days)",
                   style: theme.textTheme.bodyMedium,
                 ),
-                Text(
+                AppText(
                   "Applied at ${DateFormat('dd MMM, hh:mm a').format(leave.appliedAt)}",
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: Colors.grey,
@@ -300,9 +295,9 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                     alignment: Alignment.centerRight,
                     child: TextButton(
                       onPressed: () => controller.cancelLeave(leave.id),
-                      child: Text(
+                      child: AppText(
                         "Cancel Request",
-                        style: GoogleFonts.montserrat(color: Colors.red),
+                        style: TextStyle(color: Colors.red),
                       ),
                     ),
                   ),
@@ -340,9 +335,9 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
         color: color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Text(
+      child: AppText(
         status,
-        style: GoogleFonts.montserrat(
+        style: TextStyle(
           color: color,
           fontSize: 12,
           fontWeight: FontWeight.bold,
@@ -372,7 +367,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Select Date", style: theme.textTheme.titleLarge),
+                  AppText("Select Date", style: theme.textTheme.titleLarge),
                   IconButton(
                     icon: Icon(Icons.close, color: theme.iconTheme.color),
                     onPressed: () => Get.back(),
@@ -398,7 +393,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                       child: Obx(
                         () => Row(
                           children: [
-                            Text(
+                            AppText(
                               DateFormat('EEE, dd MMM').format(
                                 controller.rangeStart.value ?? DateTime.now(),
                               ),
@@ -431,7 +426,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                       child: Obx(
                         () => Row(
                           children: [
-                            Text(
+                            AppText(
                               DateFormat('EEE, dd MMM').format(
                                 controller.rangeEnd.value ??
                                     (controller.rangeStart.value ??
@@ -502,7 +497,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
               child: Column(
                 children: [
                   Obx(
-                    () => Text(
+                    () => AppText(
                       controller.durationString,
                       style: theme.textTheme.bodyMedium,
                     ),
@@ -513,14 +508,14 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
                       Expanded(
                         child: OutlinedButton(
                           onPressed: () => Get.back(),
-                          child: const Text("Cancel"),
+                          child: const AppText("Cancel"),
                         ),
                       ),
                       const SizedBox(width: 16),
                       Expanded(
                         child: ElevatedButton(
                           onPressed: controller.applyDateSelection,
-                          child: const Text("Select"),
+                          child: const AppText("Select"),
                         ),
                       ),
                     ],

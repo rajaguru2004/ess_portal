@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/attendance_screen_controller.dart';
+import 'package:ess_portal/app/theme/app_theme.dart';
 import '../widgets/donut_chart_widget.dart';
 
 class AttendanceScreenView extends GetView<AttendanceScreenController> {
@@ -82,13 +83,13 @@ class AttendanceScreenView extends GetView<AttendanceScreenController> {
             () => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                AppText(
                   controller.userName.value,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text(
+                AppText(
                   'ID: ${controller.employeeId.value}',
                   style: Theme.of(
                     context,
@@ -137,7 +138,7 @@ class AttendanceScreenView extends GetView<AttendanceScreenController> {
 
           // Date display
           Obx(
-            () => Text(
+            () => AppText(
               controller.selectedDateString.value,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Theme.of(context).colorScheme.primary,
@@ -184,7 +185,7 @@ class AttendanceScreenView extends GetView<AttendanceScreenController> {
                         : Colors.grey.shade300,
                   ),
                 ),
-                child: Text(
+                child: AppText(
                   shift,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: isSelected
@@ -220,7 +221,7 @@ class AttendanceScreenView extends GetView<AttendanceScreenController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          AppText(
             'Attendance',
             style: Theme.of(
               context,
@@ -342,13 +343,13 @@ class AttendanceScreenView extends GetView<AttendanceScreenController> {
             ],
           ),
           const SizedBox(height: 4),
-          Text(
+          AppText(
             label,
             style: Theme.of(context).textTheme.bodySmall,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 4),
-          Text(
+          AppText(
             count.toString(),
             style: Theme.of(
               context,
@@ -366,7 +367,7 @@ class AttendanceScreenView extends GetView<AttendanceScreenController> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            AppText(
               'Employee Details',
               style: Theme.of(
                 context,
@@ -376,7 +377,7 @@ class AttendanceScreenView extends GetView<AttendanceScreenController> {
               onTap: controller.navigateToBreakHours,
               child: Row(
                 children: [
-                  Text(
+                  AppText(
                     'Break Hours',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Theme.of(context).colorScheme.primary,
@@ -431,7 +432,7 @@ class AttendanceScreenView extends GetView<AttendanceScreenController> {
                 shape: BoxShape.circle,
               ),
               child: Center(
-                child: Text(
+                child: AppText(
                   employee.initial,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     color: Theme.of(context).colorScheme.primary,
@@ -445,7 +446,7 @@ class AttendanceScreenView extends GetView<AttendanceScreenController> {
 
             // Name
             Expanded(
-              child: Text(
+              child: AppText(
                 employee.name,
                 style: Theme.of(
                   context,
@@ -460,7 +461,7 @@ class AttendanceScreenView extends GetView<AttendanceScreenController> {
                 color: employee.statusColorValue.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Text(
+              child: AppText(
                 employee.status,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: employee.statusColorValue,
@@ -477,14 +478,14 @@ class AttendanceScreenView extends GetView<AttendanceScreenController> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   if (employee.checkInTime != null)
-                    Text(
+                    AppText(
                       'In: ${employee.checkInTime}',
                       style: Theme.of(
                         context,
                       ).textTheme.bodySmall?.copyWith(color: Colors.green),
                     ),
                   if (employee.checkOutTime != null)
-                    Text(
+                    AppText(
                       'Out: ${employee.checkOutTime}',
                       style: Theme.of(
                         context,
@@ -492,7 +493,7 @@ class AttendanceScreenView extends GetView<AttendanceScreenController> {
                     ),
                   if (employee.checkInTime == null &&
                       employee.checkOutTime == null)
-                    Text(
+                    AppText(
                       employee.time,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),

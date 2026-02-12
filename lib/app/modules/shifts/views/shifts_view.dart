@@ -15,14 +15,17 @@ class ShiftsView extends GetView<ShiftsController> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: AppText(
             'My Shifts',
-            style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           centerTitle: true,
           bottom: TabBar(
             indicatorSize: TabBarIndicatorSize.tab,
-            labelStyle: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
+            labelStyle: const TextStyle(
+              fontFamily: 'Montserrat',
+              fontWeight: FontWeight.bold,
+            ),
             tabs: const [
               Tab(
                 child: Row(
@@ -30,7 +33,7 @@ class ShiftsView extends GetView<ShiftsController> {
                   children: [
                     Icon(Icons.today_rounded, size: 18),
                     SizedBox(width: 8),
-                    Text('Today'),
+                    AppText('Today'),
                   ],
                 ),
               ),
@@ -40,7 +43,7 @@ class ShiftsView extends GetView<ShiftsController> {
                   children: [
                     Icon(Icons.upcoming_outlined, size: 18),
                     SizedBox(width: 8),
-                    Text('Upcoming'),
+                    AppText('Upcoming'),
                   ],
                 ),
               ),
@@ -123,7 +126,7 @@ class ShiftsView extends GetView<ShiftsController> {
             child: Icon(icon, size: 48, color: Colors.grey.shade400),
           ),
           const SizedBox(height: 16),
-          Text(
+          AppText(
             title,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
@@ -133,7 +136,7 @@ class ShiftsView extends GetView<ShiftsController> {
           const SizedBox(height: 8),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: Text(
+            child: AppText(
               message,
               textAlign: TextAlign.center,
               style: Theme.of(
@@ -158,7 +161,7 @@ class ShiftsView extends GetView<ShiftsController> {
         if (dateLabel != null) ...[
           Padding(
             padding: const EdgeInsets.only(left: 4, bottom: 8),
-            child: Text(
+            child: AppText(
               _formatDate(dateLabel).toUpperCase(),
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                 color: Colors.grey.shade600,
@@ -203,7 +206,7 @@ class ShiftsView extends GetView<ShiftsController> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                AppText(
                                   shift.name,
                                   style: Theme.of(context).textTheme.titleMedium
                                       ?.copyWith(
@@ -221,9 +224,9 @@ class ShiftsView extends GetView<ShiftsController> {
                                     color: shiftColor.withOpacity(0.1),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
-                                  child: Text(
+                                  child: AppText(
                                     shift.type,
-                                    style: GoogleFonts.montserrat(
+                                    style: TextStyle(
                                       color: shiftColor,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
@@ -310,7 +313,7 @@ class ShiftsView extends GetView<ShiftsController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              AppText(
                 label,
                 style: Theme.of(
                   context,
@@ -318,7 +321,7 @@ class ShiftsView extends GetView<ShiftsController> {
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
               ),
-              Text(
+              AppText(
                 time,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   fontWeight: FontWeight.bold,

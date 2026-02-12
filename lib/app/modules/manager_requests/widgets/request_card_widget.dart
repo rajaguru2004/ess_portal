@@ -1,3 +1,4 @@
+import 'package:ess_portal/app/theme/app_text.dart';
 import 'package:flutter/material.dart';
 import '../controllers/manager_requests_controller.dart';
 
@@ -60,7 +61,7 @@ class RequestCardWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            child: Text(
+                            child: AppText(
                               request.employeeName,
                               style: Theme.of(context).textTheme.titleMedium
                                   ?.copyWith(fontWeight: FontWeight.bold),
@@ -79,7 +80,7 @@ class RequestCardWidget extends StatelessWidget {
                       // Date and leave type
                       Row(
                         children: [
-                          Text(
+                          AppText(
                             request.formattedDate,
                             style: Theme.of(context).textTheme.bodySmall
                                 ?.copyWith(
@@ -89,7 +90,7 @@ class RequestCardWidget extends StatelessWidget {
                                 ),
                           ),
                           const SizedBox(width: 8),
-                          Text(
+                          AppText(
                             '|',
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
@@ -105,7 +106,7 @@ class RequestCardWidget extends StatelessWidget {
                               ).withOpacity(0.1),
                               borderRadius: BorderRadius.circular(4),
                             ),
-                            child: Text(
+                            child: AppText(
                               request.leaveType,
                               style: Theme.of(context).textTheme.bodySmall
                                   ?.copyWith(
@@ -144,7 +145,7 @@ class RequestCardWidget extends StatelessWidget {
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
-                      child: const Text('Reject'),
+                      child: const AppText('Reject'),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -159,7 +160,7 @@ class RequestCardWidget extends StatelessWidget {
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
-                      child: const Text('Approve'),
+                      child: const AppText('Approve'),
                     ),
                   ),
                 ],

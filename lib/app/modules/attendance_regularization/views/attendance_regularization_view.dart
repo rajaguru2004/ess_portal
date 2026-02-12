@@ -78,12 +78,9 @@ class AttendanceRegularizationView
           ),
           Expanded(
             child: Center(
-              child: Text(
+              child: AppText(
                 'Attendance Request',
-                style: GoogleFonts.montserrat(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
           ),
@@ -119,9 +116,9 @@ class AttendanceRegularizationView
             child: CircleAvatar(
               radius: 24,
               backgroundColor: Colors.blue.shade100,
-              child: Text(
+              child: AppText(
                 name.isNotEmpty ? name[0] : 'U',
-                style: GoogleFonts.montserrat(
+                style: TextStyle(
                   color: Colors.blue.shade800,
                   fontWeight: FontWeight.bold,
                 ),
@@ -129,12 +126,9 @@ class AttendanceRegularizationView
             ),
           ),
           const SizedBox(width: 12),
-          Text(
+          AppText(
             '$name (#$id)',
-            style: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
         ],
       );
@@ -159,9 +153,9 @@ class AttendanceRegularizationView
           ),
           child: Row(
             children: [
-              Text(
+              AppText(
                 'Last 30 Days',
-                style: GoogleFonts.montserrat(
+                style: TextStyle(
                   color: theme.colorScheme.onSurface.withOpacity(0.7),
                   fontWeight: FontWeight.w500,
                 ),
@@ -223,17 +217,17 @@ class AttendanceRegularizationView
     return Expanded(
       child: Column(
         children: [
-          Text(
+          AppText(
             label,
-            style: GoogleFonts.montserrat(
+            style: TextStyle(
               color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
               fontSize: 12,
             ),
           ),
           const SizedBox(height: 4),
-          Text(
+          AppText(
             count,
-            style: GoogleFonts.montserrat(
+            style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
               color: Theme.of(context).colorScheme.onBackground,
@@ -258,9 +252,9 @@ class AttendanceRegularizationView
     // Fallback if absolutely no data
     if (requests.isEmpty) {
       return Center(
-        child: Text(
+        child: AppText(
           "No requests found",
-          style: GoogleFonts.montserrat(
+          style: TextStyle(
             color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
           ),
         ),
@@ -304,16 +298,16 @@ class AttendanceRegularizationView
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                AppText(
                   'Manual Attendance', // Could be request type
-                  style: GoogleFonts.montserrat(
+                  style: TextStyle(
                     color: Colors.indigo.shade400,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                Text(
+                AppText(
                   'Processing', // Mapping status to UI text
-                  style: GoogleFonts.montserrat(
+                  style: TextStyle(
                     color: Colors.blue.shade400,
                     fontWeight: FontWeight.w600,
                     fontSize: 12,
@@ -325,22 +319,16 @@ class AttendanceRegularizationView
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
+            child: AppText(
               request.formattedDate, // "22/07/2024"
-              style: GoogleFonts.montserrat(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-            child: Text(
+            child: AppText(
               'Created at: ${request.formattedSubmittedOn}',
-              style: GoogleFonts.montserrat(
-                color: secondaryTextColor,
-                fontSize: 12,
-              ),
+              style: TextStyle(color: secondaryTextColor, fontSize: 12),
             ),
           ),
 
@@ -356,18 +344,18 @@ class AttendanceRegularizationView
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                AppText(
                   'Day Shift',
-                  style: GoogleFonts.montserrat(
+                  style: TextStyle(
                     color: Colors.blue.shade400,
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
                   ),
                 ),
                 const SizedBox(height: 4),
-                Text(
+                AppText(
                   '9:00 am - 6:00 pm',
-                  style: GoogleFonts.montserrat(
+                  style: TextStyle(
                     color: theme.colorScheme.onSurface,
                     fontWeight: FontWeight.w500,
                     fontSize: 14,
@@ -388,9 +376,9 @@ class AttendanceRegularizationView
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      AppText(
                         'Check-in',
-                        style: GoogleFonts.montserrat(
+                        style: TextStyle(
                           color: secondaryTextColor,
                           fontSize: 12,
                         ),
@@ -398,9 +386,9 @@ class AttendanceRegularizationView
                       const SizedBox(height: 4),
                       Row(
                         children: [
-                          Text(
+                          AppText(
                             '11:00 AM',
-                            style: GoogleFonts.montserrat(
+                            style: TextStyle(
                               fontWeight: FontWeight.bold,
                               decoration: TextDecoration.lineThrough,
                               color: secondaryTextColor,
@@ -413,11 +401,9 @@ class AttendanceRegularizationView
                             color: secondaryTextColor,
                           ),
                           const SizedBox(width: 4),
-                          Text(
+                          AppText(
                             request.requestedTime,
-                            style: GoogleFonts.montserrat(
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -428,9 +414,9 @@ class AttendanceRegularizationView
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      AppText(
                         'Check-out',
-                        style: GoogleFonts.montserrat(
+                        style: TextStyle(
                           color: secondaryTextColor,
                           fontSize: 12,
                         ),
@@ -438,9 +424,9 @@ class AttendanceRegularizationView
                       const SizedBox(height: 4),
                       Row(
                         children: [
-                          Text(
+                          AppText(
                             '8:00 PM',
-                            style: GoogleFonts.montserrat(
+                            style: TextStyle(
                               fontWeight: FontWeight.bold,
                               decoration: TextDecoration.lineThrough,
                               color: secondaryTextColor,
@@ -453,11 +439,9 @@ class AttendanceRegularizationView
                             color: secondaryTextColor,
                           ),
                           const SizedBox(width: 4),
-                          Text(
+                          AppText(
                             '6:00 PM',
-                            style: GoogleFonts.montserrat(
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -476,18 +460,18 @@ class AttendanceRegularizationView
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                AppText(
                   'Reason',
-                  style: GoogleFonts.montserrat(
+                  style: TextStyle(
                     color: secondaryTextColor,
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(height: 4),
-                Text(
+                AppText(
                   request.reason,
-                  style: GoogleFonts.montserrat(
+                  style: TextStyle(
                     color: theme.colorScheme.onSurface,
                     fontSize: 14,
                     height: 1.4,
@@ -515,20 +499,17 @@ class AttendanceRegularizationView
                   child: const Icon(Icons.check, size: 12, color: Colors.green),
                 ),
                 const SizedBox(width: 8),
-                Text(
+                AppText(
                   'Line Manager',
-                  style: GoogleFonts.montserrat(
+                  style: TextStyle(
                     color: Colors.green,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const Spacer(),
-                Text(
+                AppText(
                   'Jul 26, 2024, 3:14 PM', // Dummy timestamp
-                  style: GoogleFonts.montserrat(
-                    color: secondaryTextColor,
-                    fontSize: 12,
-                  ),
+                  style: TextStyle(color: secondaryTextColor, fontSize: 12),
                 ),
                 const SizedBox(width: 4),
                 Icon(
@@ -549,12 +530,9 @@ class AttendanceRegularizationView
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  AppText(
                     'You are Recommending as a Line Manager',
-                    style: GoogleFonts.montserrat(
-                      color: secondaryTextColor,
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(color: secondaryTextColor, fontSize: 12),
                   ),
                   const SizedBox(height: 12),
                   Row(
@@ -570,11 +548,9 @@ class AttendanceRegularizationView
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
-                          child: Text(
+                          child: AppText(
                             'Reject',
-                            style: GoogleFonts.montserrat(
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
@@ -592,11 +568,9 @@ class AttendanceRegularizationView
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
-                          child: Text(
+                          child: AppText(
                             'Recommend',
-                            style: GoogleFonts.montserrat(
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),

@@ -39,9 +39,9 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
           if (!controller.isCameraInitialized.value ||
               controller.cameraController == null) {
             return Center(
-              child: Text(
+              child: AppText(
                 'Camera not available',
-                style: GoogleFonts.montserrat(color: Colors.white),
+                style: TextStyle(color: Colors.white),
               ),
             );
           }
@@ -90,12 +90,9 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
                     color: Colors.black.withOpacity(0.6),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Text(
+                  child: AppText(
                     'Face forward & look directly at camera',
-                    style: GoogleFonts.montserrat(
-                      color: Colors.white,
-                      fontSize: 14,
-                    ),
+                    style: TextStyle(color: Colors.white, fontSize: 14),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -153,9 +150,9 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Text(
+                  AppText(
                     'Take your photo',
-                    style: GoogleFonts.montserrat(
+                    style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -189,9 +186,9 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        child: Text(
+                        child: AppText(
                           'Capture Photo',
-                          style: GoogleFonts.montserrat(
+                          style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             color: Colors.white,
@@ -213,13 +210,9 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
         Icon(icon, color: Colors.white, size: 20),
         const SizedBox(width: 8),
         Expanded(
-          child: Text(
+          child: AppText(
             text,
-            style: GoogleFonts.montserrat(
-              color: Colors.white,
-              fontSize: 12,
-              height: 1.4,
-            ),
+            style: TextStyle(color: Colors.white, fontSize: 12, height: 1.4),
           ),
         ),
       ],
@@ -249,9 +242,9 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
               const SizedBox(height: 32),
 
               // Success Title
-              Text(
+              AppText(
                 'Clock in successful',
-                style: GoogleFonts.montserrat(
+                style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.onSurface,
@@ -261,9 +254,9 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
               const SizedBox(height: 12),
 
               // Success Message
-              Text(
+              AppText(
                 'Great job! Your clock in has been successfully saved.',
-                style: GoogleFonts.montserrat(
+                style: TextStyle(
                   fontSize: 16,
                   color: Theme.of(context).textTheme.bodyMedium?.color,
                 ),
@@ -282,9 +275,9 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: Text(
+                child: AppText(
                   'Back to Home',
-                  style: GoogleFonts.montserrat(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
@@ -304,9 +297,9 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: Text(
+                child: AppText(
                   'View attendance log',
-                  style: GoogleFonts.montserrat(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: Color(0xFF2563EB),
