@@ -107,6 +107,233 @@
                         "description": "Create a new user. \n\n**Requires:**\n- valid JWT token in Authorization header\n- Requester must have 'Admin' role\n\n**Validation:**\n- Unique username/employeeCode"
                     },
                     "response": []
+                },
+                {
+                    "name": "Get All Users",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/users",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "users"
+                            ]
+                        },
+                        "description": "Fetch all users with their roles and hierarchy details."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "User Hierarchy",
+            "item": [
+                {
+                    "name": "Promote to Head Manager (Admin Only)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/users/:id/make-head-manager",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "users",
+                                ":id",
+                                "make-head-manager"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "USER_UUID_HERE"
+                                }
+                            ]
+                        },
+                        "description": "Establish a top-level hierarchy manager. **Requires ADMIN role.**"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Make Manager",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/users/:id/make-manager",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "users",
+                                ":id",
+                                "make-manager"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "USER_UUID_HERE"
+                                }
+                            ]
+                        },
+                        "description": "Assign manager role to an employee. Requires Head Manager privileges."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Assign Employee to Manager",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"managerId\": \"MANAGER_UUID_HERE\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/users/:employeeId/assign-manager",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "users",
+                                ":employeeId",
+                                "assign-manager"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "employeeId",
+                                    "value": "EMPLOYEE_UUID_HERE"
+                                }
+                            ]
+                        },
+                        "description": "Assign an employee to a manager. **Validation includes circular hierarchy check.**"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get All Managers",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/users/managers",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "users",
+                                "managers"
+                            ]
+                        },
+                        "description": "Get all managers and their subordinates. Returns users who are Head Managers or have subordinates."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get User Hierarchy",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{accessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/users/:id/hierarchy",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "users",
+                                ":id",
+                                "hierarchy"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "USER_UUID_HERE"
+                                }
+                            ]
+                        },
+                        "description": "Fetch hierarchy information for a specific user (manager and subordinates)."
+                    },
+                    "response": []
                 }
             ]
         },

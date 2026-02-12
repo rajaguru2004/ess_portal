@@ -8,24 +8,13 @@ const { calculateAvailableBalance } = require('./leave.service');
 
 /**
  * Get pending leave approvals for a manager
+ * Only returns leaves where currentApproverId matches the manager's ID
  */
 const getPendingApprovals = async (managerId, filters = {}) => {
-    // Get manager details
-    const manager = await prisma.user.findUnique({
-        where: { id: managerId },
-        select: { departmentId: true }
-    });
-
-    if (!manager) {
-        throw new Error('Manager not found');
-    }
-
-    // Build query
+    // Build query - filter by currentApproverId
     const where = {
         status: 'PENDING',
-        user: {
-            departmentId: manager.departmentId
-        }
+        currentApproverId: managerId  // Only show leaves assigned to this manager
     };
 
     if (filters.leaveTypeId) {
@@ -36,7 +25,7 @@ const getPendingApprovals = async (managerId, filters = {}) => {
         where.year = parseInt(filters.year);
     }
 
-    // Get pending leaves from same department
+    // Get pending leaves assigned to this manager
     const pendingLeaves = await prisma.leaveApplication.findMany({
         where,
         include: {
@@ -127,6 +116,7 @@ const createLeaveAttendance = async (leaveApplication, tx) => {
 
 /**
  * Approve leave application
+ * Only the currentApproverId can approve
  */
 const approveLeave = async (leaveApplicationId, managerId) => {
     // Get leave application
@@ -147,14 +137,9 @@ const approveLeave = async (leaveApplicationId, managerId) => {
         throw new Error('Leave application not found');
     }
 
-    // Verify manager's department
-    const manager = await prisma.user.findUnique({
-        where: { id: managerId },
-        select: { departmentId: true }
-    });
-
-    if (manager.departmentId !== leave.user.departmentId) {
-        throw new Error('You can only approve leaves from your department');
+    // CRITICAL: Authorization check - only currentApproverId can approve
+    if (leave.currentApproverId !== managerId) {
+        throw new Error('You are not authorized to approve this leave application');
     }
 
     // Check status
@@ -177,7 +162,7 @@ const approveLeave = async (leaveApplicationId, managerId) => {
             );
         }
 
-        // Update leave application
+        // Update leave application - FINAL APPROVAL
         const approvedLeave = await tx.leaveApplication.update({
             where: { id: leaveApplicationId },
             data: {
@@ -228,6 +213,7 @@ const approveLeave = async (leaveApplicationId, managerId) => {
 
 /**
  * Reject leave application
+ * Only the currentApproverId can reject
  */
 const rejectLeave = async (leaveApplicationId, managerId, reason) => {
     // Get leave application
@@ -248,14 +234,9 @@ const rejectLeave = async (leaveApplicationId, managerId, reason) => {
         throw new Error('Leave application not found');
     }
 
-    // Verify manager's department
-    const manager = await prisma.user.findUnique({
-        where: { id: managerId },
-        select: { departmentId: true }
-    });
-
-    if (manager.departmentId !== leave.user.departmentId) {
-        throw new Error('You can only reject leaves from your department');
+    // CRITICAL: Authorization check - only currentApproverId can reject
+    if (leave.currentApproverId !== managerId) {
+        throw new Error('You are not authorized to reject this leave application');
     }
 
     // Check status

@@ -22,6 +22,7 @@ model User {
   departmentId String
   roleId       String
   managerId    String?
+  isHeadManager Boolean @default(false)
 
   passwordHash        String
   passwordChangedAt   DateTime?
@@ -336,6 +337,7 @@ model LeaveApplication {
   year        Int
 
   status LeaveStatus @default(PENDING)
+  currentApproverId String?
 
   // Application tracking
   appliedAt DateTime @default(now())

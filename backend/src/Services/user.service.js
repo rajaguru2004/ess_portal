@@ -106,11 +106,22 @@ const getAllUsers = async () => {
             departmentId: true,
             roleId: true,
             managerId: true,
+            isHeadManager: true,
             isActive: true,
             createdAt: true,
             Role: {
                 select: {
-                    name: true
+                    id: true,
+                    name: true,
+                    code: true,
+                    description: true
+                }
+            },
+            manager: {
+                select: {
+                    id: true,
+                    fullName: true,
+                    employeeCode: true
                 }
             }
         },

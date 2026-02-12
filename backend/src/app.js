@@ -6,6 +6,7 @@ require('dotenv').config();
 
 const authRoutes = require('./Routes/auth.routes');
 const userRoutes = require('./Routes/user.routes');
+const userHierarchyRoutes = require('./Routes/userHierarchy.routes');
 const roleRoutes = require('./Routes/role.routes');
 const departmentRoutes = require('./Routes/department.routes');
 const shiftRoutes = require('./Routes/shift.routes');
@@ -41,6 +42,7 @@ if (process.env.NODE_ENV !== 'production') {
 // Routes
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/users', userHierarchyRoutes);  // Hierarchy management routes
 app.use('/api/v1/roles', roleRoutes);
 app.use('/api/v1/departments', departmentRoutes);
 app.use('/api/v1/shifts', shiftRoutes);

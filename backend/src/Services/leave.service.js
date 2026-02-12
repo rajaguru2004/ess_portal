@@ -277,6 +277,55 @@ const validateLeaveApplication = async (userId, leaveData) => {
 };
 
 /**
+ * Determine current approver based on hierarchy
+ * @param {string} userId - ID of the user applying for leave
+ * @returns {Promise<string|null>} - ID of the approver or null
+ */
+const determineApprover = async (userId) => {
+    const user = await prisma.user.findUnique({
+        where: { id: userId },
+        select: {
+            id: true,
+            isHeadManager: true,
+            managerId: true,
+            tenantId: true
+        }
+    });
+
+    if (!user) {
+        throw new Error('User not found');
+    }
+
+    // Case 1: Head Manager applies leave → Admin approves
+    if (user.isHeadManager) {
+        // Find an admin user from the same tenant
+        const admin = await prisma.user.findFirst({
+            where: {
+                tenantId: user.tenantId,
+                Role: {
+                    code: 'ADMIN'
+                }
+            },
+            select: { id: true }
+        });
+
+        if (!admin) {
+            throw new Error('No admin found to approve head manager leave');
+        }
+
+        return admin.id;
+    }
+
+    // Case 2: Regular Employee or Manager applies → Direct manager approves
+    if (user.managerId) {
+        return user.managerId;
+    }
+
+    // Case 3: No manager assigned
+    throw new Error('No reporting manager assigned. Cannot apply for leave.');
+};
+
+/**
  * Apply for leave
  */
 const applyLeave = async (userId, leaveData) => {
@@ -284,6 +333,9 @@ const applyLeave = async (userId, leaveData) => {
 
     // Validate application
     const { totalDays, year } = await validateLeaveApplication(userId, leaveData);
+
+    // Determine approver based on hierarchy
+    const currentApproverId = await determineApprover(userId);
 
     // Create leave application
     const leaveApplication = await prisma.leaveApplication.create({
@@ -296,7 +348,8 @@ const applyLeave = async (userId, leaveData) => {
             totalDays,
             reason,
             year,
-            status: 'PENDING'
+            status: 'PENDING',
+            currentApproverId  // Set the approver
         },
         include: {
             user: {
@@ -482,5 +535,6 @@ module.exports = {
     calculateAvailableBalance,
     validateLeaveApplication,
     calculateLeaveDays,
-    checkOverlappingLeave
+    checkOverlappingLeave,
+    determineApprover
 };

@@ -129,11 +129,40 @@ async function main() {
         }
     });
 
+    // Generate 30 Test Employees for Hierarchy Testing
+    const testUsers = [];
+    for (let i = 1; i <= 30; i++) {
+        const empNum = i.toString().padStart(2, '0'); // 01, 02, ... 30
+        const user = await prisma.user.upsert({
+            where: { username: `user${empNum}` },
+            update: {
+                roleId: employeeRole.id,
+                tenantId: validTenantId,
+                branchId: validBranchId,
+                departmentId: engineeringDept.id
+            },
+            create: {
+                employeeCode: `TEST${empNum}`,
+                username: `user${empNum}`,
+                fullName: `Test User ${empNum}`,
+                email: `user${empNum}@test.com`,
+                passwordHash: commonPassword,
+                roleId: employeeRole.id,
+                tenantId: validTenantId,
+                branchId: validBranchId,
+                departmentId: engineeringDept.id,
+                isActive: true
+            }
+        });
+        testUsers.push(user);
+    }
+    console.log('✅ 30 Test Employees seeded');
+
     console.log('✅ Users seeded');
 
     // 6. Leave Balances (2026)
     const currentYear = 2026;
-    const users = [managerUser, employee1, employee2];
+    const users = [managerUser, employee1, employee2, ...testUsers];
     const leaveTypes = [clType, slType, plType];
 
     for (const user of users) {
