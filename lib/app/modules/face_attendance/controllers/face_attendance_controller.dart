@@ -1,5 +1,5 @@
-import 'dart:io';
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
@@ -22,7 +22,7 @@ class FaceAttendanceController extends GetxController {
   String? employeeId;
   String? deviceId;
   Position? currentPosition;
-  String? capturedImagePath;
+  XFile? capturedImage;
   // Provider
   final AttendanceProvider _attendanceProvider = AttendanceProvider();
 
@@ -96,10 +96,13 @@ class FaceAttendanceController extends GetxController {
   Future<void> getDeviceInfo() async {
     try {
       final deviceInfo = DeviceInfoPlugin();
-      if (Platform.isAndroid) {
+      if (kIsWeb) {
+        final webInfo = await deviceInfo.webBrowserInfo;
+        deviceId = webInfo.userAgent;
+      } else if (GetPlatform.isAndroid) {
         final androidInfo = await deviceInfo.androidInfo;
         deviceId = androidInfo.id;
-      } else if (Platform.isIOS) {
+      } else if (GetPlatform.isIOS) {
         final iosInfo = await deviceInfo.iosInfo;
         deviceId = iosInfo.identifierForVendor;
       }
@@ -136,9 +139,8 @@ class FaceAttendanceController extends GetxController {
       isProcessing.value = true;
 
       // Capture image
-      final image = await cameraController!.takePicture();
-      capturedImagePath = image.path;
-      print('   Photo captured at: $capturedImagePath');
+      capturedImage = await cameraController!.takePicture();
+      print('   Photo captured at: ${capturedImage?.path}');
 
       // Refresh location before submission
       print('📍 [FaceAttendanceController] Refreshing Location...');
@@ -163,7 +165,7 @@ class FaceAttendanceController extends GetxController {
     try {
       // Call API
       final response = await _attendanceProvider.checkIn(
-        photo: File(capturedImagePath!),
+        photo: capturedImage!,
         latitude: currentPosition?.latitude.toString() ?? '0.0',
         longitude: currentPosition?.longitude.toString() ?? '0.0',
         deviceInfo: deviceId,

@@ -14,13 +14,16 @@ class HomeView extends GetView<HomeController> {
       floatingActionButton: Obx(() {
         if (!controller.isHeadManager.value) return const SizedBox.shrink();
 
-        return FloatingActionButton.extended(
-          onPressed: () => Get.toNamed('/user-list'),
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          icon: const Icon(Icons.admin_panel_settings, color: Colors.white),
-          label: const AppText(
-            'Manage Users',
-            style: TextStyle(color: Colors.white),
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 65),
+          child: FloatingActionButton.extended(
+            onPressed: () => Get.toNamed('/user-list'),
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            icon: const Icon(Icons.admin_panel_settings, color: Colors.white),
+            label: const AppText(
+              'Manage Users',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         );
       }),
@@ -151,10 +154,10 @@ class HomeView extends GetView<HomeController> {
           // Menu and Welcome
           Row(
             children: [
-              Icon(
-                Icons.menu,
-                color: Theme.of(context).colorScheme.onBackground,
-              ),
+              // Icon(
+              //   Icons.menu,
+              //   color: Theme.of(context).colorScheme.onBackground,
+              // ),
               const SizedBox(width: 16),
               Obx(
                 () => Column(
@@ -370,23 +373,184 @@ class HomeView extends GetView<HomeController> {
           ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 16),
-        Obx(
-          () => Column(
-            children: controller.activities.map((activity) {
-              if (activity['type'] == 'Break') {
-                return _buildBreakBadge(context, activity['duration']);
+        Obx(() {
+          final List<Widget> activityWidgets = [];
+          final activitiesList = controller.activities;
+
+          for (int i = 0; i < activitiesList.length; i++) {
+            final activity = activitiesList[i];
+
+            if (activity['type'] == 'Punch In') {
+              // Try to find matching Punch Out
+              Map<String, dynamic>? punchOut;
+              if (i + 1 < activitiesList.length &&
+                  activitiesList[i + 1]['type'] == 'Punch Out') {
+                punchOut = activitiesList[i + 1];
+                i++; // Skip next since we paired it
               }
-              return _buildActivityItem(
-                context,
-                activity['type'],
-                activity['time'],
-                activity['icon'],
-                activity['color'],
+
+              activityWidgets.add(
+                _buildGroupedActivityCard(context, activity, punchOut),
               );
-            }).toList(),
-          ),
-        ),
+            } else if (activity['type'] == 'Break') {
+              activityWidgets.add(
+                _buildBreakBadge(context, activity['duration']),
+              );
+            } else {
+              // Lone Punch Out or other types
+              activityWidgets.add(
+                _buildActivityItem(
+                  context,
+                  activity['type'],
+                  activity['time'],
+                  activity['icon'],
+                  activity['color'],
+                ),
+              );
+            }
+          }
+
+          if (activityWidgets.isEmpty) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: AppText(
+                  'No activities recorded today',
+                  style: TextStyle(color: Colors.grey.shade400),
+                ),
+              ),
+            );
+          }
+
+          return Column(children: activityWidgets);
+        }),
       ],
+    );
+  }
+
+  Widget _buildGroupedActivityCard(
+    BuildContext context,
+    Map<String, dynamic> punchIn,
+    Map<String, dynamic>? punchOut,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(
+            color: Theme.of(context).dividerColor.withOpacity(0.1),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.01),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            // Check In
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: Colors.green.withOpacity(0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.login,
+                          size: 12,
+                          color: Colors.green,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      AppText(
+                        'Check In',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.grey,
+                          fontSize: 10,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  AppText(
+                    punchIn['time'],
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Separator
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Icon(
+                Icons.arrow_forward_rounded,
+                size: 16,
+                color: Theme.of(context).dividerColor.withOpacity(0.2),
+              ),
+            ),
+
+            // Check Out
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: (punchOut != null ? Colors.red : Colors.orange)
+                              .withOpacity(0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          punchOut != null
+                              ? Icons.logout
+                              : Icons.timer_outlined,
+                          size: 12,
+                          color: punchOut != null ? Colors.red : Colors.orange,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      AppText(
+                        'Check Out',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.grey,
+                          fontSize: 10,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  AppText(
+                    punchOut?['time'] ?? 'In Progress',
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: punchOut == null
+                          ? Theme.of(context).colorScheme.primary
+                          : null,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

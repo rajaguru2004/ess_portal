@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:camera/camera.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import '../consts/api_consts.dart';
@@ -15,7 +15,7 @@ class AttendanceProvider {
   }
 
   Future<CheckInResponse> checkIn({
-    required File photo,
+    required XFile photo,
     required String latitude,
     required String longitude,
     String? deviceInfo,
@@ -35,14 +35,13 @@ class AttendanceProvider {
     request.fields['longitude'] = longitude;
     if (deviceInfo != null) request.fields['deviceInfo'] = deviceInfo;
 
+    final photoBytes = await photo.readAsBytes();
     request.files.add(
-      await http.MultipartFile.fromPath(
+      http.MultipartFile.fromBytes(
         'photo',
-        photo.path,
-        contentType: MediaType(
-          'image',
-          'jpeg',
-        ), // Adjust based on file type if needed
+        photoBytes,
+        filename: 'photo.jpg',
+        contentType: MediaType('image', 'jpeg'),
       ),
     );
 
