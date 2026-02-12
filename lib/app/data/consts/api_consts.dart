@@ -47,4 +47,11 @@ class ApiEndpoints {
   static const String myLeaves = '/api/v1/leave/my-leaves';
   static const String leaveBalance = '/api/v1/leave/balance';
   static const String cancelLeave = '/api/v1/leave/{id}/cancel';
+
+  // Manager Management
+  static const String makeManager = '/api/v1/users/{id}/make-manager';
+  static const String managers = '/api/v1/users/managers';
+  static const String userHierarchy = '/api/v1/users/{id}/hierarchy';
+  static const String assignManager =
+      '/api/v1/users/{employeeId}/assign-manager';
 }

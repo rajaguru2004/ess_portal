@@ -101,11 +101,11 @@ async function main() {
 
     const managerUser = await prisma.user.upsert({
         where: { username: 'manager1' },
-        update: { roleId: managerRole.id, tenantId: validTenantId, branchId: validBranchId, departmentId: engineeringDept.id },
+        update: { roleId: managerRole.id, tenantId: validTenantId, branchId: validBranchId, departmentId: engineeringDept.id, isManager: true },
         create: {
             employeeCode: 'MGR001', username: 'manager1', fullName: 'Engineering Manager', email: 'manager@ess.com',
             passwordHash: commonPassword, roleId: managerRole.id, tenantId: validTenantId, branchId: validBranchId,
-            departmentId: engineeringDept.id, isActive: true
+            departmentId: engineeringDept.id, isActive: true, isManager: true
         }
     });
 

@@ -11,6 +11,19 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
+      floatingActionButton: Obx(() {
+        if (!controller.isHeadManager.value) return const SizedBox.shrink();
+
+        return FloatingActionButton.extended(
+          onPressed: () => Get.toNamed('/user-list'),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          icon: const Icon(Icons.admin_panel_settings, color: Colors.white),
+          label: const AppText(
+            'Manage Users',
+            style: TextStyle(color: Colors.white),
+          ),
+        );
+      }),
       body: SafeArea(
         child: Column(
           children: [

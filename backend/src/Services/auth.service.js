@@ -92,6 +92,8 @@ const login = async (username, password, clientIp) => {
             fullName: user.fullName,
             roleId: user.roleId,
             tenantId: user.tenantId,
+            isManager: user.isManager,
+            isHeadManager: user.isHeadManager,
             firstLogin: user.firstLogin,
         },
     };

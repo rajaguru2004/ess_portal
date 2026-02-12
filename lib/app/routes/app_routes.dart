@@ -14,6 +14,9 @@ abstract class Routes {
   static const MANAGER_REQUESTS = _Paths.MANAGER_REQUESTS;
   static const ATTENDANCE_DETAIL = _Paths.ATTENDANCE_DETAIL;
   static const SHIFTS = _Paths.SHIFTS;
+  static const USER_LIST = _Paths.USER_LIST;
+  static const MAKE_MANAGER = _Paths.MAKE_MANAGER;
+  static const ASSIGN_EMPLOYEES = _Paths.ASSIGN_EMPLOYEES;
 }
 
 abstract class _Paths {
@@ -29,4 +32,7 @@ abstract class _Paths {
   static const MANAGER_REQUESTS = '/manager-requests';
   static const ATTENDANCE_DETAIL = '/attendance-detail';
   static const SHIFTS = '/shifts';
+  static const USER_LIST = '/user-list';
+  static const MAKE_MANAGER = '/make-manager';
+  static const ASSIGN_EMPLOYEES = '/assign-employees';
 }

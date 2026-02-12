@@ -106,6 +106,7 @@ const getAllUsers = async () => {
             departmentId: true,
             roleId: true,
             managerId: true,
+            isManager: true,
             isHeadManager: true,
             isActive: true,
             createdAt: true,

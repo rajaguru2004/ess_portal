@@ -7,6 +7,8 @@ class User {
   final String roleId;
   final String tenantId;
   final bool firstLogin;
+  final bool isManager;
+  final bool isHeadManager;
 
   User({
     required this.id,
@@ -16,6 +18,8 @@ class User {
     required this.roleId,
     required this.tenantId,
     required this.firstLogin,
+    this.isManager = false,
+    this.isHeadManager = false,
   });
 
   /// Create User from JSON
@@ -28,6 +32,8 @@ class User {
       roleId: json['roleId'] as String? ?? '',
       tenantId: json['tenantId'] as String? ?? '',
       firstLogin: json['firstLogin'] as bool? ?? false,
+      isManager: json['isManager'] as bool? ?? false,
+      isHeadManager: json['isHeadManager'] as bool? ?? false,
     );
   }
 
@@ -41,11 +47,12 @@ class User {
       'roleId': roleId,
       'tenantId': tenantId,
       'firstLogin': firstLogin,
+      'isHeadManager': isHeadManager,
     };
   }
 
   @override
   String toString() {
-    return 'User(id: $id, employeeCode: $employeeCode, fullName: $fullName)';
+    return 'User(id: $id, employeeCode: $employeeCode, fullName: $fullName, isHeadManager: $isHeadManager)';
   }
 }

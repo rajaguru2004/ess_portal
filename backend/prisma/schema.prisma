@@ -22,6 +22,7 @@ model User {
   departmentId String
   roleId       String
   managerId    String?
+  isManager    Boolean @default(false)
   isHeadManager Boolean @default(false)
 
   passwordHash        String

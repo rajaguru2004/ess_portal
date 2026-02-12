@@ -22,6 +22,12 @@ import '../modules/attendance_detail/bindings/attendance_detail_binding.dart';
 import '../modules/attendance_detail/views/attendance_detail_view.dart';
 import '../modules/shifts/bindings/shifts_binding.dart';
 import '../modules/shifts/views/shifts_view.dart';
+import '../modules/user_list/bindings/user_list_binding.dart';
+import '../modules/user_list/views/user_list_view.dart';
+import '../modules/make_manager/bindings/make_manager_binding.dart';
+import '../modules/make_manager/views/make_manager_view.dart';
+import '../modules/assign_employees/bindings/assign_employees_binding.dart';
+import '../modules/assign_employees/views/assign_employees_view.dart';
 
 part 'app_routes.dart';
 
@@ -85,6 +91,21 @@ class AppPages {
       name: _Paths.SHIFTS,
       page: () => const ShiftsView(),
       binding: ShiftsBinding(),
+    ),
+    GetPage(
+      name: _Paths.USER_LIST,
+      page: () => const UserListView(),
+      binding: UserListBinding(),
+    ),
+    GetPage(
+      name: _Paths.MAKE_MANAGER,
+      page: () => const MakeManagerView(),
+      binding: MakeManagerBinding(),
+    ),
+    GetPage(
+      name: _Paths.ASSIGN_EMPLOYEES,
+      page: () => const AssignEmployeesView(),
+      binding: AssignEmployeesBinding(),
     ),
   ];
 }

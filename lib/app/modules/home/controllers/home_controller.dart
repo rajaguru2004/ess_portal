@@ -45,6 +45,7 @@ class HomeController extends GetxController {
   // User information
   final userName = ''.obs;
   final currentDate = ''.obs;
+  final isHeadManager = false.obs;
 
   @override
   void onInit() {
@@ -102,8 +103,10 @@ class HomeController extends GetxController {
       final user = await StorageService().getUser();
       if (user != null) {
         userName.value = user.fullName;
+        isHeadManager.value = user.isHeadManager;
       } else {
         userName.value = data.user.name;
+        isHeadManager.value = false;
       }
 
       // Update Shift Info

@@ -63,6 +63,7 @@ const makeManager = async (headId, employeeId) => {
         where: { id: employeeId },
         data: {
             managerId: headId,
+            isManager: true,
             // Note: isHeadManager stays false for regular managers
         },
         select: {
@@ -70,6 +71,7 @@ const makeManager = async (headId, employeeId) => {
             employeeCode: true,
             fullName: true,
             email: true,
+            isManager: true,
             isHeadManager: true,
             managerId: true,
             manager: {
@@ -107,6 +109,7 @@ const makeHeadManager = async (employeeId) => {
     const updatedUser = await prisma.user.update({
         where: { id: employeeId },
         data: {
+            isManager: true,
             isHeadManager: true,
             managerId: null // Head managers typically don't have a direct manager (approval goes to Admin)
         },
@@ -114,6 +117,7 @@ const makeHeadManager = async (employeeId) => {
             id: true,
             employeeCode: true,
             fullName: true,
+            isManager: true,
             isHeadManager: true,
             managerId: true
         }
@@ -291,6 +295,7 @@ const getAllManagers = async () => {
         where: {
             OR: [
                 { isHeadManager: true },
+                { isManager: true },
                 { subordinates: { some: {} } }
             ]
         },
