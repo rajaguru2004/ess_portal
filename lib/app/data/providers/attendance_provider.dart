@@ -133,12 +133,18 @@ class AttendanceProvider {
     if (response.statusCode == 200 || response.statusCode == 201) {
       return CheckOutResponse.fromJson(jsonDecode(response.body));
     } else {
+      // Always include status code + raw body so the UI snackbar shows exactly
+      // what the server returned — critical for debugging iOS Safari issues.
+      String serverMessage;
       try {
-        final errorBody = jsonDecode(response.body);
-        throw Exception(errorBody['message'] ?? 'Check-out failed');
+        final errorBody = jsonDecode(response.body) as Map<String, dynamic>;
+        serverMessage = errorBody['message']?.toString() ?? 'Check-out failed';
       } catch (_) {
-        throw Exception('Check-out failed: ${response.statusCode}');
+        serverMessage = 'Check-out failed';
       }
+      throw Exception(
+        '[$response.statusCode] $serverMessage | raw: ${response.body}',
+      );
     }
   }
 

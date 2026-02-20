@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'dart:io';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import '../../../data/sources/home_local_source.dart';
 import '../../../data/providers/attendance_provider.dart';
 import '../widgets/change_password_dialog.dart';
@@ -274,11 +274,14 @@ class HomeController extends GetxController {
       String? deviceId;
       try {
         final deviceInfo = DeviceInfoPlugin();
-        if (Platform.isAndroid) {
+        if (kIsWeb) {
+          final webInfo = await deviceInfo.webBrowserInfo;
+          deviceId = webInfo.userAgent;
+        } else if (GetPlatform.isAndroid) {
           final androidInfo = await deviceInfo.androidInfo;
           deviceId =
               '${androidInfo.manufacturer} ${androidInfo.model}, API ${androidInfo.version.sdkInt}';
-        } else if (Platform.isIOS) {
+        } else if (GetPlatform.isIOS) {
           final iosInfo = await deviceInfo.iosInfo;
           deviceId =
               '${iosInfo.name} ${iosInfo.systemName} ${iosInfo.systemVersion}';
@@ -290,9 +293,12 @@ class HomeController extends GetxController {
       print('🔵 [CheckOut] Sending Request from Controller');
       print('   DeviceInfo: $deviceId');
 
+      final lat = position.latitude.toStringAsFixed(7);
+      final lng = position.longitude.toStringAsFixed(7);
+
       final response = await _attendanceProvider.checkOut(
-        latitude: position.latitude.toString(),
-        longitude: position.longitude.toString(),
+        latitude: lat,
+        longitude: lng,
         deviceInfo: deviceId,
       );
 
@@ -307,18 +313,21 @@ class HomeController extends GetxController {
         _initializeData();
       } else {
         Get.snackbar(
-          'Error',
-          response.message,
+          'Check-out Failed',
+          '[${response.message}]',
           backgroundColor: Colors.red,
           colorText: Colors.white,
+          duration: const Duration(seconds: 10),
         );
       }
     } catch (e) {
+      final errorMsg = e.toString().replaceFirst('Exception: ', '');
       Get.snackbar(
-        'Error',
-        'Check-out failed: $e',
+        'Check-out Error',
+        errorMsg.isNotEmpty ? 'DEBUG: $errorMsg' : 'Check-out failed',
         backgroundColor: Colors.red,
         colorText: Colors.white,
+        duration: const Duration(seconds: 10),
       );
     } finally {
       isLoading.value = false;
