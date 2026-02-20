@@ -195,11 +195,16 @@ class FaceAttendanceController extends GetxController {
           colorText: Colors.white,
         );
       }
-    } catch (e) {
-      debugPrint('Upload error: $e');
+    } catch (e, stackTrace) {
+      debugPrint('❌ [FaceAttendanceController] Upload error: $e');
+      debugPrint('   Stack: $stackTrace');
+      // Show the actual error message for easier debugging
+      final errorMsg = e.toString().replaceFirst('Exception: ', '');
       Get.snackbar(
         'Error',
-        'Network error. Please check your connection.',
+        errorMsg.isNotEmpty
+            ? errorMsg
+            : 'Network error. Please check your connection.',
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
         colorText: Colors.white,
