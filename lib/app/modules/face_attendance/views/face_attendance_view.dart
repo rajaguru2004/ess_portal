@@ -178,7 +178,11 @@ class FaceAttendanceView extends GetView<FaceAttendanceController> {
                 child: controller.isProcessing.value
                     ? const Center(child: CircularProgressIndicator())
                     : ElevatedButton(
-                        onPressed: controller.capturePhoto,
+                        onPressed:
+                            (!controller.isCameraInitialized.value ||
+                                controller.cameraController == null)
+                            ? null
+                            : controller.capturePhoto,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF2563EB),
                           minimumSize: const Size(double.infinity, 56),

@@ -205,6 +205,26 @@ class LeaveBalanceResponse {
   }
 }
 
+class LeaveTypeResponse {
+  final bool success;
+  final String message;
+  final List<LeaveType> data;
+
+  LeaveTypeResponse({
+    required this.success,
+    required this.message,
+    required this.data,
+  });
+
+  factory LeaveTypeResponse.fromJson(Map<String, dynamic> json) {
+    return LeaveTypeResponse(
+      success: json['success'],
+      message: json['message'],
+      data: (json['data'] as List).map((i) => LeaveType.fromJson(i)).toList(),
+    );
+  }
+}
+
 class MyLeavesResponse {
   final bool success;
   final String message;

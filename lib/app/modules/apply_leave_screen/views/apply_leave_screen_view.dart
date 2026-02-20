@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import '../controllers/apply_leave_screen_controller.dart';
-import '../../../data/models/leave_model.dart';
 
 class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
   const ApplyLeaveScreenView({super.key});
@@ -39,9 +38,7 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
             children: [
               _buildLabel("Leave Type*", context),
               const SizedBox(height: 8),
-              _buildLeaveTypeDropdown(context),
-              const SizedBox(height: 8),
-              _buildAvailableBalance(context),
+              _buildLeaveTypeSelector(context),
               const SizedBox(height: 16),
               Row(
                 children: [
@@ -151,13 +148,14 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
     );
   }
 
-  Widget _buildLeaveTypeDropdown(BuildContext context) {
+  Widget _buildLeaveTypeSelector(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return Obx(
-      () => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
+    return GestureDetector(
+      onTap: () => _showLeaveTypeSelectionModal(context),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
         decoration: BoxDecoration(
           color: colorScheme.surface,
           borderRadius: BorderRadius.circular(12),
@@ -165,38 +163,79 @@ class ApplyLeaveScreenView extends GetView<ApplyLeaveScreenController> {
             color: theme.dividerTheme.color ?? colorScheme.outline,
           ),
         ),
-        child: DropdownButtonHideUnderline(
-          child: DropdownButton<LeaveBalance>(
-            value: controller.selectedLeaveBalance.value,
-            isExpanded: true,
-            icon: Icon(Icons.keyboard_arrow_down, color: theme.iconTheme.color),
-            dropdownColor: colorScheme.surface,
-            style: theme.textTheme.bodyLarge,
-            items: controller.leaveBalances.map((LeaveBalance balance) {
-              return DropdownMenuItem<LeaveBalance>(
-                value: balance,
-                child: AppText(balance.leaveType.name),
-              );
-            }).toList(),
-            onChanged: controller.setLeaveType,
-          ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Obx(
+              () => AppText(
+                controller.selectedLeaveType.value?.name ?? "Select Leave Type",
+                style: theme.textTheme.bodyLarge,
+              ),
+            ),
+            Icon(Icons.keyboard_arrow_down, color: theme.iconTheme.color),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildAvailableBalance(BuildContext context) {
+  void _showLeaveTypeSelectionModal(BuildContext context) {
     final theme = Theme.of(context);
-    return Obx(() {
-      final balance = controller.selectedLeaveBalance.value;
-      if (balance == null) return const SizedBox.shrink();
-      return AppText(
-        "Available: ${balance.available} days (Pending: ${balance.pending})",
-        style: theme.textTheme.bodySmall?.copyWith(
-          color: theme.colorScheme.primary,
+    final colorScheme = theme.colorScheme;
+
+    showDialog(
+      context: context,
+      builder: (modalContext) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: colorScheme.surface,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AppText(
+                    "Select Leave Type",
+                    style: theme.textTheme.titleLarge,
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.close, color: theme.iconTheme.color),
+                    onPressed: () => Get.back(),
+                  ),
+                ],
+              ),
+            ),
+            Divider(height: 1, color: theme.dividerTheme.color),
+            Flexible(
+              child: Obx(
+                () => ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: controller.leaveTypes.length,
+                  itemBuilder: (context, index) {
+                    final type = controller.leaveTypes[index];
+                    final isSelected =
+                        controller.selectedLeaveType.value == type;
+                    return ListTile(
+                      title: AppText(type.name),
+                      trailing: isSelected
+                          ? Icon(Icons.check_circle, color: colorScheme.primary)
+                          : null,
+                      onTap: () {
+                        controller.setLeaveType(type);
+                        Get.back();
+                      },
+                    );
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+          ],
         ),
-      );
-    });
+      ),
+    );
   }
 
   Widget _buildReasonField(BuildContext context) {

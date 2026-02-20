@@ -30,6 +30,17 @@ class LeaveProvider {
     }
   }
 
+  Future<LeaveTypeResponse> getLeaveTypes() async {
+    final uri = Uri.parse('${ApiConsts.baseUrl}${ApiEndpoints.leaveTypes}');
+    final response = await http.get(uri, headers: await _getHeaders());
+
+    if (response.statusCode == 200) {
+      return LeaveTypeResponse.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception(_parseError(response));
+    }
+  }
+
   Future<MyLeavesResponse> getMyLeaves(int year) async {
     final uri = Uri.parse(
       '${ApiConsts.baseUrl}${ApiEndpoints.myLeaves}?year=$year',

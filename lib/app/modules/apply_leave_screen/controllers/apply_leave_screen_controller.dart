@@ -11,10 +11,10 @@ class ApplyLeaveScreenController extends GetxController {
   final isApplying = false.obs;
 
   // Data from API
-  final leaveBalances = <LeaveBalance>[].obs;
+  final leaveTypes = <LeaveType>[].obs;
   final myLeaves = <LeaveApplication>[].obs;
 
-  final selectedLeaveBalance = Rxn<LeaveBalance>();
+  final selectedLeaveType = Rxn<LeaveType>();
   final startDate = DateTime.now().obs;
   final endDate = DateTime.now().obs;
   final reasonController = TextEditingController();
@@ -41,11 +41,11 @@ class ApplyLeaveScreenController extends GetxController {
   Future<void> fetchData() async {
     try {
       isLoading.value = true;
-      final balanceResponse = await _leaveProvider.getLeaveBalance();
-      leaveBalances.value = balanceResponse.data;
+      final typesResponse = await _leaveProvider.getLeaveTypes();
+      leaveTypes.value = typesResponse.data;
 
-      if (leaveBalances.isNotEmpty) {
-        selectedLeaveBalance.value = leaveBalances.first;
+      if (leaveTypes.isNotEmpty) {
+        selectedLeaveType.value = leaveTypes.first;
       }
 
       final leavesResponse = await _leaveProvider.getMyLeaves(
@@ -59,9 +59,9 @@ class ApplyLeaveScreenController extends GetxController {
     }
   }
 
-  void setLeaveType(LeaveBalance? balance) {
-    if (balance != null) {
-      selectedLeaveBalance.value = balance;
+  void setLeaveType(LeaveType? type) {
+    if (type != null) {
+      selectedLeaveType.value = type;
     }
   }
 
@@ -80,7 +80,7 @@ class ApplyLeaveScreenController extends GetxController {
   }
 
   Future<void> applyLeave() async {
-    if (selectedLeaveBalance.value == null) {
+    if (selectedLeaveType.value == null) {
       Get.snackbar(
         "Error",
         "Please select a leave type",
@@ -101,7 +101,7 @@ class ApplyLeaveScreenController extends GetxController {
     try {
       isApplying.value = true;
       final response = await _leaveProvider.applyLeave(
-        leaveTypeId: selectedLeaveBalance.value!.leaveTypeId,
+        leaveTypeId: selectedLeaveType.value!.id,
         startDate: startDate.value.toIso8601String(),
         endDate: endDate.value.toIso8601String(),
         reason: reasonController.text,
@@ -149,6 +149,6 @@ class ApplyLeaveScreenController extends GetxController {
     final end = rangeEnd.value;
     if (start == null) return '';
     final days = (end ?? start).difference(start).inDays + 1;
-    return 'You are applying $days days ${selectedLeaveBalance.value?.leaveType.name.toLowerCase() ?? ""}';
+    return 'You are applying $days days ${selectedLeaveType.value?.name.toLowerCase() ?? ""}';
   }
 }

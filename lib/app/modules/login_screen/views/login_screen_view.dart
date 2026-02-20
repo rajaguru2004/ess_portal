@@ -249,7 +249,7 @@ class LoginScreenView extends GetView<LoginScreenController> {
   /// Build app version display
   Widget _buildAppVersion(BuildContext context) {
     return AppText(
-      'Version 1.1',
+      'Version 1.2',
       style: Theme.of(context).textTheme.bodySmall,
       textAlign: TextAlign.center,
     );
