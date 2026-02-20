@@ -86,12 +86,16 @@ class AttendanceProvider {
     if (statusCode == 200 || statusCode == 201) {
       return CheckInResponse.fromJson(jsonDecode(responseBody));
     } else {
+      // Always include status code + raw body so the UI snackbar shows exactly
+      // what the server returned — critical for debugging iOS Safari issues.
+      String serverMessage;
       try {
-        final errorBody = jsonDecode(responseBody);
-        throw Exception(errorBody['message'] ?? 'Check-in failed');
-      } catch (parseErr) {
-        throw Exception('Check-in failed ($statusCode): $responseBody');
+        final errorBody = jsonDecode(responseBody) as Map<String, dynamic>;
+        serverMessage = errorBody['message']?.toString() ?? 'Check-in failed';
+      } catch (_) {
+        serverMessage = 'Check-in failed';
       }
+      throw Exception('[$statusCode] $serverMessage | raw: $responseBody');
     }
   }
 

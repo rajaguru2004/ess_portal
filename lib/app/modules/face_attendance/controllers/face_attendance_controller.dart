@@ -163,11 +163,22 @@ class FaceAttendanceController extends GetxController {
       '🚀 [FaceAttendanceController] uploadFaceAttendance: Starting upload process...',
     );
     try {
+      // Format lat/lng with fixed decimal places to avoid scientific notation
+      // and ensure the value satisfies the backend regex (max 10 decimal places).
+      // iOS Safari geolocation can produce very high-precision doubles whose
+      // `.toString()` in Dart may exceed 10 decimals or use scientific notation.
+      final lat = (currentPosition?.latitude ?? 0.0).toStringAsFixed(7);
+      final lng = (currentPosition?.longitude ?? 0.0).toStringAsFixed(7);
+
+      print(
+        '📍 [FaceAttendanceController] Formatted coords: lat=$lat, lng=$lng',
+      );
+
       // Call API
       final response = await _attendanceProvider.checkIn(
         photo: capturedImage!,
-        latitude: currentPosition?.latitude.toString() ?? '0.0',
-        longitude: currentPosition?.longitude.toString() ?? '0.0',
+        latitude: lat,
+        longitude: lng,
         deviceInfo: deviceId,
       );
 
@@ -186,28 +197,30 @@ class FaceAttendanceController extends GetxController {
           colorText: Colors.white,
         );
       } else {
-        // Error handling based on response message
+        // Error handling based on response message — show full details for debugging
         Get.snackbar(
-          'Error',
-          response.message,
+          'Check-in Failed',
+          '[${response.message}]',
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.red,
           colorText: Colors.white,
+          duration: const Duration(seconds: 10),
         );
       }
     } catch (e, stackTrace) {
       debugPrint('❌ [FaceAttendanceController] Upload error: $e');
       debugPrint('   Stack: $stackTrace');
-      // Show the actual error message for easier debugging
+      // Show the full error for on-device debugging
       final errorMsg = e.toString().replaceFirst('Exception: ', '');
       Get.snackbar(
-        'Error',
+        'Upload Error',
         errorMsg.isNotEmpty
-            ? errorMsg
+            ? 'DEBUG: $errorMsg'
             : 'Network error. Please check your connection.',
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
         colorText: Colors.white,
+        duration: const Duration(seconds: 10),
       );
     } finally {
       isProcessing.value = false;
